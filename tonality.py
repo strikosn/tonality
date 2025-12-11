@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 
+import collections
+import gi
 import tinysoundfont
+
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, Gdk
 
 synth = tinysoundfont.Synth()
 sfid = synth.sfload('FluidR3_GM.sf2')
@@ -16,15 +21,31 @@ synth.pitchbend_range(chan=1, semitones=1)
 synth.pitchbend(chan=1, value=5461)
 
 
+KeyboardKey = collections.namedtuple('KeyboardKey', [
+    'scan_code', 'key_row', 'midi_channel', 'relative_midi_key',
+])
 
 
+KEYBOARD = [
+    KeyboardKey(scan_code=24, key_row=1, midi_channel=0, relative_midi_key=59),  # Q
+    KeyboardKey(scan_code=27, key_row=1, midi_channel=0, relative_midi_key=64),  # R
+    KeyboardKey(scan_code=31, key_row=1, midi_channel=0, relative_midi_key=71),  # I
+    KeyboardKey(scan_code=34, key_row=1, midi_channel=0, relative_midi_key=76),  # ]
 
+    KeyboardKey(scan_code=66, key_row=2, midi_channel=0, relative_midi_key=57),  # Caps Lock
+    KeyboardKey(scan_code=38, key_row=2, midi_channel=1, relative_midi_key=59),  # A
+    KeyboardKey(scan_code=39, key_row=2, midi_channel=0, relative_midi_key=60),  # S
+    KeyboardKey(scan_code=40, key_row=2, midi_channel=0, relative_midi_key=62),  # D
+    KeyboardKey(scan_code=41, key_row=2, midi_channel=1, relative_midi_key=64),  # F
+    KeyboardKey(scan_code=42, key_row=2, midi_channel=0, relative_midi_key=65),  # G
+    KeyboardKey(scan_code=43, key_row=2, midi_channel=0, relative_midi_key=67),  # H
+    KeyboardKey(scan_code=44, key_row=2, midi_channel=0, relative_midi_key=69),  # J
+    KeyboardKey(scan_code=45, key_row=2, midi_channel=1, relative_midi_key=71),  # K
+    KeyboardKey(scan_code=46, key_row=2, midi_channel=0, relative_midi_key=72),  # L
+    KeyboardKey(scan_code=47, key_row=2, midi_channel=0, relative_midi_key=74),  # ; / :
+    KeyboardKey(scan_code=48, key_row=2, midi_channel=1, relative_midi_key=76),  # ' / "
+]
 
-
-
-import gi
-gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gdk
 
 class Tonality(Gtk.Window):
     def __init__(self):
@@ -38,19 +59,27 @@ class Tonality(Gtk.Window):
         self.add(self.vbox)
 
         # Label to display pressed keys
+        self.keyboard_r1_hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=30)
+        self.keyboard_r1_hbox.set_homogeneous(True)  # both sides same width
+        self.vbox.pack_start(self.keyboard_r1_hbox, False, False, 0)
         self.keyboard_r2_hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=30)
         self.keyboard_r2_hbox.set_homogeneous(True)  # both sides same width
         self.vbox.pack_start(self.keyboard_r2_hbox, False, False, 0)
 
         self.key_labels = {}
 
-        for scancode in (66, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48):
+        for keyboard_key in KEYBOARD:
+            if keyboard_key.key_row == 1:
+                this_keyboard_hbox = self.keyboard_r1_hbox
+            if keyboard_key.key_row == 2:
+                this_keyboard_hbox = self.keyboard_r2_hbox
+
             label = Gtk.Label()
-            label.set_justify(Gtk.Justification.CENTER)
+            label.set_justify(Gtk.Justification.LEFT)
             label.override_background_color(Gtk.StateFlags.NORMAL, Gdk.RGBA(0.95, 0.95, 0.98, 1))
             label.set_padding(20, 20)
-            self.keyboard_r2_hbox.pack_start(label, False, False, 0)
-            self.key_labels[scancode] = label
+            this_keyboard_hbox.pack_start(label, False, False, 0)
+            self.key_labels[keyboard_key.scan_code] = label
 
         # Label to display instruments
         self.label2 = Gtk.Label()
@@ -86,44 +115,18 @@ class Tonality(Gtk.Window):
         scancode = event.get_scancode()
         keyname = Gdk.keyval_name(event.keyval)
 
-        def NoteOn(chan, key):
-            if scancode not in NOTE_ON_KEYMAP:
-                NOTE_ON_KEYMAP[scancode] = dict(chan=chan, key=key)
-                synth.noteon(chan=chan, key=key, velocity=VELOCITY)
+        for keyboard_key in KEYBOARD:
+            if keyboard_key.scan_code == scancode:
+                this_keyboard_key = keyboard_key
+                break
+        else:
+            this_keyboard_key = None
 
-        if scancode == 24:  # ζω+ = si
-            NoteOn(chan=0, key=KEY_OFFSET+59)
-        if scancode == 27:  # βου+ = mi
-            NoteOn(chan=0, key=KEY_OFFSET+64)
-        if scancode == 31:  # ζω'+ = si'
-            NoteOn(chan=0, key=KEY_OFFSET+71)
-        if scancode == 34:  # βου'+ = mi'
-            NoteOn(chan=0, key=KEY_OFFSET+76)
-
-        if scancode == 66:  # κε
-            NoteOn(chan=0, key=KEY_OFFSET+57)
-        if scancode == 38:  # ζω
-            NoteOn(chan=1, key=KEY_OFFSET+59)
-        if scancode == 39:  # νη
-            NoteOn(chan=0, key=KEY_OFFSET+60)
-        if scancode == 40:  # πα
-            NoteOn(chan=0, key=KEY_OFFSET+62)
-        if scancode == 41:  # βου
-            NoteOn(chan=1, key=KEY_OFFSET+64)
-        if scancode == 42:  # γα
-            NoteOn(chan=0, key=KEY_OFFSET+65)
-        if scancode == 43:  # δη
-            NoteOn(chan=0, key=KEY_OFFSET+67)
-        if scancode == 44:  # κε
-            NoteOn(chan=0, key=KEY_OFFSET+69)
-        if scancode == 45:  # ζω'
-            NoteOn(chan=1, key=KEY_OFFSET+71)
-        if scancode == 46:  # νη'
-            NoteOn(chan=0, key=KEY_OFFSET+72)
-        if scancode == 47:  # πα'
-            NoteOn(chan=0, key=KEY_OFFSET+74)
-        if scancode == 48:  # βου'
-            NoteOn(chan=1, key=KEY_OFFSET+76)
+        if this_keyboard_key is not None and scancode not in NOTE_ON_KEYMAP:
+            chan = this_keyboard_key.midi_channel
+            key = KEY_OFFSET + this_keyboard_key.relative_midi_key
+            NOTE_ON_KEYMAP[scancode] = dict(chan=chan, key=key)
+            synth.noteon(chan=chan, key=key, velocity=VELOCITY)
 
         if keyname == 'minus':
             self.Reprogram(bank_diff=0, preset_diff=-1)
@@ -179,7 +182,6 @@ class Tonality(Gtk.Window):
         KEY_OFFSET += diff
 
         def midi_to_note(midi_number: int) -> str:
-            """Convert a MIDI note number to note name with octave (e.g., 60 -> 'C4')."""
             notes = ['C', 'C#/D♭', 'D', 'D#/E♭', 'E', 'F', 'F#/G♭', 'G', 'G#/A♭', 'A', 'A#/B♭', 'B']
             octave = (midi_number // 12) + 4
             note_index = midi_number % 12
