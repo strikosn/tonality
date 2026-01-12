@@ -24,48 +24,72 @@ synth.pitchbend_range(chan=2, semitones=1)
 synth.pitchbend(chan=2, value=2731)  # -4/72
 
 
-KeyboardKey = collections.namedtuple('KeyboardKey', [
-    'scan_code', 'key_row', 'midi_channel', 'relative_midi_key',
+KeyboardKeyLayout = collections.namedtuple('KeyboardKeyLayout', [
+    'scan_code', 'key_row',
+])
+
+KeyboardKeyMapping = collections.namedtuple('KeyboardKeyMapping', [
+    'scan_code', 'midi_channel', 'relative_midi_key',
 ])
 
 
+KEYBOARD_LAYOUT = [
+    KeyboardKeyLayout(scan_code=24, key_row=1),  # Q
+    KeyboardKeyLayout(scan_code=27, key_row=1),  # R
+    KeyboardKeyLayout(scan_code=31, key_row=1),  # I
+    KeyboardKeyLayout(scan_code=34, key_row=1),  # ]
+
+    KeyboardKeyLayout(scan_code=66, key_row=2),  # Caps Lock
+    KeyboardKeyLayout(scan_code=38, key_row=2),  # A
+    KeyboardKeyLayout(scan_code=39, key_row=2),  # S
+    KeyboardKeyLayout(scan_code=40, key_row=2),  # D
+    KeyboardKeyLayout(scan_code=41, key_row=2),  # F
+    KeyboardKeyLayout(scan_code=42, key_row=2),  # G
+    KeyboardKeyLayout(scan_code=43, key_row=2),  # H
+    KeyboardKeyLayout(scan_code=44, key_row=2),  # J
+    KeyboardKeyLayout(scan_code=45, key_row=2),  # K
+    KeyboardKeyLayout(scan_code=46, key_row=2),  # L
+    KeyboardKeyLayout(scan_code=47, key_row=2),  # ; / :
+    KeyboardKeyLayout(scan_code=48, key_row=2),  # ' / "
+]
+
 KEYBOARD_B = [
-    KeyboardKey(scan_code=66, key_row=2, midi_channel=2, relative_midi_key=57),  # Caps Lock
-    KeyboardKey(scan_code=38, key_row=2, midi_channel=1, relative_midi_key=59),  # A
-    KeyboardKey(scan_code=39, key_row=2, midi_channel=0, relative_midi_key=60),  # S
-    KeyboardKey(scan_code=40, key_row=2, midi_channel=2, relative_midi_key=62),  # D
-    KeyboardKey(scan_code=41, key_row=2, midi_channel=1, relative_midi_key=64),  # F
-    KeyboardKey(scan_code=42, key_row=2, midi_channel=0, relative_midi_key=65),  # G
-    KeyboardKey(scan_code=43, key_row=2, midi_channel=0, relative_midi_key=67),  # H
-    KeyboardKey(scan_code=44, key_row=2, midi_channel=2, relative_midi_key=69),  # J
-    KeyboardKey(scan_code=45, key_row=2, midi_channel=1, relative_midi_key=71),  # K
-    KeyboardKey(scan_code=46, key_row=2, midi_channel=0, relative_midi_key=72),  # L
-    KeyboardKey(scan_code=47, key_row=2, midi_channel=2, relative_midi_key=74),  # ; / :
-    KeyboardKey(scan_code=48, key_row=2, midi_channel=1, relative_midi_key=76),  # ' / "
+    KeyboardKeyMapping(scan_code=66, midi_channel=2, relative_midi_key=57),  # Caps Lock
+    KeyboardKeyMapping(scan_code=38, midi_channel=1, relative_midi_key=59),  # A
+    KeyboardKeyMapping(scan_code=39, midi_channel=0, relative_midi_key=60),  # S
+    KeyboardKeyMapping(scan_code=40, midi_channel=2, relative_midi_key=62),  # D
+    KeyboardKeyMapping(scan_code=41, midi_channel=1, relative_midi_key=64),  # F
+    KeyboardKeyMapping(scan_code=42, midi_channel=0, relative_midi_key=65),  # G
+    KeyboardKeyMapping(scan_code=43, midi_channel=0, relative_midi_key=67),  # H
+    KeyboardKeyMapping(scan_code=44, midi_channel=2, relative_midi_key=69),  # J
+    KeyboardKeyMapping(scan_code=45, midi_channel=1, relative_midi_key=71),  # K
+    KeyboardKeyMapping(scan_code=46, midi_channel=0, relative_midi_key=72),  # L
+    KeyboardKeyMapping(scan_code=47, midi_channel=2, relative_midi_key=74),  # ; / :
+    KeyboardKeyMapping(scan_code=48, midi_channel=1, relative_midi_key=76),  # ' / "
 ]
 
 KEYBOARD_PLD = [
-    KeyboardKey(scan_code=24, key_row=1, midi_channel=0, relative_midi_key=59),  # Q
-    KeyboardKey(scan_code=27, key_row=1, midi_channel=0, relative_midi_key=64),  # R
-    KeyboardKey(scan_code=31, key_row=1, midi_channel=0, relative_midi_key=71),  # I
-    KeyboardKey(scan_code=34, key_row=1, midi_channel=0, relative_midi_key=76),  # ]
+    KeyboardKeyMapping(scan_code=24, midi_channel=0, relative_midi_key=59),  # Q
+    KeyboardKeyMapping(scan_code=27, midi_channel=0, relative_midi_key=64),  # R
+    KeyboardKeyMapping(scan_code=31, midi_channel=0, relative_midi_key=71),  # I
+    KeyboardKeyMapping(scan_code=34, midi_channel=0, relative_midi_key=76),  # ]
 
-    KeyboardKey(scan_code=66, key_row=2, midi_channel=0, relative_midi_key=57),  # Caps Lock
-    KeyboardKey(scan_code=38, key_row=2, midi_channel=1, relative_midi_key=59),  # A
-    KeyboardKey(scan_code=39, key_row=2, midi_channel=0, relative_midi_key=60),  # S
-    KeyboardKey(scan_code=40, key_row=2, midi_channel=0, relative_midi_key=62),  # D
-    KeyboardKey(scan_code=41, key_row=2, midi_channel=1, relative_midi_key=64),  # F
-    KeyboardKey(scan_code=42, key_row=2, midi_channel=0, relative_midi_key=65),  # G
-    KeyboardKey(scan_code=43, key_row=2, midi_channel=0, relative_midi_key=67),  # H
-    KeyboardKey(scan_code=44, key_row=2, midi_channel=0, relative_midi_key=69),  # J
-    KeyboardKey(scan_code=45, key_row=2, midi_channel=1, relative_midi_key=71),  # K
-    KeyboardKey(scan_code=46, key_row=2, midi_channel=0, relative_midi_key=72),  # L
-    KeyboardKey(scan_code=47, key_row=2, midi_channel=0, relative_midi_key=74),  # ; / :
-    KeyboardKey(scan_code=48, key_row=2, midi_channel=1, relative_midi_key=76),  # ' / "
+    KeyboardKeyMapping(scan_code=66, midi_channel=0, relative_midi_key=57),  # Caps Lock
+    KeyboardKeyMapping(scan_code=38, midi_channel=1, relative_midi_key=59),  # A
+    KeyboardKeyMapping(scan_code=39, midi_channel=0, relative_midi_key=60),  # S
+    KeyboardKeyMapping(scan_code=40, midi_channel=0, relative_midi_key=62),  # D
+    KeyboardKeyMapping(scan_code=41, midi_channel=1, relative_midi_key=64),  # F
+    KeyboardKeyMapping(scan_code=42, midi_channel=0, relative_midi_key=65),  # G
+    KeyboardKeyMapping(scan_code=43, midi_channel=0, relative_midi_key=67),  # H
+    KeyboardKeyMapping(scan_code=44, midi_channel=0, relative_midi_key=69),  # J
+    KeyboardKeyMapping(scan_code=45, midi_channel=1, relative_midi_key=71),  # K
+    KeyboardKeyMapping(scan_code=46, midi_channel=0, relative_midi_key=72),  # L
+    KeyboardKeyMapping(scan_code=47, midi_channel=0, relative_midi_key=74),  # ; / :
+    KeyboardKeyMapping(scan_code=48, midi_channel=1, relative_midi_key=76),  # ' / "
 ]
 
 
-KEYBOARD = KEYBOARD_PLD
+KEYBOARD_MAPPING = KEYBOARD_B
 
 
 class Tonality(Gtk.Window):
@@ -89,7 +113,7 @@ class Tonality(Gtk.Window):
 
         self.key_labels = {}
 
-        for keyboard_key in KEYBOARD:
+        for keyboard_key in KEYBOARD_LAYOUT:
             if keyboard_key.key_row == 1:
                 this_keyboard_hbox = self.keyboard_r1_hbox
             if keyboard_key.key_row == 2:
@@ -116,6 +140,13 @@ class Tonality(Gtk.Window):
         self.label3.set_padding(20, 20)
         self.vbox.pack_start(self.label3, False, False, 0)
 
+        # Label to display keyboard mapping
+        self.label4 = Gtk.Label()
+        self.label4.set_justify(Gtk.Justification.CENTER)
+        self.label4.override_background_color(Gtk.StateFlags.NORMAL, Gdk.RGBA(0.95, 0.95, 0.98, 1))
+        self.label4.set_padding(20, 20)
+        self.vbox.pack_start(self.label4, False, False, 0)
+
         # Connect keyboard events
         self.connect("key-press-event", self.OnKeyPress)
         self.connect("key-release-event", self.OnKeyRelease)
@@ -127,16 +158,18 @@ class Tonality(Gtk.Window):
 
         self.Reprogram(bank_diff=0, preset_diff=0)
         self.Transpose(diff=0)
+        self.ChangeMapping(mapping='pld')
 
     def OnKeyPress(self, widget, event):
         global NOTE_ON_KEYMAP
 
-        #print(event)
-
         scancode = event.get_scancode()
         keyname = Gdk.keyval_name(event.keyval)
+        keyval_with_modifier = Gtk.accelerator_get_label(event.keyval, event.state & Gtk.accelerator_get_default_mod_mask())
 
-        for keyboard_key in KEYBOARD:
+        #print(scancode, keyname, keyval_with_modifier)
+
+        for keyboard_key in KEYBOARD_MAPPING:
             if keyboard_key.scan_code == scancode:
                 this_keyboard_key = keyboard_key
                 break
@@ -163,6 +196,11 @@ class Tonality(Gtk.Window):
         if keyname == 'Page_Down':
             self.Transpose(diff=-1)
 
+        if keyval_with_modifier == 'F2':
+            self.ChangeMapping(mapping='b')
+        elif keyval_with_modifier == 'Shift+F4':
+            self.ChangeMapping(mapping='pld')
+
         if scancode in self.key_labels:
             self.key_labels[scancode].override_background_color(Gtk.StateFlags.NORMAL, Gdk.RGBA(0.45, 0.45, 0.48, 1))
 
@@ -170,8 +208,6 @@ class Tonality(Gtk.Window):
 
     def OnKeyRelease(self, widget, event):
         global NOTE_ON_KEYMAP
-
-        #print(event)
 
         scancode = event.get_scancode()
 
@@ -211,6 +247,18 @@ class Tonality(Gtk.Window):
 
         base_note = midi_to_note(KEY_OFFSET)
         self.label3.set_markup(f'Base note: {base_note}')
+
+    def ChangeMapping(self, mapping):
+        global KEYBOARD_MAPPING
+
+        if mapping == 'b':
+            KEYBOARD_MAPPING = KEYBOARD_B
+        elif mapping == 'pld':
+            KEYBOARD_MAPPING = KEYBOARD_PLD
+        else:
+            return
+
+        self.label4.set_markup(f'Keyboard mapping: {mapping}')
 
 
 # Run the app
