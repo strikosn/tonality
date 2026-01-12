@@ -18,7 +18,10 @@ NOTE_ON_KEYMAP = {}
 VELOCITY = 80
 
 synth.pitchbend_range(chan=1, semitones=1)
-synth.pitchbend(chan=1, value=5461)
+synth.pitchbend(chan=1, value=5461)  # -2/72
+
+synth.pitchbend_range(chan=2, semitones=1)
+synth.pitchbend(chan=2, value=2731)  # -4/72
 
 
 KeyboardKey = collections.namedtuple('KeyboardKey', [
@@ -26,7 +29,22 @@ KeyboardKey = collections.namedtuple('KeyboardKey', [
 ])
 
 
-KEYBOARD = [
+KEYBOARD_B = [
+    KeyboardKey(scan_code=66, key_row=2, midi_channel=2, relative_midi_key=57),  # Caps Lock
+    KeyboardKey(scan_code=38, key_row=2, midi_channel=1, relative_midi_key=59),  # A
+    KeyboardKey(scan_code=39, key_row=2, midi_channel=0, relative_midi_key=60),  # S
+    KeyboardKey(scan_code=40, key_row=2, midi_channel=2, relative_midi_key=62),  # D
+    KeyboardKey(scan_code=41, key_row=2, midi_channel=1, relative_midi_key=64),  # F
+    KeyboardKey(scan_code=42, key_row=2, midi_channel=0, relative_midi_key=65),  # G
+    KeyboardKey(scan_code=43, key_row=2, midi_channel=0, relative_midi_key=67),  # H
+    KeyboardKey(scan_code=44, key_row=2, midi_channel=2, relative_midi_key=69),  # J
+    KeyboardKey(scan_code=45, key_row=2, midi_channel=1, relative_midi_key=71),  # K
+    KeyboardKey(scan_code=46, key_row=2, midi_channel=0, relative_midi_key=72),  # L
+    KeyboardKey(scan_code=47, key_row=2, midi_channel=2, relative_midi_key=74),  # ; / :
+    KeyboardKey(scan_code=48, key_row=2, midi_channel=1, relative_midi_key=76),  # ' / "
+]
+
+KEYBOARD_PLD = [
     KeyboardKey(scan_code=24, key_row=1, midi_channel=0, relative_midi_key=59),  # Q
     KeyboardKey(scan_code=27, key_row=1, midi_channel=0, relative_midi_key=64),  # R
     KeyboardKey(scan_code=31, key_row=1, midi_channel=0, relative_midi_key=71),  # I
@@ -45,6 +63,9 @@ KEYBOARD = [
     KeyboardKey(scan_code=47, key_row=2, midi_channel=0, relative_midi_key=74),  # ; / :
     KeyboardKey(scan_code=48, key_row=2, midi_channel=1, relative_midi_key=76),  # ' / "
 ]
+
+
+KEYBOARD = KEYBOARD_PLD
 
 
 class Tonality(Gtk.Window):
@@ -174,6 +195,7 @@ class Tonality(Gtk.Window):
             self.label2.set_markup(f'{name} (bank={GLOBAL_BANK}, preset={GLOBAL_PRESET})')
             synth.program_select(chan=0, sfid=sfid, bank=GLOBAL_BANK, preset=GLOBAL_PRESET)
             synth.program_select(chan=1, sfid=sfid, bank=GLOBAL_BANK, preset=GLOBAL_PRESET)
+            synth.program_select(chan=2, sfid=sfid, bank=GLOBAL_BANK, preset=GLOBAL_PRESET)
         else:
             print('Not valid program (bank=', GLOBAL_BANK, ', preset=', GLOBAL_PRESET, ')')
 
