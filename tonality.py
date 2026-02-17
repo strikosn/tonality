@@ -18,10 +18,13 @@ NOTE_ON_KEYMAP = {}
 VELOCITY = 80
 
 synth.pitchbend_range(chan=1, semitones=1)
-synth.pitchbend(chan=1, value=5461)  # -2/72
+synth.pitchbend(chan=1, value=int(8192 * 2 / 3))  # -2/72
 
 synth.pitchbend_range(chan=2, semitones=1)
-synth.pitchbend(chan=2, value=2731)  # -4/72
+synth.pitchbend(chan=2, value=int(8192 * 1 / 3))  # -4/72
+
+synth.pitchbend_range(chan=3, semitones=1)
+synth.pitchbend(chan=3, value=int(8192 * 4 / 3))  # +2/72
 
 
 KeyboardKeyLayout = collections.namedtuple('KeyboardKeyLayout', [
@@ -53,22 +56,7 @@ KEYBOARD_LAYOUT = [
     KeyboardKeyLayout(scan_code=48, key_row=2),  # ' / "
 ]
 
-KEYBOARD_B = [
-    KeyboardKeyMapping(scan_code=66, midi_channel=2, relative_midi_key=57),  # Caps Lock
-    KeyboardKeyMapping(scan_code=38, midi_channel=1, relative_midi_key=59),  # A
-    KeyboardKeyMapping(scan_code=39, midi_channel=0, relative_midi_key=60),  # S
-    KeyboardKeyMapping(scan_code=40, midi_channel=2, relative_midi_key=62),  # D
-    KeyboardKeyMapping(scan_code=41, midi_channel=1, relative_midi_key=64),  # F
-    KeyboardKeyMapping(scan_code=42, midi_channel=0, relative_midi_key=65),  # G
-    KeyboardKeyMapping(scan_code=43, midi_channel=0, relative_midi_key=67),  # H
-    KeyboardKeyMapping(scan_code=44, midi_channel=2, relative_midi_key=69),  # J
-    KeyboardKeyMapping(scan_code=45, midi_channel=1, relative_midi_key=71),  # K
-    KeyboardKeyMapping(scan_code=46, midi_channel=0, relative_midi_key=72),  # L
-    KeyboardKeyMapping(scan_code=47, midi_channel=2, relative_midi_key=74),  # ; / :
-    KeyboardKeyMapping(scan_code=48, midi_channel=1, relative_midi_key=76),  # ' / "
-]
-
-KEYBOARD_PLD = [
+KEYBOARD_DIATONIKI = [
     KeyboardKeyMapping(scan_code=24, midi_channel=0, relative_midi_key=59),  # Q
     KeyboardKeyMapping(scan_code=27, midi_channel=0, relative_midi_key=64),  # R
     KeyboardKeyMapping(scan_code=31, midi_channel=0, relative_midi_key=71),  # I
@@ -88,8 +76,37 @@ KEYBOARD_PLD = [
     KeyboardKeyMapping(scan_code=48, midi_channel=1, relative_midi_key=76),  # ' / "
 ]
 
+KEYBOARD_B = [
+    KeyboardKeyMapping(scan_code=66, midi_channel=2, relative_midi_key=57),  # Caps Lock
+    KeyboardKeyMapping(scan_code=38, midi_channel=1, relative_midi_key=59),  # A
+    KeyboardKeyMapping(scan_code=39, midi_channel=0, relative_midi_key=60),  # S
+    KeyboardKeyMapping(scan_code=40, midi_channel=2, relative_midi_key=62),  # D
+    KeyboardKeyMapping(scan_code=41, midi_channel=1, relative_midi_key=64),  # F
+    KeyboardKeyMapping(scan_code=42, midi_channel=0, relative_midi_key=65),  # G
+    KeyboardKeyMapping(scan_code=43, midi_channel=0, relative_midi_key=67),  # H
+    KeyboardKeyMapping(scan_code=44, midi_channel=2, relative_midi_key=69),  # J
+    KeyboardKeyMapping(scan_code=45, midi_channel=1, relative_midi_key=71),  # K
+    KeyboardKeyMapping(scan_code=46, midi_channel=0, relative_midi_key=72),  # L
+    KeyboardKeyMapping(scan_code=47, midi_channel=2, relative_midi_key=74),  # ; / :
+    KeyboardKeyMapping(scan_code=48, midi_channel=1, relative_midi_key=76),  # ' / "
+]
 
-KEYBOARD_MAPPING = KEYBOARD_B
+KEYBOARD_PLAGIOS_B = [
+    KeyboardKeyMapping(scan_code=66, midi_channel=0, relative_midi_key=56),  # Caps Lock
+    KeyboardKeyMapping(scan_code=38, midi_channel=0, relative_midi_key=58),  # A  XXX
+    KeyboardKeyMapping(scan_code=39, midi_channel=0, relative_midi_key=60),  # S
+    KeyboardKeyMapping(scan_code=40, midi_channel=0, relative_midi_key=61),  # D
+    KeyboardKeyMapping(scan_code=41, midi_channel=3, relative_midi_key=64),  # F
+    KeyboardKeyMapping(scan_code=42, midi_channel=0, relative_midi_key=65),  # G
+    KeyboardKeyMapping(scan_code=43, midi_channel=0, relative_midi_key=67),  # H
+    KeyboardKeyMapping(scan_code=44, midi_channel=0, relative_midi_key=68),  # J
+    KeyboardKeyMapping(scan_code=45, midi_channel=3, relative_midi_key=71),  # K
+    KeyboardKeyMapping(scan_code=46, midi_channel=0, relative_midi_key=72),  # L
+    KeyboardKeyMapping(scan_code=47, midi_channel=0, relative_midi_key=73),  # ; / :
+    KeyboardKeyMapping(scan_code=48, midi_channel=3, relative_midi_key=76),  # ' / "
+]
+
+KEYBOARD_MAPPING = KEYBOARD_DIATONIKI
 
 
 class Tonality(Gtk.Window):
@@ -158,7 +175,7 @@ class Tonality(Gtk.Window):
 
         self.Reprogram(bank_diff=0, preset_diff=0)
         self.Transpose(diff=0)
-        self.ChangeMapping(mapping='pld')
+        self.ChangeMapping(mapping='Διατονική')
 
     def OnKeyPress(self, widget, event):
         global NOTE_ON_KEYMAP
@@ -196,10 +213,12 @@ class Tonality(Gtk.Window):
         if keyname == 'Page_Down':
             self.Transpose(diff=-1)
 
-        if keyval_with_modifier == 'F2':
-            self.ChangeMapping(mapping='b')
-        elif keyval_with_modifier == 'Shift+F4':
-            self.ChangeMapping(mapping='pld')
+        if keyval_with_modifier == 'F1':
+            self.ChangeMapping(mapping='Διατονική')
+        elif keyval_with_modifier == 'F2':
+            self.ChangeMapping(mapping='Ήχος Β')
+        elif keyval_with_modifier == 'F3':
+            self.ChangeMapping(mapping='Ήχος Πλάγιος Β')
 
         if scancode in self.key_labels:
             self.key_labels[scancode].override_background_color(Gtk.StateFlags.NORMAL, Gdk.RGBA(0.45, 0.45, 0.48, 1))
@@ -232,6 +251,7 @@ class Tonality(Gtk.Window):
             synth.program_select(chan=0, sfid=sfid, bank=GLOBAL_BANK, preset=GLOBAL_PRESET)
             synth.program_select(chan=1, sfid=sfid, bank=GLOBAL_BANK, preset=GLOBAL_PRESET)
             synth.program_select(chan=2, sfid=sfid, bank=GLOBAL_BANK, preset=GLOBAL_PRESET)
+            synth.program_select(chan=3, sfid=sfid, bank=GLOBAL_BANK, preset=GLOBAL_PRESET)
         else:
             print('Not valid program (bank=', GLOBAL_BANK, ', preset=', GLOBAL_PRESET, ')')
 
@@ -251,10 +271,12 @@ class Tonality(Gtk.Window):
     def ChangeMapping(self, mapping):
         global KEYBOARD_MAPPING
 
-        if mapping == 'b':
+        if mapping == 'Διατονική':
+            KEYBOARD_MAPPING = KEYBOARD_DIATONIKI
+        elif mapping == 'Ήχος Β':
             KEYBOARD_MAPPING = KEYBOARD_B
-        elif mapping == 'pld':
-            KEYBOARD_MAPPING = KEYBOARD_PLD
+        elif mapping == 'Ήχος Πλάγιος Β':
+            KEYBOARD_MAPPING = KEYBOARD_PLAGIOS_B
         else:
             return
 
