@@ -19,9 +19,10 @@ KEY_OFFSET = -14
 NOTE_ON_KEYMAP = {}
 VELOCITY = 80
 
-midi_port.send(mido.Message('pitchwheel', channel=1, pitch=int(-8192 * 1 / 3)))
-midi_port.send(mido.Message('pitchwheel', channel=2, pitch=int(-8192 * 2 / 3)))
-midi_port.send(mido.Message('pitchwheel', channel=3, pitch=int(+8192 * 1 / 3)))
+midi_port.send(mido.Message('pitchwheel', channel=0, pitch=int(+8192 * 0 / 6)))
+midi_port.send(mido.Message('pitchwheel', channel=1, pitch=int(-8192 * 1 / 6)))
+midi_port.send(mido.Message('pitchwheel', channel=2, pitch=int(-8192 * 2 / 6)))
+midi_port.send(mido.Message('pitchwheel', channel=3, pitch=int(+8192 * 1 / 6)))
 
 
 KeyboardKeyLayout = collections.namedtuple('KeyboardKeyLayout', [
