@@ -2,6 +2,7 @@
 
 import collections
 import gi
+import mido
 import tinysoundfont
 
 gi.require_version('Gtk', '3.0')
@@ -9,7 +10,8 @@ from gi.repository import Gtk, Gdk
 
 synth = tinysoundfont.Synth()
 sfid = synth.sfload('/usr/share/sounds/sf2/FluidR3_GM.sf2')
-synth.start(buffer_size=0)
+
+midi_port = mido.open_output()
 
 GLOBAL_BANK = 0
 GLOBAL_PRESET = 68
@@ -17,14 +19,9 @@ KEY_OFFSET = -14
 NOTE_ON_KEYMAP = {}
 VELOCITY = 80
 
-synth.pitchbend_range(chan=1, semitones=1)
-synth.pitchbend(chan=1, value=int(8192 * 2 / 3))  # -2/72
-
-synth.pitchbend_range(chan=2, semitones=1)
-synth.pitchbend(chan=2, value=int(8192 * 1 / 3))  # -4/72
-
-synth.pitchbend_range(chan=3, semitones=1)
-synth.pitchbend(chan=3, value=int(8192 * 4 / 3))  # +2/72
+midi_port.send(mido.Message('pitchwheel', channel=1, pitch=int(-8192 * 1 / 3)))
+midi_port.send(mido.Message('pitchwheel', channel=2, pitch=int(-8192 * 2 / 3)))
+midi_port.send(mido.Message('pitchwheel', channel=3, pitch=int(+8192 * 1 / 3)))
 
 
 KeyboardKeyLayout = collections.namedtuple('KeyboardKeyLayout', [
@@ -33,6 +30,10 @@ KeyboardKeyLayout = collections.namedtuple('KeyboardKeyLayout', [
 
 KeyboardKeyMapping = collections.namedtuple('KeyboardKeyMapping', [
     'scan_code', 'midi_channel', 'relative_midi_key',
+])
+
+NoteOn = collections.namedtuple('NoteOn', [
+    'midi_channel', 'key',
 ])
 
 
@@ -173,7 +174,7 @@ class Tonality(Gtk.Window):
         self.set_focus_on_click(True)
         self.connect("button-press-event", lambda w, e: self.grab_focus())
 
-        self.Reprogram(bank_diff=0, preset_diff=0)
+        self.Reprogram(preset_diff=0)
         self.Transpose(diff=0)
         self.ChangeMapping(mapping='Διατονική')
 
@@ -196,17 +197,13 @@ class Tonality(Gtk.Window):
         if this_keyboard_key is not None and scancode not in NOTE_ON_KEYMAP:
             chan = this_keyboard_key.midi_channel
             key = KEY_OFFSET + this_keyboard_key.relative_midi_key
-            NOTE_ON_KEYMAP[scancode] = dict(chan=chan, key=key)
-            synth.noteon(chan=chan, key=key, velocity=VELOCITY)
+            NOTE_ON_KEYMAP[scancode] = NoteOn(midi_channel=chan, key=key)
+            midi_port.send(mido.Message('note_on', channel=chan, note=key, velocity=VELOCITY))
 
         if keyname == 'minus':
-            self.Reprogram(bank_diff=0, preset_diff=-1)
+            self.Reprogram(preset_diff=-1)
         if keyname == 'equal':
-            self.Reprogram(bank_diff=0, preset_diff=1)
-        if keyname == 'underscore':
-            self.Reprogram(bank_diff=-1, preset_diff=0)
-        if keyname == 'plus':
-            self.Reprogram(bank_diff=1, preset_diff=0)
+            self.Reprogram(preset_diff=1)
 
         if keyname == 'Page_Up':
             self.Transpose(diff=1)
@@ -231,29 +228,36 @@ class Tonality(Gtk.Window):
         scancode = event.get_scancode()
 
         if scancode in NOTE_ON_KEYMAP:
-            synth.noteoff(**NOTE_ON_KEYMAP[scancode])
+            midi_channel, key = NOTE_ON_KEYMAP[scancode]
             del NOTE_ON_KEYMAP[scancode]
+            midi_port.send(mido.Message('note_off', channel=midi_channel, note=key, velocity=VELOCITY))
 
         if scancode in self.key_labels:
             self.key_labels[scancode].override_background_color(Gtk.StateFlags.NORMAL, Gdk.RGBA(0.95, 0.95, 0.98, 1))
 
         return False
 
-    def Reprogram(self, bank_diff, preset_diff):
-        global GLOBAL_BANK, GLOBAL_PRESET
-        new_bank = GLOBAL_BANK + bank_diff
+    def Reprogram(self, preset_diff):
+        global GLOBAL_PRESET
         new_preset = GLOBAL_PRESET + preset_diff
-        name = synth.sfpreset_name(sfid=sfid, bank=new_bank, preset=new_preset)
+        name = synth.sfpreset_name(sfid=sfid, bank=GLOBAL_BANK, preset=new_preset)
         if name is not None:
-            GLOBAL_BANK = new_bank
             GLOBAL_PRESET = new_preset
             self.label2.set_markup(f'{name} (bank={GLOBAL_BANK}, preset={GLOBAL_PRESET})')
-            synth.program_select(chan=0, sfid=sfid, bank=GLOBAL_BANK, preset=GLOBAL_PRESET)
-            synth.program_select(chan=1, sfid=sfid, bank=GLOBAL_BANK, preset=GLOBAL_PRESET)
-            synth.program_select(chan=2, sfid=sfid, bank=GLOBAL_BANK, preset=GLOBAL_PRESET)
-            synth.program_select(chan=3, sfid=sfid, bank=GLOBAL_BANK, preset=GLOBAL_PRESET)
+            midi_port.send(mido.Message('control_change', channel=0, control=0, value=GLOBAL_BANK))
+            midi_port.send(mido.Message('control_change', channel=0, control=32, value=GLOBAL_BANK))
+            midi_port.send(mido.Message('program_change', channel=0, program=GLOBAL_PRESET))
+            midi_port.send(mido.Message('control_change', channel=1, control=0, value=GLOBAL_BANK))
+            midi_port.send(mido.Message('control_change', channel=1, control=32, value=GLOBAL_BANK))
+            midi_port.send(mido.Message('program_change', channel=1, program=GLOBAL_PRESET))
+            midi_port.send(mido.Message('control_change', channel=2, control=0, value=GLOBAL_BANK))
+            midi_port.send(mido.Message('control_change', channel=2, control=32, value=GLOBAL_BANK))
+            midi_port.send(mido.Message('program_change', channel=2, program=GLOBAL_PRESET))
+            midi_port.send(mido.Message('control_change', channel=3, control=0, value=GLOBAL_BANK))
+            midi_port.send(mido.Message('control_change', channel=3, control=32, value=GLOBAL_BANK))
+            midi_port.send(mido.Message('program_change', channel=3, program=GLOBAL_PRESET))
         else:
-            print('Not valid program (bank=', GLOBAL_BANK, ', preset=', GLOBAL_PRESET, ')')
+            print('Not valid program (bank=', GLOBAL_BANK, ', preset=', new_preset, ')')
 
     def Transpose(self, diff):
         global KEY_OFFSET
