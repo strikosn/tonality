@@ -8,7 +8,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 
 synth = tinysoundfont.Synth()
-sfid = synth.sfload('FluidR3_GM.sf2')
+sfid = synth.sfload('/usr/share/sounds/sf2/FluidR3_GM.sf2')
 synth.start(buffer_size=0)
 
 GLOBAL_BANK = 0
