@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Keyboard Visualizer</title>
   <style>
     body {
       font-family: monospace;
@@ -14,6 +13,25 @@
       align-items: center;
     }
 
+    #the-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #settings-container {
+      display: grid;
+      grid-template-columns: minmax(auto, max-content) 1fr;
+      align-items: baseline;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    #settings-container > label {
+      text-align: right;
+    }
+  </style>
+
+  <style>
     .keyboard {
       display: flex;
       flex-direction: column;
@@ -38,7 +56,7 @@
       border: 2px solid #666;
       border-radius: 8px;
       text-align: center;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: bold;
       user-select: none;
       cursor: pointer;
@@ -64,6 +82,7 @@
     .keyboard-key-extra-label-container {
       display: flex;
       padding: 4px;
+      margin-top: 2px;
       align-items: end;
       position: relative;
     }
@@ -84,18 +103,6 @@
   </style>
 
   <style>
-    .dropdown-field-row {
-      display: flex;
-      align-items: baseline;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .dropdown-field-row > label {
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
     .dropdown-details {
       position: relative;
     }
@@ -113,7 +120,7 @@
     .dropdown-details summary::-webkit-details-marker { display: none; } /* hide default arrow */
 
     .dropdown-details[open] summary {
-      background: #3b5bb5;
+      background: #d18400;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
@@ -181,7 +188,7 @@
     }
 
     .stepper div {
-      width: 160px;
+      width: 100%;
       color: #222;
       background: #fff;
       display: grid;
@@ -197,26 +204,55 @@
   </style>
 
   <style>
-    #pitch-graph-canvas {
+    #pitch-graph-canvas-container {
+      margin: 10px;
+      padding: 20px;
+      background: #222;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    }
+
+    #pitch-graph-canvas-container div button {
+      background: #3F73A6;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      user-select: none;
+      font: inherit;
+    }
+
+    #pitch-graph-canvas {
+      border: 2px solid #666;
+      margin-top: 10px;
     }
   </style>
 
 </head>
 <body>
 
-  <div class="keyboard" id="keyboard"></div>
+  <div id='the-container'>
+    <div class="keyboard" id="keyboard"></div>
 
-  <div class='dropdown-field-row'>
+    <div id='pitch-graph-canvas-container'>
+      <div>
+	<button id='pitch-graph-control-reset-layout'>Επαναφορά</button>
+	<button id='pitch-graph-control-play'>Έναρξη</button>
+	<button id='pitch-graph-control-pause'>Παύση</button>
+	<button id='pitch-graph-control-clear'>Καθαρισμός</button>
+	<button id='pitch-graph-control-stop'>Τερματισμός</button>
+      </div>
+      <canvas id='pitch-graph-canvas' width='894' height='460'></canvas>
+    </div>
+  </div>
+
+  <div id='settings-container'>
     <label>Θύρα εξόδου MIDI:</label>
     <details id="midi-output-dropdown" class='dropdown-details' style='width: 460px;'>
       <summary id="midi-output-dropdown-summary">(καμία)</summary>
       <div id="midi-output-dropdown-list" class="dropdown-list"></div>
     </details>
-  </div>
 
-  <div class='dropdown-field-row'>
     <label>Επιλογή πληκτρολογίου:</label>
     <details id="keyboard-map-dropdown" class='dropdown-details' style='width: 460px;'>
       <summary id="keyboard-map-dropdown-summary"></summary>
@@ -227,18 +263,14 @@
 	<div class='dropdown-item' data-id='εναρμόνιος' onclick='SelectKeyboardMap(this);'>Εναρμόνιος κλίμακα</div>
       </div>
     </details>
-  </div>
 
-  <div class='dropdown-field-row'>
     <label>Νότα βάσης του Νη:</label>
     <div class='stepper' id='base-note-stepper'>
       <button class="stepper-minus" onclick='SelectBaseNote(-1);'>-</button>
       <div id='base-note-stepper-value'></div>
       <button class="stepper-plus" onclick='SelectBaseNote(+1);'>+</button>
     </div>
-  </div>
 
-  <div class='dropdown-field-row'>
     <label>Επαναφορά:</label>
     <details id="reset-dropdown" class='dropdown-details' style='width: 460px;'>
       <summary id="reset-dropdown-summary">(επιλογή)</summary>
@@ -250,16 +282,6 @@
 	<div class='dropdown-item' onclick='ResetMidiProgram();'>MIDI program</div>
       </div>
     </details>
-  </div>
-
-  <canvas id='pitch-graph-canvas' width='1000' height='500'></canvas>
-
-  <div>
-    <button id='pitch-graph-control-reset-layout'>Reset layout</button>
-    <button id='pitch-graph-control-play'>Play</button>
-    <button id='pitch-graph-control-pause'>Pause</button>
-    <button id='pitch-graph-control-clear'>Clear</button>
-    <button id='pitch-graph-control-stop'>Stop</button>
   </div>
 
 <script src="https://cdn.jsdelivr.net/npm/webmidi@latest/dist/iife/webmidi.iife.js"></script>
@@ -665,7 +687,7 @@ window.addEventListener("keyup", event => {
 
   const CONTROL_BASE_FREQUENCY_STEP = 0.5;
   const CONTROL_ZOOM_FACTOR = 0.95;
-  const DEFAULT_BASE_FREQUENCY = 'G2';
+  const DEFAULT_BASE_FREQUENCY = 'A#2';
   const DEFAULT_PITCH_GRAPH_MIN_FREQUENCY_HZ = 80.0;
   const DEFAULT_PITCH_GRAPH_MAX_FREQUENCY_HZ = 280.0;
   const DESIRED_SAMPLE_RATE = 32000;
@@ -681,6 +703,7 @@ window.addEventListener("keyup", event => {
   const PITCH_GRAPH_MIN_BAND_SEGMENT_WIDTH = 5;
   const PITCH_GRAPH_MIN_CLARITY = 0.95;
   const STYLE_HISTORY_AREA_BOX_COLOR = '#c4c4c4';
+  const STYLE_HISTORY_AREA_BOX_LINE_WIDTH = 1;
   const STYLE_PIANO_BACKGROUND_COLOR = '#212121';
   const STYLE_PIANO_NATURAL_KEY_COLOR = '#696969';
   const STYLE_PIANO_NATURAL_KEY_RADIUS = 5;
@@ -807,7 +830,7 @@ window.addEventListener("keyup", event => {
 
 	ctx.save();
 	ctx.resetTransform();
-	ctx.font = '14px monospace';
+	ctx.font = '12px monospace';
 	ctx.fillStyle = STYLE_PIANO_NOTE_NAME_COLOR;
 	ctx.textAlign = 'center';
 	ctx.textBaseline = 'middle';
@@ -918,7 +941,8 @@ window.addEventListener("keyup", event => {
       /*ctx=*/ctx);
 
     ctx.strokeStyle = STYLE_HISTORY_AREA_BOX_COLOR;
-    ctx.strokeRect(history_area_left, -2, history_area_width, canvas.height + 2);
+    ctx.lineWidth = STYLE_HISTORY_AREA_BOX_LINE_WIDTH;
+    ctx.strokeRect(history_area_left, -1, history_area_width, canvas.height + 2);
 
     const filteredHistory = history.filter(matchesConditions);
 
@@ -1126,6 +1150,16 @@ window.addEventListener("keyup", event => {
     } else if (event.code === 'F4') {
       active_scale = 3;
       event.preventDefault();   // stop browser shortcuts
+    } else if (event.code === 'F9') {
+      document.getElementById('the-container').style.flexDirection = 'column';
+      document.getElementById('pitch-graph-canvas').width = 894;  // XXX
+      document.getElementById('pitch-graph-canvas').height = 460;  // XXX
+      event.preventDefault();   // stop browser shortcuts
+    } else if (event.code === 'F10') {
+      document.getElementById('the-container').style.flexDirection = 'row';
+      document.getElementById('pitch-graph-canvas').width = 760;  // XXX
+      document.getElementById('pitch-graph-canvas').height = 594;  // XXX
+      event.preventDefault();   // stop browser shortcuts
     }
   });
 
@@ -1163,11 +1197,9 @@ window.addEventListener("keyup", event => {
       min_frequency_hz = 1.0 / v(canvas.height - event.clientY + rect.top) * v(dragging.anchor_point.y) * dragging.anchor_min_frequency;
       min_frequency_hz = Math.max(min_frequency_hz, PITCH_GRAPH_ABSOLUTE_MIN_FREQUENCY_HZ);
       max_frequency_hz = max_frequency_hz / current_min_frequency_hz * min_frequency_hz;
-    } else {
-      // Optional: hover cursor
-      //const pos = getCanvasPos(event);
-      //canvas.style.cursor = findCircleAt(pos.x, pos.y) ? 'grab' : 'default';
     }
+
+    DrawPitchGraph();
   });
 
   window.addEventListener('pointerup', () => {
@@ -1207,6 +1239,8 @@ window.addEventListener("keyup", event => {
       min_frequency_hz = Math.max(min_frequency_hz, PITCH_GRAPH_ABSOLUTE_MIN_FREQUENCY_HZ);
       max_frequency_hz *= Math.pow(CONTROL_ZOOM_FACTOR, -Math.sign(event.deltaY) * (1.0 - y_fraction));
     }
+
+    DrawPitchGraph();
   });
 
 </script>
