@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset='UTF-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
   <style>
     body {
       font-family: monospace;
@@ -13,9 +13,51 @@
       align-items: center;
     }
 
+    button {
+      background: #3f73a6;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      user-select: none;
+      font: inherit;
+      outline: none;
+    }
+
+    button:hover {
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: translateY(1px);
+      background: #d18400;
+    }
+
+    button:disabled {
+      color: #aaa;
+      cursor: not-allowed;
+      background: #f1f3f5;
+    }
+
     #the-container {
       display: flex;
       flex-direction: column;
+      align-items: center;
+    }
+
+    #keyboard-container {
+      margin: 10px;
+      padding: 20px;
+      background: #222;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    }
+
+    #keyboard-separator {
+      margin: 20px 0px 20px 0px;
+      padding: 10px 0px 10px 0px;
+      border-top: 2px solid grey;
+      border-bottom: 2px solid grey;
     }
 
     #settings-container {
@@ -23,7 +65,7 @@
       grid-template-columns: minmax(auto, max-content) 1fr;
       align-items: baseline;
       gap: 12px;
-      margin-top: 10px;
+      margin-top: 20px;
     }
 
     #settings-container > label {
@@ -35,15 +77,13 @@
     .keyboard {
       display: flex;
       flex-direction: column;
+      width: min-content;
+      height: min-content;
       gap: 8px;
-      background: #222;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
     }
 
     .keyboard-row {
-      display: flex;
+      display: inline-flex;
       gap: 6px;
       justify-content: center;
     }
@@ -63,10 +103,8 @@
     }
 
     .keyboard-key.wide { width: 84px; }
-    .keyboard-key.wider { width: 116px; }
-    .keyboard-key.shift { width: 130px; }
-    .keyboard-key.space { width: 326px; }
-    .keyboard-key.caps-enter { width: 99px; }
+    .keyboard-key.flex { flex: 1; }
+    .keyboard-key.enter { width: 99px; }
 
     .keyboard-key.pressed,
     .keyboard-key:active {
@@ -154,36 +192,20 @@
   <style>
     .stepper {
       display: inline-flex;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      overflow: hidden;
-      background: white;
     }
 
     .stepper button {
-      width: 38px;
       height: 38px;
-      background: #f8f9fa;
-      border: none;
       font-weight: bold;
-      color: #333;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .stepper button:hover {
-      background: #e9ecef;
-    }
-
-    .stepper button:active {
-      background: #dee2e6;
     }
 
     .stepper .stepper-minus {
+      border-radius: 6px 0 0 6px;
       border-right: 1px solid #ccc;
     }
 
     .stepper .stepper-plus {
+      border-radius: 0 6px 6px 0;
       border-left: 1px solid #ccc;
     }
 
@@ -194,12 +216,6 @@
       display: grid;
       align-items: center;
       justify-content: center;
-    }
-
-    .stepper button:disabled {
-      color: #aaa;
-      cursor: not-allowed;
-      background: #f1f3f5;
     }
   </style>
 
@@ -212,16 +228,6 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.7);
     }
 
-    #pitch-graph-canvas-container div button {
-      background: #3F73A6;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 6px;
-      user-select: none;
-      font: inherit;
-    }
-
     #pitch-graph-canvas {
       border: 2px solid #666;
       margin-top: 10px;
@@ -232,67 +238,74 @@
 <body>
 
   <div id='the-container'>
-    <div class="keyboard" id="keyboard"></div>
+    <div id='keyboard-container'>
+      <div>
+	<button id='keyboard-control-start' onclick='StartKeyboard();'>Έναρξη</button>
+	<button id='keyboard-control-stop' onclick='StopKeyboard();'>Τερματισμός</button>
+      </div>
+
+      <div id='keyboard-separator'>
+	<div class='keyboard' id='keyboard'></div>
+      </div>
+
+      <div id='settings-container'>
+	<label>Θύρα εξόδου MIDI:</label>
+	<details id='midi-output-dropdown' class='dropdown-details' style='width: 460px;'>
+	  <summary id='midi-output-dropdown-summary'>(καμία)</summary>
+	  <div id='midi-output-dropdown-list' class='dropdown-list'></div>
+	</details>
+
+	<label>Επιλογή πληκτρολογίου:</label>
+	<details id='keyboard-map-dropdown' class='dropdown-details' style='width: 460px;'>
+	  <summary id='keyboard-map-dropdown-summary'></summary>
+	  <div id='keyboard-map-dropdown-list' class='dropdown-list'>
+	    <div class='dropdown-item' data-id='διατονική' onclick='SelectKeyboardMap(this);' id='keyboard-map-default'>Διατονική κλίμακα</div>
+	    <div class='dropdown-item' data-id='β' onclick='SelectKeyboardMap(this);'>Ήχος Β'</div>
+	    <div class='dropdown-item' data-id='πλάγιος β' onclick='SelectKeyboardMap(this);'>Ήχος Πλάγιος Β'</div>
+	    <div class='dropdown-item' data-id='εναρμόνιος' onclick='SelectKeyboardMap(this);'>Εναρμόνιος κλίμακα</div>
+	  </div>
+	</details>
+
+	<label>Νότα βάσης του Νη:</label>
+	<div class='stepper' id='base-note-stepper' style='width: 460px;'>
+	  <button class='stepper-minus' onclick='SelectBaseNote(-1);'>-</button>
+	  <div id='base-note-stepper-value'></div>
+	  <button class='stepper-plus' onclick='SelectBaseNote(+1);'>+</button>
+	</div>
+
+	<label>Επαναφορά:</label>
+	<details id='reset-dropdown' class='dropdown-details' style='width: 460px;'>
+	  <summary id='reset-dropdown-summary'>(επιλογή)</summary>
+	  <div id='reset-dropdown-list' class='dropdown-list'>
+	    <div class='dropdown-item' onclick='ResetMidiAllControllers();'>MIDI reset all controllers (all channels)</div>
+	    <div class='dropdown-item' onclick='ResetMidiAllNotesOff();'>MIDI all notes off (all channels)</div>
+	    <div class='dropdown-item' onclick='ResetMidiAllSoundOff();'>MIDI all sound off (all channels)</div>
+	    <div class='dropdown-item' onclick='ResetMidiChannelPitchBend();'>MIDI channel pitch bend</div>
+	    <div class='dropdown-item' onclick='ResetMidiProgram();'>MIDI program</div>
+	  </div>
+	</details>
+      </div>
+    </div>
 
     <div id='pitch-graph-canvas-container'>
       <div>
-	<button id='pitch-graph-control-reset-layout'>Επαναφορά</button>
-	<button id='pitch-graph-control-play'>Έναρξη</button>
+	<button id='pitch-graph-control-start'>Έναρξη</button>
 	<button id='pitch-graph-control-pause'>Παύση</button>
 	<button id='pitch-graph-control-clear'>Καθαρισμός</button>
+	<button id='pitch-graph-control-reset-layout'>Επαναφορά</button>
 	<button id='pitch-graph-control-stop'>Τερματισμός</button>
       </div>
       <canvas id='pitch-graph-canvas' width='894' height='460'></canvas>
     </div>
   </div>
 
-  <div id='settings-container'>
-    <label>Θύρα εξόδου MIDI:</label>
-    <details id="midi-output-dropdown" class='dropdown-details' style='width: 460px;'>
-      <summary id="midi-output-dropdown-summary">(καμία)</summary>
-      <div id="midi-output-dropdown-list" class="dropdown-list"></div>
-    </details>
-
-    <label>Επιλογή πληκτρολογίου:</label>
-    <details id="keyboard-map-dropdown" class='dropdown-details' style='width: 460px;'>
-      <summary id="keyboard-map-dropdown-summary"></summary>
-      <div id="keyboard-map-dropdown-list" class="dropdown-list">
-	<div class='dropdown-item' data-id='διατονική' onclick='SelectKeyboardMap(this);' id='keyboard-map-default'>Διατονική κλίμακα</div>
-	<div class='dropdown-item' data-id='β' onclick='SelectKeyboardMap(this);'>Ήχος Β'</div>
-	<div class='dropdown-item' data-id='πλάγιος β' onclick='SelectKeyboardMap(this);'>Ήχος Πλάγιος Β'</div>
-	<div class='dropdown-item' data-id='εναρμόνιος' onclick='SelectKeyboardMap(this);'>Εναρμόνιος κλίμακα</div>
-      </div>
-    </details>
-
-    <label>Νότα βάσης του Νη:</label>
-    <div class='stepper' id='base-note-stepper'>
-      <button class="stepper-minus" onclick='SelectBaseNote(-1);'>-</button>
-      <div id='base-note-stepper-value'></div>
-      <button class="stepper-plus" onclick='SelectBaseNote(+1);'>+</button>
-    </div>
-
-    <label>Επαναφορά:</label>
-    <details id="reset-dropdown" class='dropdown-details' style='width: 460px;'>
-      <summary id="reset-dropdown-summary">(επιλογή)</summary>
-      <div id="reset-dropdown-list" class="dropdown-list">
-	<div class='dropdown-item' onclick='ResetMidiAllControllers();'>MIDI reset all controllers (all channels)</div>
-	<div class='dropdown-item' onclick='ResetMidiAllNotesOff();'>MIDI all notes off (all channels)</div>
-	<div class='dropdown-item' onclick='ResetMidiAllSoundOff();'>MIDI all sound off (all channels)</div>
-	<div class='dropdown-item' onclick='ResetMidiChannelPitchBend();'>MIDI channel pitch bend</div>
-	<div class='dropdown-item' onclick='ResetMidiProgram();'>MIDI program</div>
-      </div>
-    </details>
-  </div>
-
-<script src="https://cdn.jsdelivr.net/npm/webmidi@latest/dist/iife/webmidi.iife.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/webmidi@latest/dist/iife/webmidi.iife.js'></script>
 
 <script>
 
 const KEYBOARD_MAP_DIATONIKI = [
     { key_code: 'KeyQ',         midi_channel: 1, relative_midi_key: 59, extra_label_1: '𝃮', extra_label_2: '𝃐' },
-    { key_code: 'KeyR',         midi_channel: 1, relative_midi_key: 64, extra_label_1: '𝃪', extra_label_2: '𝃐' },
     { key_code: 'KeyI',         midi_channel: 1, relative_midi_key: 71, extra_label_1: '𝃮', extra_label_2: '𝃐' },
-    { key_code: 'BracketLeft',  midi_channel: 1, relative_midi_key: 76, extra_label_1: '𝃪', extra_label_2: '𝃐' },
 
     { key_code: 'CapsLock',     midi_channel: 1, relative_midi_key: 57, extra_label_1: '𝃭' },
     { key_code: 'KeyA',         midi_channel: 2, relative_midi_key: 59, extra_label_1: '𝃮' },
@@ -306,6 +319,9 @@ const KEYBOARD_MAP_DIATONIKI = [
     { key_code: 'KeyL',         midi_channel: 1, relative_midi_key: 72, extra_label_1: '𝃯' },
     { key_code: 'Semicolon',    midi_channel: 1, relative_midi_key: 74, extra_label_1: '𝃩' },
     { key_code: 'Quote',        midi_channel: 2, relative_midi_key: 76, extra_label_1: '𝃪' },
+
+    { key_code: 'KeyZ',         midi_channel: 3, relative_midi_key: 59, extra_label_1: '𝃮𝃔' },  // XXX
+    { key_code: 'Comma',        midi_channel: 3, relative_midi_key: 71, extra_label_1: '𝃮𝃔' },  // XXX
 ];
 
 const KEYBOARD_MAP_B = [
@@ -325,7 +341,7 @@ const KEYBOARD_MAP_B = [
 
 const KEYBOARD_MAP_PLAGIOS_B = [
     { key_code: 'CapsLock',  midi_channel: 1, relative_midi_key: 56, extra_label_1: '𝃭' },
-    { key_code: 'KeyA',      midi_channel: 1, relative_midi_key: 58, extra_label_1: '𝃮' },  // XXX
+    { key_code: 'KeyA',      midi_channel: 1, relative_midi_key: 58, extra_label_1: '𝃮𝃗' },  // XXX
     { key_code: 'KeyS',      midi_channel: 1, relative_midi_key: 60, extra_label_1: '𝃯' },
     { key_code: 'KeyD',      midi_channel: 1, relative_midi_key: 61, extra_label_1: '𝃩' },
     { key_code: 'KeyF',      midi_channel: 4, relative_midi_key: 64, extra_label_1: '𝃪' },
@@ -336,6 +352,8 @@ const KEYBOARD_MAP_PLAGIOS_B = [
     { key_code: 'KeyL',      midi_channel: 1, relative_midi_key: 72, extra_label_1: '𝃯' },
     { key_code: 'Semicolon', midi_channel: 1, relative_midi_key: 73, extra_label_1: '𝃩' },
     { key_code: 'Quote',     midi_channel: 4, relative_midi_key: 76, extra_label_1: '𝃪' },
+
+    { key_code: 'KeyZ',      midi_channel: 4, relative_midi_key: 59, extra_label_1: '𝃮' },
 ];
 
 const KEYBOARD_MAP_ENARMONIOS = [
@@ -354,74 +372,74 @@ const KEYBOARD_MAP_ENARMONIOS = [
 ];
 
 const KEYBOARD_LAYOUT = [
-  ["Backquote", "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "Digit0", "Minus", "Equal", "Backspace"],
-  ["Tab", "KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "BracketLeft", "BracketRight", "Backslash"],
-  ["CapsLock", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "Semicolon", "Quote", "Enter"],
-  ["ShiftLeft", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Comma", "Period", "Slash", "ShiftRight"],
-  ["ControlLeft", "MetaLeft", "AltLeft", "Space", "AltRight", "ContextMenu", "ControlRight"]
+  ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
+  ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash'],
+  ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter'],
+  ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ShiftRight'],
+  ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ContextMenu', 'ControlRight']
 ];
 
 const KEYBOARD_DISPLAY_MAP = {
-  "AltLeft":      { display: "Alt", class: "wide" },
-  "AltRight":     { display: "Alt", class: "wide" },
-  "Backquote":    { display: "`" },
-  "Backslash":    { display: "\\" },
-  "Backspace":    { display: "⌫", class: "wide" },
-  "BracketLeft":  { display: "[" },
-  "BracketRight": { display: "]" },
-  "CapsLock":     { display: "Caps", class: "caps-enter" },
-  "Comma":        { display: "," },
-  "ContextMenu":  { display: "⌘", class: "wide" },
-  "ControlLeft":  { display: "Ctrl", class: "wide" },
-  "ControlRight": { display: "Ctrl", class: "wide" },
-  "Digit0":       { display: "0" },
-  "Digit1":       { display: "1" },
-  "Digit2":       { display: "2" },
-  "Digit3":       { display: "3" },
-  "Digit4":       { display: "4" },
-  "Digit5":       { display: "5" },
-  "Digit6":       { display: "6" },
-  "Digit7":       { display: "7" },
-  "Digit8":       { display: "8" },
-  "Digit9":       { display: "9" },
-  "Enter":        { display: "⏎", class: "caps-enter" },
-  "Equal":        { display: "=" },
-  "KeyA":         { display: "A" },
-  "KeyB":         { display: "B" },
-  "KeyC":         { display: "C" },
-  "KeyD":         { display: "D" },
-  "KeyE":         { display: "E" },
-  "KeyF":         { display: "F" },
-  "KeyG":         { display: "G" },
-  "KeyH":         { display: "H" },
-  "KeyI":         { display: "I" },
-  "KeyJ":         { display: "J" },
-  "KeyK":         { display: "K" },
-  "KeyL":         { display: "L" },
-  "KeyM":         { display: "M" },
-  "KeyN":         { display: "N" },
-  "KeyO":         { display: "O" },
-  "KeyP":         { display: "P" },
-  "KeyQ":         { display: "Q" },
-  "KeyR":         { display: "R" },
-  "KeyS":         { display: "S" },
-  "KeyT":         { display: "T" },
-  "KeyU":         { display: "U" },
-  "KeyV":         { display: "V" },
-  "KeyW":         { display: "W" },
-  "KeyX":         { display: "X" },
-  "KeyY":         { display: "Y" },
-  "KeyZ":         { display: "Z" },
-  "MetaLeft":     { display: "⌘", class: "wide" },
-  "Minus":        { display: "-" },
-  "Period":       { display: "." },
-  "Quote":        { display: "'" },
-  "Semicolon":    { display: ";" },
-  "ShiftLeft":    { display: "Shift", class: "shift" },
-  "ShiftRight":   { display: "Shift", class: "shift" },
-  "Slash":        { display: "/" },
-  "Space":        { display: "", class: "space" },
-  "Tab":          { display: "Tab", class: "wide" },
+  'AltLeft':      { display: 'Alt', class: 'wide' },
+  'AltRight':     { display: 'Alt', class: 'wide' },
+  'Backquote':    { display: '`' },
+  'Backslash':    { display: '\\' },
+  'Backspace':    { display: '⌫', class: 'wide' },
+  'BracketLeft':  { display: '[' },
+  'BracketRight': { display: ']' },
+  'CapsLock':     { display: 'Caps', class: 'flex' },
+  'Comma':        { display: ',' },
+  'ContextMenu':  { display: '⌘', class: 'wide' },
+  'ControlLeft':  { display: 'Ctrl', class: 'wide' },
+  'ControlRight': { display: 'Ctrl', class: 'wide' },
+  'Digit0':       { display: '0' },
+  'Digit1':       { display: '1' },
+  'Digit2':       { display: '2' },
+  'Digit3':       { display: '3' },
+  'Digit4':       { display: '4' },
+  'Digit5':       { display: '5' },
+  'Digit6':       { display: '6' },
+  'Digit7':       { display: '7' },
+  'Digit8':       { display: '8' },
+  'Digit9':       { display: '9' },
+  'Enter':        { display: '⏎', class: 'enter' },
+  'Equal':        { display: '=' },
+  'KeyA':         { display: 'A' },
+  'KeyB':         { display: 'B' },
+  'KeyC':         { display: 'C' },
+  'KeyD':         { display: 'D' },
+  'KeyE':         { display: 'E' },
+  'KeyF':         { display: 'F' },
+  'KeyG':         { display: 'G' },
+  'KeyH':         { display: 'H' },
+  'KeyI':         { display: 'I' },
+  'KeyJ':         { display: 'J' },
+  'KeyK':         { display: 'K' },
+  'KeyL':         { display: 'L' },
+  'KeyM':         { display: 'M' },
+  'KeyN':         { display: 'N' },
+  'KeyO':         { display: 'O' },
+  'KeyP':         { display: 'P' },
+  'KeyQ':         { display: 'Q' },
+  'KeyR':         { display: 'R' },
+  'KeyS':         { display: 'S' },
+  'KeyT':         { display: 'T' },
+  'KeyU':         { display: 'U' },
+  'KeyV':         { display: 'V' },
+  'KeyW':         { display: 'W' },
+  'KeyX':         { display: 'X' },
+  'KeyY':         { display: 'Y' },
+  'KeyZ':         { display: 'Z' },
+  'MetaLeft':     { display: '⌘', class: 'wide' },
+  'Minus':        { display: '-' },
+  'Period':       { display: '.' },
+  'Quote':        { display: '\'' },
+  'Semicolon':    { display: ';' },
+  'ShiftLeft':    { display: 'Shift', class: 'flex' },
+  'ShiftRight':   { display: 'Shift', class: 'flex' },
+  'Slash':        { display: '/' },
+  'Space':        { display: '', class: 'flex' },
+  'Tab':          { display: 'Tab', class: 'wide' },
 };
 
 let active_midi_output = null;
@@ -430,13 +448,21 @@ let notes_on = {};
 let midi_key_offset = -14;
 let keyboard_keys_mapping = {};
 
-WebMidi
-  .enable()
-  .then(onEnabled)
-  .catch(err => alert(err));
+function StartKeyboard() {
+  WebMidi.enable().then(onEnabled);
+}
+
+function StopKeyboard() {
+  WebMidi.disable();
+  active_midi_output = null;
+  notes_on = {};
+
+  const list = document.querySelector('#midi-output-dropdown-list');
+  list.innerHTML = '';
+}
 
 function onEnabled() {
-  console.log("WebMidi enabled!");
+  console.log('WebMidi enabled!');
 
   function LogPort(prefix, port) {
     console.log(prefix + ' id="' + port.id + '" name="' + port.name + '" manufacturer="' + port.manufacturer + '" state="' + port.state + '" connection="' + port.connection + '"');
@@ -520,7 +546,7 @@ function SelectKeyboardMap(element) {
   const summary  = document.querySelector('#keyboard-map-dropdown-summary');
   dropdown.removeAttribute('open');
 
-  if (element.dataset.id === "διατονική") {
+  if (element.dataset.id === 'διατονική') {
     active_keyboard_map = KEYBOARD_MAP_DIATONIKI;
     summary.textContent = element.textContent;
   } else if (element.dataset.id === 'β') {
@@ -589,22 +615,22 @@ function ResetMidiProgram() {
   }
 };
 
-const keyboardEl = document.getElementById("keyboard");
+const keyboardEl = document.getElementById('keyboard');
 
 KEYBOARD_LAYOUT.forEach(rowKeys => {
-  const row = document.createElement("div");
-  row.className = "keyboard-row";
+  const row = document.createElement('div');
+  row.className = 'keyboard-row';
 
   rowKeys.forEach(key_code => {
-    const key_div = document.createElement("div");
-    key_div.className = "keyboard-key";
+    const key_div = document.createElement('div');
+    key_div.className = 'keyboard-key';
 
     const config = KEYBOARD_DISPLAY_MAP[key_code];
     if (config.class) key_div.classList.add(config.class);
     key_div.dataset.code = key_code;
 
-    const key_label_div = document.createElement("div");
-    key_label_div.className = "keyboard-key-label";
+    const key_label_div = document.createElement('div');
+    key_label_div.className = 'keyboard-key-label';
     key_label_div.textContent = config.display;
     key_div.appendChild(key_label_div);
 
@@ -612,12 +638,12 @@ KEYBOARD_LAYOUT.forEach(rowKeys => {
     key_extra_label_container.className = 'keyboard-key-extra-label-container';
     key_div.appendChild(key_extra_label_container);
 
-    const key_extra_label_1_div = document.createElement("div");
-    key_extra_label_1_div.className = "keyboard-key-extra-label-1";
+    const key_extra_label_1_div = document.createElement('div');
+    key_extra_label_1_div.className = 'keyboard-key-extra-label-1';
     key_extra_label_container.appendChild(key_extra_label_1_div);
 
-    const key_extra_label_2_div = document.createElement("div");
-    key_extra_label_2_div.className = "keyboard-key-extra-label-2";
+    const key_extra_label_2_div = document.createElement('div');
+    key_extra_label_2_div.className = 'keyboard-key-extra-label-2';
     key_extra_label_container.appendChild(key_extra_label_2_div);
 
     keyboard_keys_mapping[key_code] = key_div;
@@ -630,12 +656,14 @@ KEYBOARD_LAYOUT.forEach(rowKeys => {
 SelectBaseNote(0);
 SelectKeyboardMap(document.querySelector('#keyboard-map-default'));
 
-window.addEventListener("keydown", event => {
+window.addEventListener('keydown', event => {
   if (event.code === 'PageUp') {
     SelectBaseNote(+1);
+    event.preventDefault();
     return;
   } else if (event.code === 'PageDown') {
     SelectBaseNote(-1);
+    event.preventDefault();
     return;
   }
 
@@ -644,11 +672,11 @@ window.addEventListener("keydown", event => {
   const key_code = event.code;
 
   if (key_code in KEYBOARD_DISPLAY_MAP) {
-    event.preventDefault();   // stop browser shortcuts
+    event.preventDefault();
   }
 
   document.querySelectorAll(`.keyboard-key[data-code="${key_code}"]`).forEach(el => {
-    el.classList.add("pressed");
+    el.classList.add('pressed');
   });
 
   if (!(key_code in notes_on)) {
@@ -663,11 +691,11 @@ window.addEventListener("keydown", event => {
   }
 });
 
-window.addEventListener("keyup", event => {
+window.addEventListener('keyup', event => {
   const key_code = event.code;
 
   document.querySelectorAll(`.keyboard-key[data-code="${key_code}"]`).forEach(el => {
-    el.classList.remove("pressed");
+    el.classList.remove('pressed');
   });
 
   const note_on = notes_on[key_code];
@@ -698,7 +726,7 @@ window.addEventListener("keyup", event => {
   const LAYOUT_SCALE_RIGHT_MARGIN = 10;
   const LAYOUT_SCALE_WIDTH = 40;
   const PITCH_GRAPH_ABSOLUTE_MIN_FREQUENCY_HZ = 27.50;  // A0
-  const PITCH_GRAPH_INTERVAL_MS = 30;
+  const PITCH_GRAPH_DRAW_PERIOD_MS = 30;
   const PITCH_GRAPH_HISTORY_LENGTH = 800;
   const PITCH_GRAPH_MIN_BAND_SEGMENT_WIDTH = 5;
   const PITCH_GRAPH_MIN_CLARITY = 0.95;
@@ -748,6 +776,7 @@ window.addEventListener("keyup", event => {
   let dragging = null;
   let history = [];
   let history_is_running = true;
+  let process_audio_callback = null;
   let stop_audio_callback = null;
 
   const canvas = document.getElementById('pitch-graph-canvas');
@@ -1023,12 +1052,6 @@ window.addEventListener("keyup", event => {
     }
   }
 
-  function ResetLayout() {
-    base_frequency_hz = midiNoteToFrequency(noteNameToMidi(DEFAULT_BASE_FREQUENCY));
-    min_frequency_hz = DEFAULT_PITCH_GRAPH_MIN_FREQUENCY_HZ;
-    max_frequency_hz = DEFAULT_PITCH_GRAPH_MAX_FREQUENCY_HZ;
-  }
-
   function ClearHistory() {
     history.splice(0, history.length);
   }
@@ -1072,7 +1095,7 @@ window.addEventListener("keyup", event => {
 
     console.log('AudioContext initialized: buffer size =', input_buffer.length.toFixed(), ' sample rate =', audio_context.sampleRate.toFixed());
 
-    const draw_interval = setInterval(() => {
+    process_audio_callback = () => {
       analyser_node.getFloatTimeDomainData(input_buffer);
 
       if (history_is_running) {
@@ -1081,24 +1104,27 @@ window.addEventListener("keyup", event => {
 	  history.shift();
 	}
       }
-
-      DrawPitchGraph();
-    }, PITCH_GRAPH_INTERVAL_MS);
+    };
 
     stop_audio_callback = () => {
-      clearInterval(draw_interval);
+      process_audio_callback = null;
+      stop_audio_callback = null;
       audio_context.close();
       stream.getTracks().forEach(track => { track.stop(); stream.removeTrack(track); });
     };
   }
 
+  function ResetLayout() {
+    base_frequency_hz = midiNoteToFrequency(noteNameToMidi(DEFAULT_BASE_FREQUENCY));
+    min_frequency_hz = DEFAULT_PITCH_GRAPH_MIN_FREQUENCY_HZ;
+    max_frequency_hz = DEFAULT_PITCH_GRAPH_MAX_FREQUENCY_HZ;
+  }
+
   function Stop() {
     if (stop_audio_callback) {
       stop_audio_callback();
-      stop_audio_callback = null;
       ClearHistory();
       history_is_running = true;
-      DrawPitchGraph();
     }
   }
 
@@ -1106,7 +1132,7 @@ window.addEventListener("keyup", event => {
     ResetLayout();
   });
 
-  document.getElementById('pitch-graph-control-play').addEventListener('click', event => {
+  document.getElementById('pitch-graph-control-start').addEventListener('click', event => {
     if (!history_is_running) {
       history_is_running = true;
     } else {
@@ -1129,7 +1155,10 @@ window.addEventListener("keyup", event => {
 
   document.addEventListener('DOMContentLoaded', () => {
     ResetLayout();
-    DrawPitchGraph();
+    setInterval(() => {
+      if (process_audio_callback) process_audio_callback();
+      DrawPitchGraph();
+    }, PITCH_GRAPH_DRAW_PERIOD_MS);
   });
 
   window.addEventListener('keydown', event => {
@@ -1137,29 +1166,29 @@ window.addEventListener("keyup", event => {
       const filteredHistory = history.filter(matchesConditions);
       const [last_pitch, _] = filteredHistory[filteredHistory.length - 1];
       base_frequency_hz = last_pitch;
-      event.preventDefault();   // stop browser shortcuts
+      event.preventDefault();
     } else if (event.code === 'F1') {
       active_scale = 0;
-      event.preventDefault();   // stop browser shortcuts
+      event.preventDefault();
     } else if (event.code === 'F2') {
       active_scale = 1;
-      event.preventDefault();   // stop browser shortcuts
+      event.preventDefault();
     } else if (event.code === 'F3') {
       active_scale = 2;
-      event.preventDefault();   // stop browser shortcuts
+      event.preventDefault();
     } else if (event.code === 'F4') {
       active_scale = 3;
-      event.preventDefault();   // stop browser shortcuts
+      event.preventDefault();
     } else if (event.code === 'F9') {
       document.getElementById('the-container').style.flexDirection = 'column';
       document.getElementById('pitch-graph-canvas').width = 894;  // XXX
       document.getElementById('pitch-graph-canvas').height = 460;  // XXX
-      event.preventDefault();   // stop browser shortcuts
+      event.preventDefault();
     } else if (event.code === 'F10') {
       document.getElementById('the-container').style.flexDirection = 'row';
       document.getElementById('pitch-graph-canvas').width = 760;  // XXX
       document.getElementById('pitch-graph-canvas').height = 594;  // XXX
-      event.preventDefault();   // stop browser shortcuts
+      event.preventDefault();
     }
   });
 
@@ -1198,8 +1227,6 @@ window.addEventListener("keyup", event => {
       min_frequency_hz = Math.max(min_frequency_hz, PITCH_GRAPH_ABSOLUTE_MIN_FREQUENCY_HZ);
       max_frequency_hz = max_frequency_hz / current_min_frequency_hz * min_frequency_hz;
     }
-
-    DrawPitchGraph();
   });
 
   window.addEventListener('pointerup', () => {
@@ -1239,8 +1266,6 @@ window.addEventListener("keyup", event => {
       min_frequency_hz = Math.max(min_frequency_hz, PITCH_GRAPH_ABSOLUTE_MIN_FREQUENCY_HZ);
       max_frequency_hz *= Math.pow(CONTROL_ZOOM_FACTOR, -Math.sign(event.deltaY) * (1.0 - y_fraction));
     }
-
-    DrawPitchGraph();
   });
 
 </script>
