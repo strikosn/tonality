@@ -297,8 +297,8 @@
       <details id='pitch-detector-dropdown' class='dropdown-details' style='width: 460px;'>
 	<summary id='pitch-detector-dropdown-summary'></summary>
 	<div id='pitch-detector-dropdown-list' class='dropdown-list'>
-	  <div class='dropdown-item' data-id='yin' onclick='SelectPitchDetector(this);' id='pitch-detector-default'>YIN</div>
-	  <div class='dropdown-item' data-id='macleod' onclick='SelectPitchDetector(this);'>MacLeod</div>
+	  <div class='dropdown-item' data-id='yin' onclick='SelectPitchDetector(this);'>YIN</div>
+	  <div class='dropdown-item' data-id='macleod' onclick='SelectPitchDetector(this);' id='pitch-detector-default'>MacLeod</div>
 	  <div class='dropdown-item' data-id='amdf' onclick='SelectPitchDetector(this);'>AMDF</div>
 	  <div class='dropdown-item' data-id='dw' onclick='SelectPitchDetector(this);'>DynamicWavelet</div>
 	</div>
@@ -755,11 +755,17 @@
   const LAYOUT_SCALE_MARGIN = 30;
   const LAYOUT_SCALE_RIGHT_MARGIN = 0;
   const LAYOUT_SCALE_WIDTH = 40;
+  const PITCH_DETECTOR_AMDF_MIN_FREQUENCY = 80;
+  const PITCH_DETECTOR_AMDF_MAX_FREQUENCY = 280;
+  const PITCH_DETECTOR_AMDF_RATIO = 2;
+  const PITCH_DETECTOR_AMDF_SENSITIVITY = 0.05;
+  const PITCH_DETECTOR_MACLEOD_MIN_PROBABILITY = 0.95;
+  const PITCH_DETECTOR_YIN_PROBABILITY_THRESHOLD = 0.1;
+  const PITCH_DETECTOR_YIN_THRESHOLD = 0.1;
   const PITCH_GRAPH_ABSOLUTE_MIN_FREQUENCY_HZ = 27.50;  // A0
   const PITCH_GRAPH_DRAW_PERIOD_MS = 30;
-  const PITCH_GRAPH_HISTORY_LENGTH = 800;
+  const PITCH_GRAPH_HISTORY_LENGTH = 600;
   const PITCH_GRAPH_MIN_BAND_SEGMENT_WIDTH = 5;
-  const PITCH_GRAPH_MIN_CLARITY = 0.95;
   const STYLE_HISTORY_AREA_BOX_COLOR = '#c4c4c4';
   const STYLE_HISTORY_AREA_BOX_LINE_WIDTH = 1;
   const STYLE_PIANO_BACKGROUND_COLOR = '#212121';
@@ -853,10 +859,8 @@
     return Math.round(midi);
   }
 
-  function matchesConditions([pitch, clarity]) {
-    return (pitch >= min_frequency_hz &&
-	    pitch <= max_frequency_hz &&
-	    (clarity === undefined || clarity >= PITCH_GRAPH_MIN_CLARITY));
+  function HistoryFilter(pitch) {
+    return min_frequency_hz <= pitch && pitch <= max_frequency_hz;
   }
 
   function midi_to_note(midi_number) {
@@ -1004,14 +1008,13 @@
     ctx.lineWidth = STYLE_HISTORY_AREA_BOX_LINE_WIDTH;
     ctx.strokeRect(history_area_left, -1, history_area_width, canvas.height + 2);
 
-    const filteredHistory = history.filter(matchesConditions);
+    const filteredHistory = history.filter(HistoryFilter);
 
     if (filteredHistory.length > 0) {
-      let [lastPitch, _] = filteredHistory[filteredHistory.length - 1];
+      let lastPitch = filteredHistory[filteredHistory.length - 1];
       let current_band = null;
       let current_band_segment_start = null;
 
-      const filteredPitches = filteredHistory.map(([pitch]) => pitch);
       const xOffset =
 	history_area_left + history_area_width * (PITCH_GRAPH_HISTORY_LENGTH - history.length) / PITCH_GRAPH_HISTORY_LENGTH;
       const x = (i) => xOffset + (history_area_width * i) / (PITCH_GRAPH_HISTORY_LENGTH - 1);
@@ -1030,12 +1033,12 @@
       ctx.beginPath();
 
       for (let i = 0; i < history.length; i++) {
-	const pitch = history[i][0];
+	const pitch = history[i];
 	const sample_x = x(i);
 	const sample_y = y(pitch);
-	const sample_accepted = matchesConditions(history[i]);
+	const sample_accepted = HistoryFilter(history[i]);
 
-	if (i > 0 && matchesConditions(history[i - 1]) && sample_accepted) {
+	if (i > 0 && HistoryFilter(history[i - 1]) && sample_accepted) {
 	  ctx.lineTo(sample_x, sample_y);
 	} else {
 	  ctx.moveTo(sample_x, sample_y);
@@ -1061,7 +1064,7 @@
 
       ctx.stroke();
 
-      if (matchesConditions(history[history.length - 1])) {
+      if (HistoryFilter(history[history.length - 1])) {
 	ctx.beginPath();
 	ctx.moveTo(0, y(lastPitch));
 	ctx.lineTo(canvas.width, y(lastPitch));
@@ -1103,25 +1106,40 @@
     let detector_function;
 
     if (active_pitch_detector == 'yin') {
-      const detector = YIN({ threshold: 0.1, sampleRate: audio_context.sampleRate, probabilityThreshold: 0.1 });
+      const detector = YIN({
+        threshold: PITCH_DETECTOR_YIN_THRESHOLD,
+	sampleRate: audio_context.sampleRate,
+	probabilityThreshold: PITCH_DETECTOR_YIN_PROBABILITY_THRESHOLD,
+      });
       detector_function = () => {
-	return [detector(input_buffer), undefined];
+	return detector(input_buffer);
       };
     } else if (active_pitch_detector == 'macleod') {
-      const detector = Macleod({ bufferSize: INPUT_BUFFER_SIZE, cutoff: PITCH_GRAPH_MIN_CLARITY, sampleRate: audio_context.sampleRate });
+      const detector = Macleod({
+        bufferSize: INPUT_BUFFER_SIZE,
+	cutoff: PITCH_DETECTOR_MACLEOD_MIN_PROBABILITY,
+	sampleRate: audio_context.sampleRate,
+      });
+
       detector_function = () => {
 	const pair = detector(input_buffer);
-	return [pair.freq, pair.probability];
+	return pair.probability >= PITCH_DETECTOR_MACLEOD_MIN_PROBABILITY ? pair.freq : null;
       };
     } else if (active_pitch_detector == 'amdf') {
-      const detector = AMDF({ sampleRate: audio_context.sampleRate, minFrequency: 80, maxFrequency: 280, ratio: 2, sensitivity: 0.05 });
+      const detector = AMDF({
+        sampleRate: audio_context.sampleRate,
+	minFrequency: PITCH_DETECTOR_AMDF_MIN_FREQUENCY,
+	maxFrequency: PITCH_DETECTOR_AMDF_MAX_FREQUENCY,
+	ratio: PITCH_DETECTOR_AMDF_RATIO,
+	sensitivity: PITCH_DETECTOR_AMDF_SENSITIVITY,
+      });
       detector_function = () => {
-	return [detector(input_buffer), undefined];
+	return detector(input_buffer);
       };
     } else if (active_pitch_detector == 'dw') {
       const detector = DynamicWavelet({ sampleRate: audio_context.sampleRate });
       detector_function = () => {
-	return [detector(input_buffer), undefined];
+	return detector(input_buffer);
       };
     }
 
@@ -1205,9 +1223,8 @@
 
   window.addEventListener('keydown', event => {
     if (event.code === 'Home') {
-      const filteredHistory = history.filter(matchesConditions);
-      const [last_pitch, _] = filteredHistory[filteredHistory.length - 1];
-      base_frequency_hz = last_pitch;
+      const filteredHistory = history.filter(HistoryFilter);
+      base_frequency_hz = filteredHistory[filteredHistory.length - 1];
       event.preventDefault();
     } else if (event.code === 'F1') {
       active_scale = 0;
