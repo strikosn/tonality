@@ -214,7 +214,7 @@
   </style>
 
   <style>
-    #pitch-graph-canvas-container {
+    #pitch-container {
       margin: 10px;
       padding: 20px;
       background: #222;
@@ -222,7 +222,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.7);
     }
 
-    #pitch-graph-canvas {
+    #pitch-canvas {
       border: 2px solid #666;
       margin-top: 10px;
     }
@@ -280,16 +280,15 @@
     </div>
   </div>
 
-  <div id='pitch-graph-canvas-container'>
+  <div id='pitch-container'>
     <div>
-      <button id='pitch-graph-control-start'>Έναρξη</button>
-      <button id='pitch-graph-control-pause'>Παύση</button>
-      <button id='pitch-graph-control-clear'>Καθαρισμός</button>
-      <button id='pitch-graph-control-reset-layout'>Επαναφορά</button>
-      <button id='pitch-graph-control-stop'>Τερματισμός</button>
+      <button id='pitch-control-start'>Έναρξη</button>
+      <button id='pitch-control-pause'>Παύση</button>
+      <button id='pitch-control-clear'>Καθαρισμός</button>
+      <button id='pitch-control-stop'>Τερματισμός</button>
     </div>
 
-    <canvas id='pitch-graph-canvas' width='760' height='594'></canvas>
+    <canvas id='pitch-canvas' width='760' height='594'></canvas>
 
     <div class='settings-container'>
 
@@ -297,10 +296,18 @@
       <details id='pitch-detector-dropdown' class='dropdown-details' style='width: 460px;'>
 	<summary id='pitch-detector-dropdown-summary'></summary>
 	<div id='pitch-detector-dropdown-list' class='dropdown-list'>
-	  <div class='dropdown-item' data-id='yin' onclick='SelectPitchDetector(this);'>YIN</div>
-	  <div class='dropdown-item' data-id='macleod' onclick='SelectPitchDetector(this);' id='pitch-detector-default'>MacLeod</div>
-	  <div class='dropdown-item' data-id='amdf' onclick='SelectPitchDetector(this);'>AMDF</div>
-	  <div class='dropdown-item' data-id='dw' onclick='SelectPitchDetector(this);'>DynamicWavelet</div>
+	  <div class='dropdown-item' data-id='yin'     onclick='window.exports.SelectPitchDetector(this);'>YIN</div>
+	  <div class='dropdown-item' data-id='macleod' onclick='window.exports.SelectPitchDetector(this);' id='pitch-detector-default'>MacLeod</div>
+	  <div class='dropdown-item' data-id='amdf'    onclick='window.exports.SelectPitchDetector(this);'>AMDF</div>
+	  <div class='dropdown-item' data-id='dw'      onclick='window.exports.SelectPitchDetector(this);'>DynamicWavelet</div>
+	</div>
+      </details>
+
+      <label>Επαναφορά:</label>
+      <details id='reset-pitch-dropdown' class='dropdown-details' style='width: 460px;'>
+	<summary id='reset-pitch-dropdown-summary'>(επιλογή)</summary>
+	<div id='reset-pitch-dropdown-list' class='dropdown-list'>
+	  <div class='dropdown-item' onclick='window.exports.ResetPitchLayout();'>Layout</div>
 	</div>
       </details>
 
@@ -308,6 +315,10 @@
   </div>
 
 <script src='https://cdn.jsdelivr.net/npm/webmidi@latest/dist/iife/webmidi.iife.js'></script>
+
+<script>
+  exports = {}
+</script>
 
 <script>
 
@@ -747,9 +758,9 @@
 
   const CONTROL_BASE_FREQUENCY_STEP = 0.5;
   const CONTROL_ZOOM_FACTOR = 0.95;
-  const DEFAULT_BASE_FREQUENCY = 'A#2';
-  const DEFAULT_PITCH_GRAPH_MIN_FREQUENCY_HZ = 80.0;
-  const DEFAULT_PITCH_GRAPH_MAX_FREQUENCY_HZ = 280.0;
+  const DEFAULT_BASE_FREQUENCY_NOTE = 'A#2';
+  const DEFAULT_PITCH_GRAPH_MIN_FREQUENCY_NOTE = 'E2';
+  const DEFAULT_PITCH_GRAPH_MAX_FREQUENCY_NOTE = 'D4';
   const DESIRED_SAMPLE_RATE = 32000;
   const INPUT_BUFFER_SIZE = 2048;
   const LAYOUT_PIANO_WIDTH = 80;
@@ -810,15 +821,15 @@
   let active_pitch_detector = null;
   let active_scale = 0;
   let base_frequency_hz;
-  let min_frequency_hz = DEFAULT_PITCH_GRAPH_MIN_FREQUENCY_HZ;
-  let max_frequency_hz = DEFAULT_PITCH_GRAPH_MAX_FREQUENCY_HZ;
+  let min_frequency_hz;
+  let max_frequency_hz;
   let dragging = null;
   let history = [];
   let history_is_running = true;
   let process_audio_callback = null;
   let stop_audio_callback = null;
 
-  const canvas = document.getElementById('pitch-graph-canvas');
+  const canvas = document.getElementById('pitch-canvas');
 
   function noteNameToMidi(noteStr) {
     const noteRegex = /^([A-Ga-g])([#b]?)(-?\d{1,2})$/;
@@ -1166,13 +1177,13 @@
     };
   }
 
-  function ResetLayout() {
-    base_frequency_hz = midiNoteToFrequency(noteNameToMidi(DEFAULT_BASE_FREQUENCY));
-    min_frequency_hz = DEFAULT_PITCH_GRAPH_MIN_FREQUENCY_HZ;
-    max_frequency_hz = DEFAULT_PITCH_GRAPH_MAX_FREQUENCY_HZ;
+  function ResetPitchLayout() {
+    base_frequency_hz = midiNoteToFrequency(noteNameToMidi(DEFAULT_BASE_FREQUENCY_NOTE));
+    min_frequency_hz = midiNoteToFrequency(noteNameToMidi(DEFAULT_PITCH_GRAPH_MIN_FREQUENCY_NOTE));
+    max_frequency_hz = midiNoteToFrequency(noteNameToMidi(DEFAULT_PITCH_GRAPH_MAX_FREQUENCY_NOTE));
   }
 
-  function StopPitchDetector() {
+  function StopPitch() {
     if (stop_audio_callback) {
       stop_audio_callback();
       ClearHistory();
@@ -1188,34 +1199,31 @@
     active_pitch_detector = element.dataset.id;
   }
 
-  document.getElementById('pitch-graph-control-reset-layout').addEventListener('click', event => {
-    ResetLayout();
-  });
-
-  document.getElementById('pitch-graph-control-start').addEventListener('click', event => {
+  document.getElementById('pitch-control-start').addEventListener('click', event => {
     if (!history_is_running) {
       history_is_running = true;
     } else {
-      StopPitchDetector();
+      StopPitch();
       navigator.mediaDevices.getUserMedia({ audio: true }).then(StartPitchDetector);
     }
   });
 
-  document.getElementById('pitch-graph-control-pause').addEventListener('click', event => {
+  document.getElementById('pitch-control-pause').addEventListener('click', event => {
     history_is_running = false;
   });
 
-  document.getElementById('pitch-graph-control-clear').addEventListener('click', event => {
+  document.getElementById('pitch-control-clear').addEventListener('click', event => {
     ClearHistory();
   });
 
-  document.getElementById('pitch-graph-control-stop').addEventListener('click', event => {
-    StopPitchDetector();
+  document.getElementById('pitch-control-stop').addEventListener('click', event => {
+    StopPitch();
   });
 
   document.addEventListener('DOMContentLoaded', () => {
-    ResetLayout();
-    window.SelectPitchDetector = SelectPitchDetector;
+    ResetPitchLayout();
+    window.exports.ResetPitchLayout = ResetPitchLayout;
+    window.exports.SelectPitchDetector = SelectPitchDetector;
     SelectPitchDetector(document.querySelector('#pitch-detector-default'));
     setInterval(() => {
       if (process_audio_callback) process_audio_callback();
@@ -1242,16 +1250,6 @@
       event.preventDefault();
     } else if (event.code === 'F8') {
       window.open('https://spessasus.github.io/SpessaSynth/?mode=worklet', '_blank');
-    } else if (event.code === 'F9') {
-      document.body.style.flexDirection = 'column';
-      document.getElementById('pitch-graph-canvas').width = 894;  // XXX
-      document.getElementById('pitch-graph-canvas').height = 460;  // XXX
-      event.preventDefault();
-    } else if (event.code === 'F10') {
-      document.body.style.flexDirection = 'row';
-      document.getElementById('pitch-graph-canvas').width = 760;  // XXX
-      document.getElementById('pitch-graph-canvas').height = 594;  // XXX
-      event.preventDefault();
     }
   });
 
@@ -1335,7 +1333,45 @@
 
 <script>
 
+  let window_mode;
+
+  function ApplyWindowMode() {
+    window_mode = window_mode % 4;
+
+    if (window_mode == 0) {
+      document.body.style.flexDirection = 'row';
+      document.getElementById('keyboard-container').hidden = false;
+      document.getElementById('pitch-container').hidden = false;
+      document.getElementById('pitch-canvas').width = 760;  // XXX
+      document.getElementById('pitch-canvas').height = 594;  // XXX
+      event.preventDefault();
+    } else if (window_mode == 1) {
+      document.body.style.flexDirection = 'column';
+      document.getElementById('keyboard-container').hidden = false;
+      document.getElementById('pitch-container').hidden = false;
+      document.getElementById('pitch-canvas').width = 894;  // XXX
+      document.getElementById('pitch-canvas').height = 460;  // XXX
+      event.preventDefault();
+    } else if (window_mode == 2) {
+      document.getElementById('keyboard-container').hidden = false;
+      document.getElementById('pitch-container').hidden = true;
+    } else if (window_mode == 3) {
+      document.getElementById('keyboard-container').hidden = true;
+      document.getElementById('pitch-container').hidden = false;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    window_mode = Number.parseInt(new URLSearchParams(location.search).get('window_mode'), 10) ?? 0;
+    ApplyWindowMode();
+  });
+
   window.addEventListener('keydown', event => {
+    if (event.code === 'F9') {
+      window_mode += 1;
+      ApplyWindowMode();
+    }
+
     const code = (event.shiftKey ? 'Shift' : '') + event.code;
     let found_element = false;
 
