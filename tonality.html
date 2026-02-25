@@ -258,38 +258,38 @@
     <div class='settings-container'>
       <label>Θύρα εξόδου MIDI:</label>
       <details id='midi-output-dropdown' class='dropdown-details' style='width: 460px;'>
-	<summary id='midi-output-dropdown-summary'>(καμία)</summary>
-	<div id='midi-output-dropdown-list' class='dropdown-list'></div>
+        <summary id='midi-output-dropdown-summary'>(καμία)</summary>
+        <div id='midi-output-dropdown-list' class='dropdown-list'></div>
       </details>
 
       <label>Επιλογή πληκτρολογίου:</label>
       <details id='keyboard-map-dropdown' class='dropdown-details' style='width: 460px;'>
-	<summary id='keyboard-map-dropdown-summary'></summary>
-	<div id='keyboard-map-dropdown-list' class='dropdown-list'>
-	  <div class='dropdown-item' data-id='διατονική'  onclick='SelectKeyboardMap(this);' data-shortcut='F1' id='keyboard-map-default'>Διατονική κλίμακα</div>
-	  <div class='dropdown-item' data-id='β'          onclick='SelectKeyboardMap(this);' data-shortcut='F2'>Ήχος Β'</div>
-	  <div class='dropdown-item' data-id='πλάγιος β'  onclick='SelectKeyboardMap(this);' data-shortcut='F3'>Ήχος Πλάγιος Β'</div>
-	  <div class='dropdown-item' data-id='εναρμόνιος' onclick='SelectKeyboardMap(this);' data-shortcut='F4'>Εναρμόνιος κλίμακα</div>
-	</div>
+        <summary id='keyboard-map-dropdown-summary'></summary>
+        <div id='keyboard-map-dropdown-list' class='dropdown-list'>
+          <div class='dropdown-item' data-id='διατονική'  onclick='SelectKeyboardMap(this);' data-shortcut='F1' id='keyboard-map-default'>Διατονική κλίμακα</div>
+          <div class='dropdown-item' data-id='β'          onclick='SelectKeyboardMap(this);' data-shortcut='F2'>Ήχος Β'</div>
+          <div class='dropdown-item' data-id='πλάγιος β'  onclick='SelectKeyboardMap(this);' data-shortcut='F3'>Ήχος Πλάγιος Β'</div>
+          <div class='dropdown-item' data-id='εναρμόνιος' onclick='SelectKeyboardMap(this);' data-shortcut='F4'>Εναρμόνιος κλίμακα</div>
+        </div>
       </details>
 
       <label>Νότα βάσης του Νη:</label>
       <div class='stepper' id='base-note-stepper' style='width: 460px;'>
-	<button class='stepper-minus' onclick='SelectBaseNote(-1);'>-</button>
-	<div id='base-note-stepper-value'></div>
-	<button class='stepper-plus' onclick='SelectBaseNote(+1);'>+</button>
+        <button class='stepper-minus' onclick='SelectBaseNote(-1);'>-</button>
+        <div id='base-note-stepper-value'></div>
+        <button class='stepper-plus' onclick='SelectBaseNote(+1);'>+</button>
       </div>
 
       <label>Επαναφορά:</label>
       <details id='reset-dropdown' class='dropdown-details' style='width: 460px;'>
-	<summary id='reset-dropdown-summary'>(επιλογή)</summary>
-	<div id='reset-dropdown-list' class='dropdown-list'>
-	  <div class='dropdown-item' onclick='ResetMidiAllControllers();'>MIDI reset all controllers (all channels)</div>
-	  <div class='dropdown-item' onclick='ResetMidiAllNotesOff();'>MIDI all notes off (all channels)</div>
-	  <div class='dropdown-item' onclick='ResetMidiAllSoundOff();'>MIDI all sound off (all channels)</div>
-	  <div class='dropdown-item' onclick='ResetMidiChannelPitchBend();'>MIDI channel pitch bend</div>
-	  <div class='dropdown-item' onclick='ResetMidiProgram();'>MIDI program</div>
-	</div>
+        <summary id='reset-dropdown-summary'>(επιλογή)</summary>
+        <div id='reset-dropdown-list' class='dropdown-list'>
+          <div class='dropdown-item' onclick='ResetMidiAllControllers();'>MIDI reset all controllers (all channels)</div>
+          <div class='dropdown-item' onclick='ResetMidiAllNotesOff();'>MIDI all notes off (all channels)</div>
+          <div class='dropdown-item' onclick='ResetMidiAllSoundOff();'>MIDI all sound off (all channels)</div>
+          <div class='dropdown-item' onclick='ResetMidiChannelPitchBend();'>MIDI channel pitch bend</div>
+          <div class='dropdown-item' onclick='ResetMidiProgram();'>MIDI program</div>
+        </div>
       </details>
     </div>
   </div>
@@ -308,21 +308,21 @@
 
       <label>Pitch detector:</label>
       <details id='pitch-detector-dropdown' class='dropdown-details' style='width: 460px;'>
-	<summary id='pitch-detector-dropdown-summary'></summary>
-	<div id='pitch-detector-dropdown-list' class='dropdown-list'>
-	  <div class='dropdown-item' data-id='yin'     onclick='window.exports.SelectPitchDetector(this);'>YIN</div>
-	  <div class='dropdown-item' data-id='macleod' onclick='window.exports.SelectPitchDetector(this);' id='pitch-detector-default'>MacLeod</div>
-	  <div class='dropdown-item' data-id='amdf'    onclick='window.exports.SelectPitchDetector(this);'>AMDF</div>
-	  <div class='dropdown-item' data-id='dw'      onclick='window.exports.SelectPitchDetector(this);'>DynamicWavelet</div>
-	</div>
+        <summary id='pitch-detector-dropdown-summary'></summary>
+        <div id='pitch-detector-dropdown-list' class='dropdown-list'>
+          <div class='dropdown-item' data-id='yin'     onclick='window.exports.SelectPitchDetector(this);'>YIN</div>
+          <div class='dropdown-item' data-id='macleod' onclick='window.exports.SelectPitchDetector(this);' id='pitch-detector-default'>MacLeod</div>
+          <div class='dropdown-item' data-id='amdf'    onclick='window.exports.SelectPitchDetector(this);'>AMDF</div>
+          <div class='dropdown-item' data-id='dw'      onclick='window.exports.SelectPitchDetector(this);'>DynamicWavelet</div>
+        </div>
       </details>
 
       <label>Επαναφορά:</label>
       <details id='reset-pitch-dropdown' class='dropdown-details' style='width: 460px;'>
-	<summary id='reset-pitch-dropdown-summary'>(επιλογή)</summary>
-	<div id='reset-pitch-dropdown-list' class='dropdown-list'>
-	  <div class='dropdown-item' onclick='window.exports.ResetPitchLayout();'>Layout</div>
-	</div>
+        <summary id='reset-pitch-dropdown-summary'>(επιλογή)</summary>
+        <div id='reset-pitch-dropdown-list' class='dropdown-list'>
+          <div class='dropdown-item' onclick='window.exports.ResetPitchLayout();'>Layout</div>
+        </div>
       </details>
 
     </div>
@@ -603,11 +603,11 @@
       extra_label_1 = key_div.querySelector('.keyboard-key-extra-label-1');
       extra_label_2 = key_div.querySelector('.keyboard-key-extra-label-2');
       if (key) {
-	extra_label_1.textContent = key.extra_label_1 || '';
-	extra_label_2.textContent = key.extra_label_2 || '';
+        extra_label_1.textContent = key.extra_label_1 || '';
+        extra_label_2.textContent = key.extra_label_2 || '';
       } else {
-	extra_label_1.textContent = '';
-	extra_label_2.textContent = '';
+        extra_label_1.textContent = '';
+        extra_label_2.textContent = '';
       }
     });
   }
@@ -662,7 +662,7 @@
       midi_key = midi_key_offset + key.relative_midi_key;
       notes_on[key_code] = {'midi_channel': key.midi_channel, 'midi_key': midi_key}
       if (active_midi_output) {
-	active_midi_output.channels[key.midi_channel].sendNoteOn(note=midi_key, attack=1.0);
+        active_midi_output.channels[key.midi_channel].sendNoteOn(note=midi_key, attack=1.0);
       }
     }
   }
@@ -672,7 +672,7 @@
 
     if (note_on) {
       if (active_midi_output) {
-	active_midi_output.channels[note_on['midi_channel']].sendNoteOff(note=note_on['midi_key'], release=1.0);
+        active_midi_output.channels[note_on['midi_channel']].sendNoteOff(note=note_on['midi_key'], release=1.0);
       }
       delete notes_on[key_code];
     }
@@ -713,13 +713,13 @@
       row.appendChild(key_div);
 
       key_div.addEventListener('pointerdown', function(event) {
-	this.setPointerCapture(event.pointerId);
-	NoteOn(this.dataset.code);
+        this.setPointerCapture(event.pointerId);
+        NoteOn(this.dataset.code);
       });
 
       key_div.addEventListener('pointerup', function(event) {
-	this.releasePointerCapture(event.pointerId);
-	NoteOff(this.dataset.code);
+        this.releasePointerCapture(event.pointerId);
+        NoteOff(this.dataset.code);
       });
     });
 
@@ -910,24 +910,24 @@
 
     for (let note = min_midi_note; note <= max_midi_note; ++note) {
       if ([0, 2, 4, 5, 7, 9, 11].includes(note % 12)) {
-	const note_frequency = midiNoteToFrequency(note);
-	const note_y = y_function(note_frequency);
+        const note_frequency = midiNoteToFrequency(note);
+        const note_y = y_function(note_frequency);
 
-	ctx.fillStyle = STYLE_PIANO_NATURAL_KEY_COLOR;
-	ctx.beginPath();
-	ctx.roundRect(x_left, note_y - note_height / 2, x_right - x_left, note_height, [STYLE_PIANO_NATURAL_KEY_RADIUS, 0, 0, STYLE_PIANO_NATURAL_KEY_RADIUS]);
-	ctx.fill();
+        ctx.fillStyle = STYLE_PIANO_NATURAL_KEY_COLOR;
+        ctx.beginPath();
+        ctx.roundRect(x_left, note_y - note_height / 2, x_right - x_left, note_height, [STYLE_PIANO_NATURAL_KEY_RADIUS, 0, 0, STYLE_PIANO_NATURAL_KEY_RADIUS]);
+        ctx.fill();
 
-	const text_coordinate = ctx.getTransform().inverse().transformPoint({ x: (x_right + x_left) / 2, y: note_y });
+        const text_coordinate = ctx.getTransform().inverse().transformPoint({ x: (x_right + x_left) / 2, y: note_y });
 
-	ctx.save();
-	ctx.resetTransform();
-	ctx.font = '12px monospace';
-	ctx.fillStyle = STYLE_PIANO_NOTE_NAME_COLOR;
-	ctx.textAlign = 'center';
-	ctx.textBaseline = 'middle';
-	ctx.fillText(`${midi_to_note(note)}`, text_coordinate.x, text_coordinate.y);
-	ctx.restore();
+        ctx.save();
+        ctx.resetTransform();
+        ctx.font = '12px monospace';
+        ctx.fillStyle = STYLE_PIANO_NOTE_NAME_COLOR;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(`${midi_to_note(note)}`, text_coordinate.x, text_coordinate.y);
+        ctx.restore();
       }
     }
   }
@@ -944,10 +944,10 @@
 
     for (let i = notes[0]; i <= notes[notes.length - 1]; i += 2) {
       if (i == notes[note_interval_index]) {
-	const y_low = base_frequency_y + i / 72.0 * octave_height - band_height / 2
-	ctx.fillRect(0, y_low, width, band_height);
-	band_info.push([y_low, y_low + band_height]);
-	note_interval_index++;
+        const y_low = base_frequency_y + i / 72.0 * octave_height - band_height / 2
+        ctx.fillRect(0, y_low, width, band_height);
+        band_info.push([y_low, y_low + band_height]);
+        note_interval_index++;
       }
     }
 
@@ -964,36 +964,36 @@
 
     for (let i = notes[0]; i <= notes[notes.length - 1]; i += 2) {
       if (i == notes[note_interval_index]) {
-	const note_y = base_frequency_y + i / 72.0 * octave_height;
+        const note_y = base_frequency_y + i / 72.0 * octave_height;
 
-	ctx.lineWidth = line_width;
-	ctx.strokeStyle = is_active ? STYLE_SCALE_LINE_ACTIVE_COLOR : STYLE_SCALE_LINE_INACTIVE_COLOR;
-	ctx.beginPath();
-	ctx.moveTo(x_left, note_y);
-	ctx.lineTo(x_left + width, note_y);
-	ctx.stroke();
+        ctx.lineWidth = line_width;
+        ctx.strokeStyle = is_active ? STYLE_SCALE_LINE_ACTIVE_COLOR : STYLE_SCALE_LINE_INACTIVE_COLOR;
+        ctx.beginPath();
+        ctx.moveTo(x_left, note_y);
+        ctx.lineTo(x_left + width, note_y);
+        ctx.stroke();
 
-	const text_coordinate = ctx.getTransform().inverse().transformPoint({ x: x_left + width + 8, y: note_y - 4 });
+        const text_coordinate = ctx.getTransform().inverse().transformPoint({ x: x_left + width + 8, y: note_y - 4 });
 
-	ctx.save();
-	ctx.resetTransform();
-	ctx.font = '34px monospace';
-	ctx.fillStyle = is_active ? STYLE_SCALE_LINE_ACTIVE_COLOR : STYLE_SCALE_LINE_INACTIVE_COLOR;
-	ctx.textAlign = 'center';
-	ctx.textBaseline = 'middle';
-	ctx.fillText(note_labels[note_interval_index], text_coordinate.x, text_coordinate.y);
-	ctx.restore();
+        ctx.save();
+        ctx.resetTransform();
+        ctx.font = '34px monospace';
+        ctx.fillStyle = is_active ? STYLE_SCALE_LINE_ACTIVE_COLOR : STYLE_SCALE_LINE_INACTIVE_COLOR;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(note_labels[note_interval_index], text_coordinate.x, text_coordinate.y);
+        ctx.restore();
 
-	note_interval_index++;
+        note_interval_index++;
       } else {
-	ctx.lineWidth = STYLE_SCALE_TICK_LINE_WIDTH;
-	ctx.strokeStyle = STYLE_SCALE_TICK_COLOR;
-	ctx.beginPath();
-	ctx.moveTo(x_left, base_frequency_y + i / 72.0 * octave_height);
-	ctx.lineTo(x_left + width * 1 / 6, base_frequency_y + i / 72.0 * octave_height);
-	ctx.moveTo(x_left + width * 5 / 6, base_frequency_y + i / 72.0 * octave_height);
-	ctx.lineTo(x_left + width, base_frequency_y + i / 72.0 * octave_height);
-	ctx.stroke();
+        ctx.lineWidth = STYLE_SCALE_TICK_LINE_WIDTH;
+        ctx.strokeStyle = STYLE_SCALE_TICK_COLOR;
+        ctx.beginPath();
+        ctx.moveTo(x_left, base_frequency_y + i / 72.0 * octave_height);
+        ctx.lineTo(x_left + width * 1 / 6, base_frequency_y + i / 72.0 * octave_height);
+        ctx.moveTo(x_left + width * 5 / 6, base_frequency_y + i / 72.0 * octave_height);
+        ctx.lineTo(x_left + width, base_frequency_y + i / 72.0 * octave_height);
+        ctx.stroke();
       }
     }
 
@@ -1044,16 +1044,16 @@
       let current_band_segment_start = null;
 
       const xOffset =
-	history_area_left + history_area_width * (PITCH_GRAPH_HISTORY_LENGTH - history.length) / PITCH_GRAPH_HISTORY_LENGTH;
+        history_area_left + history_area_width * (PITCH_GRAPH_HISTORY_LENGTH - history.length) / PITCH_GRAPH_HISTORY_LENGTH;
       const x = (i) => xOffset + (history_area_width * i) / (PITCH_GRAPH_HISTORY_LENGTH - 1);
 
       let EmitBandSegment = (sample_x) => {
-	const width = sample_x - current_band_segment_start;
-	if (width >= PITCH_GRAPH_MIN_BAND_SEGMENT_WIDTH) {
-	  ctx.fillStyle = STYLE_PITCH_GRAPH_BAND_SEGMENT_COLOR;
-	  ctx.fillRect(current_band_segment_start, current_band[0], width, current_band[1] - current_band[0]);
-	}
-	current_band = null;
+        const width = sample_x - current_band_segment_start;
+        if (width >= PITCH_GRAPH_MIN_BAND_SEGMENT_WIDTH) {
+          ctx.fillStyle = STYLE_PITCH_GRAPH_BAND_SEGMENT_COLOR;
+          ctx.fillRect(current_band_segment_start, current_band[0], width, current_band[1] - current_band[0]);
+        }
+        current_band = null;
       };
 
       ctx.lineWidth = STYLE_PITCH_GRAPH_LINE_WIDTH;
@@ -1061,33 +1061,33 @@
       ctx.beginPath();
 
       for (let i = 0; i < history.length; i++) {
-	const pitch = history[i];
-	const sample_x = x(i);
-	const sample_y = y(pitch);
-	const sample_accepted = HistoryFilter(history[i]);
+        const pitch = history[i];
+        const sample_x = x(i);
+        const sample_y = y(pitch);
+        const sample_accepted = HistoryFilter(history[i]);
 
-	if (i > 0 && HistoryFilter(history[i - 1]) && sample_accepted) {
-	  ctx.lineTo(sample_x, sample_y);
-	} else {
-	  ctx.moveTo(sample_x, sample_y);
-	}
+        if (i > 0 && HistoryFilter(history[i - 1]) && sample_accepted) {
+          ctx.lineTo(sample_x, sample_y);
+        } else {
+          ctx.moveTo(sample_x, sample_y);
+        }
 
-	if (sample_accepted) {
-	  if (!current_band) {
-	    current_band = band_info.find(band => band[0] <= sample_y && sample_y < band[1]);
-	    if (current_band) current_band_segment_start = sample_x;
-	  } else {
-	    if (!(current_band[0] <= sample_y && sample_y < current_band[1])) {
-	      EmitBandSegment(sample_x);
-	    }
-	  }
-	} else if (current_band) {
-	  EmitBandSegment(sample_x);
-	}
+        if (sample_accepted) {
+          if (!current_band) {
+            current_band = band_info.find(band => band[0] <= sample_y && sample_y < band[1]);
+            if (current_band) current_band_segment_start = sample_x;
+          } else {
+            if (!(current_band[0] <= sample_y && sample_y < current_band[1])) {
+              EmitBandSegment(sample_x);
+            }
+          }
+        } else if (current_band) {
+          EmitBandSegment(sample_x);
+        }
       }
 
       if (current_band) {
-	EmitBandSegment(x(history.length));
+        EmitBandSegment(x(history.length));
       }
 
       ctx.stroke();
@@ -1115,13 +1115,13 @@
 
     for (let i = 0; i < SCALES.length; i++) {
       DrawScale(
-	/*y_function=*/y,
-	/*notes=*/SCALES[i].notes,
-	/*note_labels=*/SCALES[i].note_labels,
-	/*x_left=*/LAYOUT_SCALE_LEFT_MARGIN + (LAYOUT_SCALE_WIDTH + LAYOUT_SCALE_MARGIN) * i,
-	/*width=*/LAYOUT_SCALE_WIDTH,
-	/*is_active=*/active_scale == i,
-	/*ctx=*/ctx);
+        /*y_function=*/y,
+        /*notes=*/SCALES[i].notes,
+        /*note_labels=*/SCALES[i].note_labels,
+        /*x_left=*/LAYOUT_SCALE_LEFT_MARGIN + (LAYOUT_SCALE_WIDTH + LAYOUT_SCALE_MARGIN) * i,
+        /*width=*/LAYOUT_SCALE_WIDTH,
+        /*is_active=*/active_scale == i,
+        /*ctx=*/ctx);
     }
   }
 
@@ -1147,38 +1147,38 @@
     if (active_pitch_detector == 'yin') {
       const detector = YIN({
         threshold: PITCH_DETECTOR_YIN_THRESHOLD,
-	sampleRate: audio_context.sampleRate,
-	probabilityThreshold: PITCH_DETECTOR_YIN_PROBABILITY_THRESHOLD,
+        sampleRate: audio_context.sampleRate,
+        probabilityThreshold: PITCH_DETECTOR_YIN_PROBABILITY_THRESHOLD,
       });
       detector_function = () => {
-	return detector(input_buffer);
+        return detector(input_buffer);
       };
     } else if (active_pitch_detector == 'macleod') {
       const detector = Macleod({
         bufferSize: INPUT_BUFFER_SIZE,
-	cutoff: PITCH_DETECTOR_MACLEOD_MIN_PROBABILITY,
-	sampleRate: audio_context.sampleRate,
+        cutoff: PITCH_DETECTOR_MACLEOD_MIN_PROBABILITY,
+        sampleRate: audio_context.sampleRate,
       });
 
       detector_function = () => {
-	const pair = detector(input_buffer);
-	return pair.probability >= PITCH_DETECTOR_MACLEOD_MIN_PROBABILITY ? pair.freq : null;
+        const pair = detector(input_buffer);
+        return pair.probability >= PITCH_DETECTOR_MACLEOD_MIN_PROBABILITY ? pair.freq : null;
       };
     } else if (active_pitch_detector == 'amdf') {
       const detector = AMDF({
         sampleRate: audio_context.sampleRate,
-	minFrequency: PITCH_DETECTOR_AMDF_MIN_FREQUENCY,
-	maxFrequency: PITCH_DETECTOR_AMDF_MAX_FREQUENCY,
-	ratio: PITCH_DETECTOR_AMDF_RATIO,
-	sensitivity: PITCH_DETECTOR_AMDF_SENSITIVITY,
+        minFrequency: PITCH_DETECTOR_AMDF_MIN_FREQUENCY,
+        maxFrequency: PITCH_DETECTOR_AMDF_MAX_FREQUENCY,
+        ratio: PITCH_DETECTOR_AMDF_RATIO,
+        sensitivity: PITCH_DETECTOR_AMDF_SENSITIVITY,
       });
       detector_function = () => {
-	return detector(input_buffer);
+        return detector(input_buffer);
       };
     } else if (active_pitch_detector == 'dw') {
       const detector = DynamicWavelet({ sampleRate: audio_context.sampleRate });
       detector_function = () => {
-	return detector(input_buffer);
+        return detector(input_buffer);
       };
     }
 
@@ -1188,10 +1188,10 @@
       analyser_node.getFloatTimeDomainData(input_buffer);
 
       if (history_is_running) {
-	history.push(detector_function());
-	if (history.length > PITCH_GRAPH_HISTORY_LENGTH) {
-	  history.shift();
-	}
+        history.push(detector_function());
+        if (history.length > PITCH_GRAPH_HISTORY_LENGTH) {
+          history.shift();
+        }
       }
     };
 
@@ -1350,11 +1350,11 @@
       const direction = Math.sign(event.deltaY);
 
       if (anchor_point.x < history_area_left) {
-	base_frequency_hz += direction * CONTROL_BASE_FREQUENCY_STEP;
+        base_frequency_hz += direction * CONTROL_BASE_FREQUENCY_STEP;
       } else if (history_area_left <= anchor_point.x) {
-	const current_min_frequency_hz = min_frequency_hz;
-	min_frequency_hz += direction * CONTROL_BASE_FREQUENCY_STEP;
-	max_frequency_hz = max_frequency_hz / current_min_frequency_hz * min_frequency_hz;
+        const current_min_frequency_hz = min_frequency_hz;
+        min_frequency_hz += direction * CONTROL_BASE_FREQUENCY_STEP;
+        max_frequency_hz = max_frequency_hz / current_min_frequency_hz * min_frequency_hz;
       }
     } else {
       const y_fraction = anchor_point.y / canvas.height;
