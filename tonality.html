@@ -793,6 +793,7 @@
   const PITCH_GRAPH_DRAW_PERIOD_MS = 30;
   const PITCH_GRAPH_HISTORY_LENGTH = 600;
   const PITCH_GRAPH_MIN_BAND_SEGMENT_WIDTH = 5;
+  const PITCH_GRAPH_SHOW_FREQUENCY_GAUGE = false;
   const STYLE_HISTORY_AREA_BOX_COLOR = '#c4c4c4';
   const STYLE_HISTORY_AREA_BOX_LINE_WIDTH = 1;
   const STYLE_PIANO_BACKGROUND_COLOR = '#212121';
@@ -1092,12 +1093,23 @@
       ctx.stroke();
 
       if (HistoryFilter(history[history.length - 1])) {
-	ctx.beginPath();
-	ctx.moveTo(0, y(lastPitch));
-	ctx.lineTo(canvas.width, y(lastPitch));
-	ctx.lineWidth = STYLE_PITCH_GRAPH_GAUGE_LINE_LINE_WIDTH;
-	ctx.strokeStyle = STYLE_PITCH_GRAPH_GAUGE_LINE_COLOR;
-	ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, y(lastPitch));
+        ctx.lineTo(canvas.width, y(lastPitch));
+        ctx.lineWidth = STYLE_PITCH_GRAPH_GAUGE_LINE_LINE_WIDTH;
+        ctx.strokeStyle = STYLE_PITCH_GRAPH_GAUGE_LINE_COLOR;
+        ctx.stroke();
+
+        if (PITCH_GRAPH_SHOW_FREQUENCY_GAUGE) {
+          ctx.save();
+          ctx.resetTransform();
+          ctx.font = '12px monospace';
+          ctx.fillStyle = STYLE_PIANO_NOTE_NAME_COLOR;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(`${Math.floor(lastPitch)} Hz`, canvas.width / 2, canvas.height - 20);
+          ctx.restore();
+	}
       }
     }
 
