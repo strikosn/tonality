@@ -4,12 +4,18 @@
   <meta charset='UTF-8' />
   <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
   <style>
+    .hidden {
+      display: none !important;
+    }
+
     body {
       font-family: monospace;
       background: #111;
       color: #eee;
+      margin: 0;
+      min-height: 100dvh;
       display: flex;
-      flex-direction: row;
+      flex-direction: unset;  /* set later */
       align-items: center;
       justify-content: center;
     }
@@ -217,6 +223,10 @@
     #pitch-container {
       margin: 10px;
       padding: 20px;
+      min-height: calc(100dvh - 20px);
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
       background: #222;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.7);
@@ -225,6 +235,10 @@
     #pitch-canvas {
       border: 2px solid #666;
       margin-top: 10px;
+      flex: 1 1 auto;
+      object-fit: none;
+      width: 840px;
+      height: 100px;  /* dummy to disable aspect ratio */
     }
   </style>
 
@@ -288,7 +302,7 @@
       <button id='pitch-control-stop'>Τερματισμός</button>
     </div>
 
-    <canvas id='pitch-canvas' width='760' height='594'></canvas>
+    <canvas id='pitch-canvas'></canvas>
 
     <div class='settings-container'>
 
@@ -1199,6 +1213,14 @@
     active_pitch_detector = element.dataset.id;
   }
 
+  function ResizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    let [new_width, new_height] = [rect.width * dpr - 4, rect.height * dpr - 4];
+    console.log(`[${rect.width}, ${rect.height}] dpr:${dpr} [${canvas.width}, ${canvas.height}] -> [${new_width}, ${new_height}]`);
+    [canvas.width, canvas.height] = [new_width, new_height];
+  }
+
   document.getElementById('pitch-control-start').addEventListener('click', event => {
     if (!history_is_running) {
       history_is_running = true;
@@ -1225,6 +1247,7 @@
     window.exports.ResetPitchLayout = ResetPitchLayout;
     window.exports.SelectPitchDetector = SelectPitchDetector;
     SelectPitchDetector(document.querySelector('#pitch-detector-default'));
+    (new ResizeObserver(ResizeCanvas)).observe(canvas);
     setInterval(() => {
       if (process_audio_callback) process_audio_callback();
       DrawPitchGraph();
@@ -1333,36 +1356,35 @@
 
 <script>
 
-  let window_mode;
+  let window_mode = 0;
 
   function ApplyWindowMode() {
     window_mode = window_mode % 4;
+    console.log(`Applying window mode: ${window_mode}`);
 
     if (window_mode == 0) {
       document.body.style.flexDirection = 'row';
-      document.getElementById('keyboard-container').hidden = false;
-      document.getElementById('pitch-container').hidden = false;
-      document.getElementById('pitch-canvas').width = 760;  // XXX
-      document.getElementById('pitch-canvas').height = 594;  // XXX
+      document.getElementById('keyboard-container').classList.remove('hidden');
+      document.getElementById('pitch-container').classList.remove('hidden');
       event.preventDefault();
     } else if (window_mode == 1) {
       document.body.style.flexDirection = 'column';
-      document.getElementById('keyboard-container').hidden = false;
-      document.getElementById('pitch-container').hidden = false;
-      document.getElementById('pitch-canvas').width = 894;  // XXX
-      document.getElementById('pitch-canvas').height = 460;  // XXX
+      document.getElementById('keyboard-container').classList.remove('hidden');
+      document.getElementById('pitch-container').classList.remove('hidden');
       event.preventDefault();
     } else if (window_mode == 2) {
-      document.getElementById('keyboard-container').hidden = false;
-      document.getElementById('pitch-container').hidden = true;
+      document.getElementById('keyboard-container').classList.remove('hidden');
+      document.getElementById('pitch-container').classList.add('hidden');
+      event.preventDefault();
     } else if (window_mode == 3) {
-      document.getElementById('keyboard-container').hidden = true;
-      document.getElementById('pitch-container').hidden = false;
+      document.getElementById('keyboard-container').classList.add('hidden');
+      document.getElementById('pitch-container').classList.remove('hidden');
+      event.preventDefault();
     }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    window_mode = Number.parseInt(new URLSearchParams(location.search).get('window_mode'), 10) ?? 0;
+    window_mode = Number.parseInt(new URLSearchParams(location.search).get('window_mode') ?? 0, 10);
     ApplyWindowMode();
   });
 
