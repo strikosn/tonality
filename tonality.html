@@ -1258,9 +1258,8 @@
 
   function ResizeCanvas() {
     const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    let [new_width, new_height] = [rect.width * dpr - 4, rect.height * dpr - 4];
-    console.log(`[${rect.width}, ${rect.height}] dpr:${dpr} [${canvas.width}, ${canvas.height}] -> [${new_width}, ${new_height}]`);
+    let [new_width, new_height] = [rect.width - 4, rect.height - 4];
+    console.log(`[${rect.width}, ${rect.height}] [${canvas.width}, ${canvas.height}] -> [${new_width}, ${new_height}]`);
     [canvas.width, canvas.height] = [new_width, new_height];
   }
 
