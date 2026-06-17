@@ -1293,6 +1293,24 @@
     active_pitch_detector = element.dataset.id;
   }
 
+  function TuneByOffset(index_offset) {
+    const active_notes = SCALES.find(scale => scale.id == highlighted_scale)?.notes;
+    if (!active_notes) return;
+    const base_index = active_notes.indexOf(0);
+    if (!(base_index >= 0)) return;
+    const tune_offset = active_notes[base_index + index_offset];
+    if (tune_offset === undefined) return;
+    const frequency_offset = Math.pow(2, tune_offset / 72.0);
+
+    const filteredHistory = history.filter(HistoryFilter);
+    const last_frequency_hz = filteredHistory[filteredHistory.length - 1];
+
+    if (last_frequency_hz) {
+      base_frequency_hz = last_frequency_hz / frequency_offset;
+      canvas_invalidated = true;
+    }
+  }
+
   function ResizeCanvas() {
     const rect = canvas.getBoundingClientRect();
     let [new_width, new_height] = [rect.width - 4, rect.height - 4];
@@ -1341,10 +1359,22 @@
 
   window.addEventListener('keydown', event => {
     if (event.code === 'Home') {
-      const filteredHistory = history.filter(HistoryFilter);
-      base_frequency_hz = filteredHistory[filteredHistory.length - 1];
-      canvas_invalidated = true;
+      TuneByOffset(0);
       event.preventDefault();
+    } else if (event.altKey) {
+      let tune_offset = null;
+
+      for (const [index, key_code] of ['KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL'].entries()) {
+        if (event.code == key_code) {
+	  tune_offset = index;
+	  break;
+	}
+      }
+
+      if (tune_offset !== null) {
+        TuneByOffset(tune_offset);
+        event.preventDefault();
+      }
     }
   });
 
