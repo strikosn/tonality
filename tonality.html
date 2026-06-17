@@ -277,9 +277,9 @@
       <label>Νότα βάσης του Νη:</label>
       <div style='display: flex;'>
 	<div class='stepper' id='base-note-stepper' style='width: 250px;'>
-	  <button class='stepper-minus' onclick='SelectBaseNote(-1);'>-</button>
+	  <button class='stepper-minus' onclick='SelectBaseNote(-1);' data-shortcut='PageDown'>-</button>
 	  <div></div>
-	  <button class='stepper-plus' onclick='SelectBaseNote(+1);'>+</button>
+	  <button class='stepper-plus' onclick='SelectBaseNote(+1);' data-shortcut='PageUp'>+</button>
 	</div>
 
 	<div class='stepper' id='global-pitch-stepper' style='margin-left: 10px; width: 200px;'>
@@ -784,16 +784,6 @@
   SelectKeyboardMap(document.querySelector('#keyboard-map-default'));
 
   window.addEventListener('keydown', event => {
-    if (event.code === 'PageUp') {
-      SelectBaseNote(+1);
-      event.preventDefault();
-      return;
-    } else if (event.code === 'PageDown') {
-      SelectBaseNote(-1);
-      event.preventDefault();
-      return;
-    }
-
     if (event.repeat) return; // prevent holding repeat
 
     const key_code = event.code;
@@ -1345,8 +1335,6 @@
       const filteredHistory = history.filter(HistoryFilter);
       base_frequency_hz = filteredHistory[filteredHistory.length - 1];
       event.preventDefault();
-    } else if (event.code === 'F8') {
-      window.open('https://spessasus.github.io/SpessaSynth/?mode=worklet', '_blank');
     }
   });
 
@@ -1463,7 +1451,9 @@
   });
 
   window.addEventListener('keydown', event => {
-    if (event.code === 'F9') {
+    if (event.code === 'F8') {
+      window.open('https://spessasus.github.io/SpessaSynth/?mode=worklet', '_blank');
+    } else if (event.code === 'F9') {
       window_mode += 1;
       ApplyWindowMode();
     }
