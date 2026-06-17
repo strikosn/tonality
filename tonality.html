@@ -358,85 +358,84 @@
 <script>
 
   const KEYBOARD_MAP_DIATONIKI = [
-      { key_code: 'KeyQ',         midi_channel: 1, relative_midi_key: 59, extra_label_1: '𝃮', extra_label_2: '𝃐' },
-      { key_code: 'KeyE',         midi_channel: 2, relative_midi_key: 63, extra_label_1: '𝃩', extra_label_2: '𝃑'  },
-      { key_code: 'KeyR',         midi_channel: 1, relative_midi_key: 64, extra_label_1: '𝃪', extra_label_2: '𝃐' },
-      { key_code: 'KeyI',         midi_channel: 1, relative_midi_key: 71, extra_label_1: '𝃮', extra_label_2: '𝃐' },
+      { key_code: 'KeyQ',      relative_pitch:  -6, extra_label_1: '𝃮', extra_label_2: '𝃐', },
+      { key_code: 'KeyE',      relative_pitch:  16, extra_label_1: '𝃩', extra_label_2: '𝃑', },
+      { key_code: 'KeyR',      relative_pitch:  24, extra_label_1: '𝃪', extra_label_2: '𝃐', },
+      { key_code: 'KeyI',      relative_pitch:  66, extra_label_1: '𝃮', extra_label_2: '𝃐', },
 
-      { key_code: 'CapsLock',     midi_channel: 1, relative_midi_key: 57, extra_label_1: '𝃭' },
-      { key_code: 'KeyA',         midi_channel: 2, relative_midi_key: 59, extra_label_1: '𝃮' },
-      { key_code: 'KeyS',         midi_channel: 1, relative_midi_key: 60, extra_label_1: '𝃯' },
-      { key_code: 'KeyD',         midi_channel: 1, relative_midi_key: 62, extra_label_1: '𝃩' },
-      { key_code: 'KeyF',         midi_channel: 2, relative_midi_key: 64, extra_label_1: '𝃪' },
-      { key_code: 'KeyG',         midi_channel: 1, relative_midi_key: 65, extra_label_1: '𝃫' },
-      { key_code: 'KeyH',         midi_channel: 1, relative_midi_key: 67, extra_label_1: '𝃬' },
-      { key_code: 'KeyJ',         midi_channel: 1, relative_midi_key: 69, extra_label_1: '𝃭' },
-      { key_code: 'KeyK',         midi_channel: 2, relative_midi_key: 71, extra_label_1: '𝃮' },
-      { key_code: 'KeyL',         midi_channel: 1, relative_midi_key: 72, extra_label_1: '𝃯' },
-      { key_code: 'Semicolon',    midi_channel: 1, relative_midi_key: 74, extra_label_1: '𝃩' },
-      { key_code: 'Quote',        midi_channel: 2, relative_midi_key: 76, extra_label_1: '𝃪' },
-
-      { key_code: 'KeyZ',         midi_channel: 3, relative_midi_key: 59, extra_label_1: '𝃮𝃔' },  // XXX
-      { key_code: 'KeyN',         midi_channel: 3, relative_midi_key: 69, extra_label_1: '𝃭𝃕' },  // XXX
-      { key_code: 'KeyM',         midi_channel: 1, relative_midi_key: 70, extra_label_1: '𝃮𝃕' },  // XXX
-      { key_code: 'Comma',        midi_channel: 3, relative_midi_key: 71, extra_label_1: '𝃮𝃔' },  // XXX
+      { key_code: 'CapsLock',  relative_pitch: -18, extra_label_1: '𝃭', },
+      { key_code: 'KeyA',      relative_pitch:  -8, extra_label_1: '𝃮', },
+      { key_code: 'KeyS',      relative_pitch:   0, extra_label_1: '𝃯', },
+      { key_code: 'KeyD',      relative_pitch:  12, extra_label_1: '𝃩', },
+      { key_code: 'KeyF',      relative_pitch:  22, extra_label_1: '𝃪', },
+      { key_code: 'KeyG',      relative_pitch:  30, extra_label_1: '𝃫', },
+      { key_code: 'KeyH',      relative_pitch:  42, extra_label_1: '𝃬', },
+      { key_code: 'KeyJ',      relative_pitch:  54, extra_label_1: '𝃭', },
+      { key_code: 'KeyK',      relative_pitch:  64, extra_label_1: '𝃮', },
+      { key_code: 'KeyL',      relative_pitch:  72, extra_label_1: '𝃯', },
+      { key_code: 'Semicolon', relative_pitch:  84, extra_label_1: '𝃩', },
+      { key_code: 'Quote',     relative_pitch:  94, extra_label_1: '𝃪', },
+ 
+      { key_code: 'KeyZ',      relative_pitch: -10, extra_label_1: '𝃮𝃔', },  // XXX
+      { key_code: 'KeyN',      relative_pitch:  50, extra_label_1: '𝃭𝃕', },  // XXX
+      { key_code: 'KeyM',      relative_pitch:  60, extra_label_1: '𝃮𝃕', },  // XXX
+      { key_code: 'Comma',     relative_pitch:  62, extra_label_1: '𝃮𝃔', },  // XXX
   ];
 
   const KEYBOARD_MAP_B = [
-      { key_code: 'KeyE',         midi_channel: 1, relative_midi_key: 62, extra_label_1: '𝃩', extra_label_2: '𝃑'  },
-      { key_code: 'KeyU',         midi_channel: 1, relative_midi_key: 69, extra_label_1: '𝃭', extra_label_2: '𝃑' },
+      { key_code: 'KeyE',      relative_pitch:  12, extra_label_1: '𝃩', extra_label_2: '𝃑', },
+      { key_code: 'KeyU',      relative_pitch:  54, extra_label_1: '𝃭', extra_label_2: '𝃑', },
+      { key_code: 'KeyP',      relative_pitch:  84, extra_label_1: '𝃩', extra_label_2: '𝃑', },
 
-      { key_code: 'CapsLock',  midi_channel: 3, relative_midi_key: 57, extra_label_1: '𝃭' },
-      { key_code: 'KeyA',      midi_channel: 2, relative_midi_key: 59, extra_label_1: '𝃮' },
-      { key_code: 'KeyS',      midi_channel: 1, relative_midi_key: 60, extra_label_1: '𝃯' },
-      { key_code: 'KeyD',      midi_channel: 3, relative_midi_key: 62, extra_label_1: '𝃩' },
-      { key_code: 'KeyF',      midi_channel: 2, relative_midi_key: 64, extra_label_1: '𝃪' },
-      { key_code: 'KeyG',      midi_channel: 1, relative_midi_key: 65, extra_label_1: '𝃫' },
-      { key_code: 'KeyH',      midi_channel: 1, relative_midi_key: 67, extra_label_1: '𝃬' },
-      { key_code: 'KeyJ',      midi_channel: 3, relative_midi_key: 69, extra_label_1: '𝃭' },
-      { key_code: 'KeyK',      midi_channel: 2, relative_midi_key: 71, extra_label_1: '𝃮' },
-      { key_code: 'KeyL',      midi_channel: 1, relative_midi_key: 72, extra_label_1: '𝃯' },
-      { key_code: 'Semicolon', midi_channel: 3, relative_midi_key: 74, extra_label_1: '𝃩' },
-      { key_code: 'Quote',     midi_channel: 2, relative_midi_key: 76, extra_label_1: '𝃪' },
-
-      { key_code: 'KeyP',      midi_channel: 1, relative_midi_key: 74, extra_label_1: '𝃩', extra_label_2: '𝃑' },
+      { key_code: 'CapsLock',  relative_pitch: -22, extra_label_1: '𝃭', },
+      { key_code: 'KeyA',      relative_pitch:  -8, extra_label_1: '𝃮', },
+      { key_code: 'KeyS',      relative_pitch:   0, extra_label_1: '𝃯', },
+      { key_code: 'KeyD',      relative_pitch:   8, extra_label_1: '𝃩', },
+      { key_code: 'KeyF',      relative_pitch:  22, extra_label_1: '𝃪', },
+      { key_code: 'KeyG',      relative_pitch:  30, extra_label_1: '𝃫', },
+      { key_code: 'KeyH',      relative_pitch:  42, extra_label_1: '𝃬', },
+      { key_code: 'KeyJ',      relative_pitch:  50, extra_label_1: '𝃭', },
+      { key_code: 'KeyK',      relative_pitch:  64, extra_label_1: '𝃮', },
+      { key_code: 'KeyL',      relative_pitch:  72, extra_label_1: '𝃯', },
+      { key_code: 'Semicolon', relative_pitch:  80, extra_label_1: '𝃩', },
+      { key_code: 'Quote',     relative_pitch:  94, extra_label_1: '𝃪', },
   ];
 
   const KEYBOARD_MAP_PLAGIOS_B = [
-      { key_code: 'KeyI',      midi_channel: 2, relative_midi_key: 71, extra_label_1: '𝃮', extra_label_2: '𝃑'  },
+      { key_code: 'KeyI',      relative_pitch:  64, extra_label_1: '𝃮', extra_label_2: '𝃑', },
 
-      { key_code: 'CapsLock',  midi_channel: 1, relative_midi_key: 57, extra_label_1: '𝃭' },
-      { key_code: 'KeyA',      midi_channel: 1, relative_midi_key: 58, extra_label_1: '𝃮' },
-      { key_code: 'KeyS',      midi_channel: 4, relative_midi_key: 61, extra_label_1: '𝃯' },
-      { key_code: 'KeyD',      midi_channel: 1, relative_midi_key: 62, extra_label_1: '𝃩' },
-      { key_code: 'KeyF',      midi_channel: 1, relative_midi_key: 63, extra_label_1: '𝃪' },
-      { key_code: 'KeyG',      midi_channel: 4, relative_midi_key: 66, extra_label_1: '𝃫' },
-      { key_code: 'KeyH',      midi_channel: 1, relative_midi_key: 67, extra_label_1: '𝃬' },
-      { key_code: 'KeyJ',      midi_channel: 1, relative_midi_key: 69, extra_label_1: '𝃭' },
-      { key_code: 'KeyK',      midi_channel: 1, relative_midi_key: 70, extra_label_1: '𝃮' },
-      { key_code: 'KeyL',      midi_channel: 4, relative_midi_key: 73, extra_label_1: '𝃯' },
-      { key_code: 'Semicolon', midi_channel: 1, relative_midi_key: 74, extra_label_1: '𝃩' },
-      { key_code: 'Quote',     midi_channel: 1, relative_midi_key: 73, extra_label_1: '𝃪' },
-
-      { key_code: 'KeyX',      midi_channel: 1, relative_midi_key: 60, extra_label_1: '𝃯𝃗' },  // XXX
-      { key_code: 'Period',    midi_channel: 1, relative_midi_key: 72, extra_label_1: '𝃯𝃗' },  // XXX
+      { key_code: 'CapsLock',  relative_pitch: -18, extra_label_1: '𝃭', },
+      { key_code: 'KeyA',      relative_pitch: -12, extra_label_1: '𝃮', },
+      { key_code: 'KeyS',      relative_pitch:   8, extra_label_1: '𝃯', },
+      { key_code: 'KeyD',      relative_pitch:  12, extra_label_1: '𝃩', },
+      { key_code: 'KeyF',      relative_pitch:  18, extra_label_1: '𝃪', },
+      { key_code: 'KeyG',      relative_pitch:  38, extra_label_1: '𝃫', },
+      { key_code: 'KeyH',      relative_pitch:  42, extra_label_1: '𝃬', },
+      { key_code: 'KeyJ',      relative_pitch:  54, extra_label_1: '𝃭', },
+      { key_code: 'KeyK',      relative_pitch:  60, extra_label_1: '𝃮', },
+      { key_code: 'KeyL',      relative_pitch:  80, extra_label_1: '𝃯', },
+      { key_code: 'Semicolon', relative_pitch:  84, extra_label_1: '𝃩', },
+      { key_code: 'Quote',     relative_pitch:  90, extra_label_1: '𝃪', },
+ 
+      { key_code: 'KeyX',      relative_pitch:   0, extra_label_1: '𝃯𝃗', },  // XXX
+      { key_code: 'Period',    relative_pitch:  72, extra_label_1: '𝃯𝃗', },  // XXX
   ];
 
   const KEYBOARD_MAP_ENARMONIOS = [
-      { key_code: 'KeyI',      midi_channel: 2, relative_midi_key: 71, extra_label_1: '𝃮', extra_label_2: '𝃑'  },
+      { key_code: 'KeyI',      relative_pitch:  64, extra_label_1: '𝃮', extra_label_2: '𝃑', },
 
-      { key_code: 'CapsLock',  midi_channel: 1, relative_midi_key: 57, extra_label_1: '𝃭' },
-      { key_code: 'KeyA',      midi_channel: 1, relative_midi_key: 59, extra_label_1: '𝃮' },
-      { key_code: 'KeyS',      midi_channel: 1, relative_midi_key: 60, extra_label_1: '𝃯' },
-      { key_code: 'KeyD',      midi_channel: 1, relative_midi_key: 62, extra_label_1: '𝃩' },
-      { key_code: 'KeyF',      midi_channel: 1, relative_midi_key: 64, extra_label_1: '𝃪' },
-      { key_code: 'KeyG',      midi_channel: 1, relative_midi_key: 65, extra_label_1: '𝃫' },
-      { key_code: 'KeyH',      midi_channel: 1, relative_midi_key: 67, extra_label_1: '𝃬' },
-      { key_code: 'KeyJ',      midi_channel: 1, relative_midi_key: 69, extra_label_1: '𝃭' },
-      { key_code: 'KeyK',      midi_channel: 1, relative_midi_key: 70, extra_label_1: '𝃮' },
-      { key_code: 'KeyL',      midi_channel: 1, relative_midi_key: 72, extra_label_1: '𝃯' },
-      { key_code: 'Semicolon', midi_channel: 1, relative_midi_key: 74, extra_label_1: '𝃩' },
-      { key_code: 'Quote',     midi_channel: 1, relative_midi_key: 76, extra_label_1: '𝃪' },
+      { key_code: 'CapsLock',  relative_pitch: -18, extra_label_1: '𝃭', },
+      { key_code: 'KeyA',      relative_pitch: -12, extra_label_1: '𝃮', },
+      { key_code: 'KeyS',      relative_pitch:   0, extra_label_1: '𝃯', },
+      { key_code: 'KeyD',      relative_pitch:  12, extra_label_1: '𝃩', },
+      { key_code: 'KeyF',      relative_pitch:  24, extra_label_1: '𝃪', },
+      { key_code: 'KeyG',      relative_pitch:  30, extra_label_1: '𝃫', },
+      { key_code: 'KeyH',      relative_pitch:  42, extra_label_1: '𝃬', },
+      { key_code: 'KeyJ',      relative_pitch:  54, extra_label_1: '𝃭', },
+      { key_code: 'KeyK',      relative_pitch:  60, extra_label_1: '𝃮', },
+      { key_code: 'KeyL',      relative_pitch:  72, extra_label_1: '𝃯', },
+      { key_code: 'Semicolon', relative_pitch:  84, extra_label_1: '𝃩', },
+      { key_code: 'Quote',     relative_pitch:  96, extra_label_1: '𝃪', },
   ];
 
   const KEYBOARD_LAYOUT = [
@@ -514,7 +513,7 @@
   let active_keyboard_map = KEYBOARD_MAP_DIATONIKI;
   let global_pitch_offset = 0;
   let notes_on = {};
-  let midi_key_offset = -14;
+  let midi_key_offset = 46;
   let keyboard_keys_mapping = {};
 
   function StartKeyboard() {
@@ -586,8 +585,8 @@
   }
 
   function SelectBaseNote(diff) {
-    const min_global_key_offset = -20;
-    const max_global_key_offset = 10;
+    const min_global_key_offset = 40;
+    const max_global_key_offset = 70;
 
     midi_key_offset += diff;
     midi_key_offset = Math.max(min_global_key_offset, midi_key_offset);
@@ -600,7 +599,7 @@
 
     function midi_to_note(midi_number) {
       const notes = ['C', 'C#/D♭', 'D', 'D#/E♭', 'E', 'F', 'F#/G♭', 'G', 'G#/A♭', 'A', 'A#/B♭', 'B'];
-      const octave = Math.floor(midi_number / 12) + 4;
+      const octave = Math.floor(midi_number / 12) - 1;
       let note_index = midi_number % 12;
       if (note_index < 0) note_index += 12;
       return `${notes[note_index]}${octave}`;
@@ -688,12 +687,10 @@
       active_midi_output.channels[1].sendPitchBendRange(semitones=2, cents=0);
       active_midi_output.channels[2].sendPitchBendRange(semitones=2, cents=0);
       active_midi_output.channels[3].sendPitchBendRange(semitones=2, cents=0);
-      active_midi_output.channels[4].sendPitchBendRange(semitones=2, cents=0);
 
       active_midi_output.channels[1].sendPitchBend(value=+0.0 / 6.0 + scaled_global_pitch_offset);
       active_midi_output.channels[2].sendPitchBend(value=-1.0 / 6.0 + scaled_global_pitch_offset);
-      active_midi_output.channels[3].sendPitchBend(value=-2.0 / 6.0 + scaled_global_pitch_offset);
-      active_midi_output.channels[4].sendPitchBend(value=+1.0 / 6.0 + scaled_global_pitch_offset);
+      active_midi_output.channels[3].sendPitchBend(value=+1.0 / 6.0 + scaled_global_pitch_offset);
     }
   }
 
@@ -702,7 +699,6 @@
       active_midi_output.channels[1].sendProgramChange(program=68);
       active_midi_output.channels[2].sendProgramChange(program=68);
       active_midi_output.channels[3].sendProgramChange(program=68);
-      active_midi_output.channels[4].sendProgramChange(program=68);
     }
   }
 
@@ -710,13 +706,30 @@
     if (key_code in notes_on) return;
 
     const key = active_keyboard_map.find(key => key.key_code === key_code);
+    if (!key) return;
 
-    if (key) {
-      midi_key = midi_key_offset + key.relative_midi_key;
-      notes_on[key_code] = {'midi_channel': key.midi_channel, 'midi_key': midi_key}
-      if (active_midi_output) {
-        active_midi_output.channels[key.midi_channel].sendNoteOn(note=midi_key, attack=1.0);
-      }
+    let computed_midi_channel = null;
+    let computed_relative_midi_key = null;
+
+    const pitch_offset = ((key.relative_pitch % 6) + 6) % 6;
+
+    if (pitch_offset == 0) {
+      computed_midi_channel = 1;
+      computed_relative_midi_key = key.relative_pitch / 6;
+    } else if (pitch_offset == 2) {
+      computed_midi_channel = 3;
+      computed_relative_midi_key = (key.relative_pitch - 2) / 6;
+    } else if (pitch_offset == 4) {
+      computed_midi_channel = 2;
+      computed_relative_midi_key = (key.relative_pitch + 2) / 6;
+    }
+
+    if (computed_midi_channel === null) return;
+
+    midi_key = midi_key_offset + computed_relative_midi_key;
+    notes_on[key_code] = {'midi_channel': computed_midi_channel, 'midi_key': midi_key}
+    if (active_midi_output) {
+      active_midi_output.channels[computed_midi_channel].sendNoteOn(note=midi_key, attack=1.0);
     }
   }
 
