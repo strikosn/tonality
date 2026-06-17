@@ -357,86 +357,7 @@
 
 <script>
 
-  const KEYBOARD_MAP_DIATONIKI = [
-      { key_code: 'KeyQ',      relative_pitch:  -6, label_fname: 'f', label_glevel: 2, },
-      { key_code: 'KeyE',      relative_pitch:  16, label_fname: 'a', label_glevel: 4, },
-      { key_code: 'KeyR',      relative_pitch:  24, label_fname: 'b', label_glevel: 2, },
-      { key_code: 'KeyI',      relative_pitch:  66, label_fname: 'f', label_glevel: 2, },
-
-      { key_code: 'CapsLock',  relative_pitch: -18, label_fname: 'e', },
-      { key_code: 'KeyA',      relative_pitch:  -8, label_fname: 'f', },
-      { key_code: 'KeyS',      relative_pitch:   0, label_fname: 'g', },
-      { key_code: 'KeyD',      relative_pitch:  12, label_fname: 'a', },
-      { key_code: 'KeyF',      relative_pitch:  22, label_fname: 'b', },
-      { key_code: 'KeyG',      relative_pitch:  30, label_fname: 'c', },
-      { key_code: 'KeyH',      relative_pitch:  42, label_fname: 'd', },
-      { key_code: 'KeyJ',      relative_pitch:  54, label_fname: 'e', },
-      { key_code: 'KeyK',      relative_pitch:  64, label_fname: 'f', },
-      { key_code: 'KeyL',      relative_pitch:  72, label_fname: 'g', },
-      { key_code: 'Semicolon', relative_pitch:  84, label_fname: 'a', },
-      { key_code: 'Quote',     relative_pitch:  94, label_fname: 'b', },
- 
-      { key_code: 'KeyZ',      relative_pitch: -10, label_fname: 'f', label_glevel: -2, },
-      { key_code: 'KeyN',      relative_pitch:  50, label_fname: 'e', label_glevel: -4, },
-      { key_code: 'KeyM',      relative_pitch:  60, label_fname: 'f', label_glevel: -4, },
-      { key_code: 'Comma',     relative_pitch:  62, label_fname: 'f', label_glevel: -2, },
-  ];
-
-  const KEYBOARD_MAP_B = [
-      { key_code: 'KeyE',      relative_pitch:  12, label_fname: 'a', label_glevel: 4, },
-      { key_code: 'KeyU',      relative_pitch:  54, label_fname: 'e', label_glevel: 4, },
-      { key_code: 'KeyP',      relative_pitch:  84, label_fname: 'a', label_glevel: 4, },
-
-      { key_code: 'CapsLock',  relative_pitch: -22, label_fname: 'e', },
-      { key_code: 'KeyA',      relative_pitch:  -8, label_fname: 'f', },
-      { key_code: 'KeyS',      relative_pitch:   0, label_fname: 'g', },
-      { key_code: 'KeyD',      relative_pitch:   8, label_fname: 'a', },
-      { key_code: 'KeyF',      relative_pitch:  22, label_fname: 'b', },
-      { key_code: 'KeyG',      relative_pitch:  30, label_fname: 'c', },
-      { key_code: 'KeyH',      relative_pitch:  42, label_fname: 'd', },
-      { key_code: 'KeyJ',      relative_pitch:  50, label_fname: 'e', },
-      { key_code: 'KeyK',      relative_pitch:  64, label_fname: 'f', },
-      { key_code: 'KeyL',      relative_pitch:  72, label_fname: 'g', },
-      { key_code: 'Semicolon', relative_pitch:  80, label_fname: 'a', },
-      { key_code: 'Quote',     relative_pitch:  94, label_fname: 'b', },
-  ];
-
-  const KEYBOARD_MAP_PLAGIOS_B = [
-      { key_code: 'KeyI',      relative_pitch:  64, label_fname: 'f', label_glevel: 4, },
-
-      { key_code: 'CapsLock',  relative_pitch: -18, label_fname: 'e', },
-      { key_code: 'KeyA',      relative_pitch: -12, label_fname: 'f', },
-      { key_code: 'KeyS',      relative_pitch:   8, label_fname: 'g', },
-      { key_code: 'KeyD',      relative_pitch:  12, label_fname: 'a', },
-      { key_code: 'KeyF',      relative_pitch:  18, label_fname: 'b', },
-      { key_code: 'KeyG',      relative_pitch:  38, label_fname: 'c', },
-      { key_code: 'KeyH',      relative_pitch:  42, label_fname: 'd', },
-      { key_code: 'KeyJ',      relative_pitch:  54, label_fname: 'e', },
-      { key_code: 'KeyK',      relative_pitch:  60, label_fname: 'f', },
-      { key_code: 'KeyL',      relative_pitch:  80, label_fname: 'g', },
-      { key_code: 'Semicolon', relative_pitch:  84, label_fname: 'a', },
-      { key_code: 'Quote',     relative_pitch:  90, label_fname: 'b', },
- 
-      { key_code: 'KeyX',      relative_pitch:   0, label_fname: 'g', label_glevel: -8, },
-      { key_code: 'Period',    relative_pitch:  72, label_fname: 'g', label_glevel: -8, },
-  ];
-
-  const KEYBOARD_MAP_ENARMONIOS = [
-      { key_code: 'KeyI',      relative_pitch:  64, label_fname: 'f', label_glevel: 4, },
-
-      { key_code: 'CapsLock',  relative_pitch: -18, label_fname: 'e', },
-      { key_code: 'KeyA',      relative_pitch: -12, label_fname: 'f', },
-      { key_code: 'KeyS',      relative_pitch:   0, label_fname: 'g', },
-      { key_code: 'KeyD',      relative_pitch:  12, label_fname: 'a', },
-      { key_code: 'KeyF',      relative_pitch:  24, label_fname: 'b', },
-      { key_code: 'KeyG',      relative_pitch:  30, label_fname: 'c', },
-      { key_code: 'KeyH',      relative_pitch:  42, label_fname: 'd', },
-      { key_code: 'KeyJ',      relative_pitch:  54, label_fname: 'e', },
-      { key_code: 'KeyK',      relative_pitch:  60, label_fname: 'f', },
-      { key_code: 'KeyL',      relative_pitch:  72, label_fname: 'g', },
-      { key_code: 'Semicolon', relative_pitch:  84, label_fname: 'a', },
-      { key_code: 'Quote',     relative_pitch:  96, label_fname: 'b', },
-  ];
+  let keyboard_map = [];
 
   const KEYBOARD_LAYOUT = [
     ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
@@ -510,7 +431,7 @@
   };
 
   let active_midi_output = null;
-  let active_keyboard_map = KEYBOARD_MAP_DIATONIKI;
+  let active_keyboard_map_index = null;
   let global_pitch_offset = 0;
   let notes_on = {};
   let midi_key_offset = 46;
@@ -629,29 +550,38 @@
     ResetMidiChannelPitchBend();
   }
 
+  function LoadKeyboardMap() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', './keyboard_map.json', false);
+    xhr.send();
+    keyboard_map = JSON.parse(xhr.responseText);
+  }
+
   function SelectKeyboardMap(element) {
     const dropdown = document.querySelector('#keyboard-map-dropdown');
     const summary  = document.querySelector('#keyboard-map-dropdown-summary');
     dropdown.removeAttribute('open');
 
     if (element.dataset.id === 'διατονική') {
-      active_keyboard_map = KEYBOARD_MAP_DIATONIKI;
+      active_keyboard_map_index = 0;
       summary.textContent = element.textContent;
     } else if (element.dataset.id === 'β') {
-      active_keyboard_map = KEYBOARD_MAP_B;
+      active_keyboard_map_index = 1;
       summary.textContent = element.textContent;
     } else if (element.dataset.id === 'πλάγιος β') {
-      active_keyboard_map = KEYBOARD_MAP_PLAGIOS_B;
+      active_keyboard_map_index = 2;
       summary.textContent = element.textContent;
     } else if (element.dataset.id === 'εναρμόνιος') {
-      active_keyboard_map = KEYBOARD_MAP_ENARMONIOS;
+      active_keyboard_map_index = 3;
       summary.textContent = element.textContent;
     }
 
     Object.entries(keyboard_keys_mapping).forEach(([key_code, key_div]) => {
-      const key = active_keyboard_map.find(key => key.key_code === key_code);
-      extra_label_1 = key_div.querySelector('.keyboard-key-extra-label-1');
-      extra_label_2 = key_div.querySelector('.keyboard-key-extra-label-2');
+      const active_keyboard_map = keyboard_map[active_keyboard_map_index];
+      if (!active_keyboard_map) return;
+      const key = active_keyboard_map.key_map.find(key => key.key_code === key_code);
+      const extra_label_1 = key_div.querySelector('.keyboard-key-extra-label-1');
+      const extra_label_2 = key_div.querySelector('.keyboard-key-extra-label-2');
       if (key) {
 	const extra_label_1_text = new Map([
 	  ['a', '𝃩'],
@@ -726,7 +656,9 @@
   function NoteOn(key_code) {
     if (key_code in notes_on) return;
 
-    const key = active_keyboard_map.find(key => key.key_code === key_code);
+    const active_keyboard_map = keyboard_map[active_keyboard_map_index];
+    if (!active_keyboard_map) return;
+    const key = active_keyboard_map.key_map.find(key => key.key_code === key_code);
     if (!key) return;
 
     let computed_midi_channel = null;
@@ -815,6 +747,7 @@
 
   SelectBaseNote(0);
   SetGlobalPitchOffset(0);
+  LoadKeyboardMap();
   SelectKeyboardMap(document.querySelector('#keyboard-map-default'));
 
   window.addEventListener('keydown', event => {
