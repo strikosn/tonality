@@ -896,6 +896,7 @@
   let history_is_running = true;
   let process_audio_callback = null;
   let stop_audio_callback = null;
+  let canvas_invalidated = true;
 
   const canvas = document.getElementById('pitch-canvas');
 
@@ -1182,6 +1183,7 @@
 
   function ClearHistory() {
     history.splice(0, history.length);
+    canvas_invalidated = true;
   }
 
   function StartPitchDetector(stream) {
@@ -1247,6 +1249,7 @@
         if (history.length > PITCH_GRAPH_HISTORY_LENGTH) {
           history.shift();
         }
+	canvas_invalidated = true;
       }
     };
 
@@ -1262,6 +1265,7 @@
     base_frequency_hz = midiNoteToFrequency(noteNameToMidi(DEFAULT_BASE_FREQUENCY_NOTE));
     min_frequency_hz = midiNoteToFrequency(noteNameToMidi(DEFAULT_PITCH_GRAPH_MIN_FREQUENCY_NOTE));
     max_frequency_hz = midiNoteToFrequency(noteNameToMidi(DEFAULT_PITCH_GRAPH_MAX_FREQUENCY_NOTE));
+    canvas_invalidated = true;
   }
 
   function StopPitch() {
@@ -1278,6 +1282,7 @@
     dropdown.removeAttribute('open');
     summary.textContent = element.textContent;
     highlighted_scale = element.dataset.id;
+    canvas_invalidated = true;
   }
 
   function SelectPitchDetector(element) {
@@ -1293,6 +1298,7 @@
     let [new_width, new_height] = [rect.width - 4, rect.height - 4];
     console.log(`[${rect.width}, ${rect.height}] [${canvas.width}, ${canvas.height}] -> [${new_width}, ${new_height}]`);
     [canvas.width, canvas.height] = [new_width, new_height];
+    canvas_invalidated = true;
   }
 
   document.getElementById('pitch-control-start').addEventListener('click', event => {
@@ -1326,7 +1332,10 @@
     (new ResizeObserver(ResizeCanvas)).observe(canvas);
     setInterval(() => {
       if (process_audio_callback) process_audio_callback();
-      DrawPitchGraph();
+      if (canvas_invalidated) {
+        DrawPitchGraph();
+        canvas_invalidated = false;
+      }
     }, PITCH_GRAPH_DRAW_PERIOD_MS);
   });
 
@@ -1334,6 +1343,7 @@
     if (event.code === 'Home') {
       const filteredHistory = history.filter(HistoryFilter);
       base_frequency_hz = filteredHistory[filteredHistory.length - 1];
+      canvas_invalidated = true;
       event.preventDefault();
     }
   });
@@ -1373,6 +1383,8 @@
       min_frequency_hz = Math.max(min_frequency_hz, PITCH_GRAPH_ABSOLUTE_MIN_FREQUENCY_HZ);
       max_frequency_hz = max_frequency_hz / current_min_frequency_hz * min_frequency_hz;
     }
+
+    canvas_invalidated = true;
   });
 
   window.addEventListener('pointerup', () => {
@@ -1412,6 +1424,8 @@
       min_frequency_hz = Math.max(min_frequency_hz, PITCH_GRAPH_ABSOLUTE_MIN_FREQUENCY_HZ);
       max_frequency_hz *= Math.pow(CONTROL_ZOOM_FACTOR, -Math.sign(event.deltaY) * (1.0 - y_fraction));
     }
+
+    canvas_invalidated = true;
   });
 
 </script>
