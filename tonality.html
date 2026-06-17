@@ -358,84 +358,84 @@
 <script>
 
   const KEYBOARD_MAP_DIATONIKI = [
-      { key_code: 'KeyQ',      relative_pitch:  -6, extra_label_1: '𝃮', extra_label_2: '𝃐', },
-      { key_code: 'KeyE',      relative_pitch:  16, extra_label_1: '𝃩', extra_label_2: '𝃑', },
-      { key_code: 'KeyR',      relative_pitch:  24, extra_label_1: '𝃪', extra_label_2: '𝃐', },
-      { key_code: 'KeyI',      relative_pitch:  66, extra_label_1: '𝃮', extra_label_2: '𝃐', },
+      { key_code: 'KeyQ',      relative_pitch:  -6, label_fname: 'f', label_glevel: 2, },
+      { key_code: 'KeyE',      relative_pitch:  16, label_fname: 'a', label_glevel: 4, },
+      { key_code: 'KeyR',      relative_pitch:  24, label_fname: 'b', label_glevel: 2, },
+      { key_code: 'KeyI',      relative_pitch:  66, label_fname: 'f', label_glevel: 2, },
 
-      { key_code: 'CapsLock',  relative_pitch: -18, extra_label_1: '𝃭', },
-      { key_code: 'KeyA',      relative_pitch:  -8, extra_label_1: '𝃮', },
-      { key_code: 'KeyS',      relative_pitch:   0, extra_label_1: '𝃯', },
-      { key_code: 'KeyD',      relative_pitch:  12, extra_label_1: '𝃩', },
-      { key_code: 'KeyF',      relative_pitch:  22, extra_label_1: '𝃪', },
-      { key_code: 'KeyG',      relative_pitch:  30, extra_label_1: '𝃫', },
-      { key_code: 'KeyH',      relative_pitch:  42, extra_label_1: '𝃬', },
-      { key_code: 'KeyJ',      relative_pitch:  54, extra_label_1: '𝃭', },
-      { key_code: 'KeyK',      relative_pitch:  64, extra_label_1: '𝃮', },
-      { key_code: 'KeyL',      relative_pitch:  72, extra_label_1: '𝃯', },
-      { key_code: 'Semicolon', relative_pitch:  84, extra_label_1: '𝃩', },
-      { key_code: 'Quote',     relative_pitch:  94, extra_label_1: '𝃪', },
+      { key_code: 'CapsLock',  relative_pitch: -18, label_fname: 'e', },
+      { key_code: 'KeyA',      relative_pitch:  -8, label_fname: 'f', },
+      { key_code: 'KeyS',      relative_pitch:   0, label_fname: 'g', },
+      { key_code: 'KeyD',      relative_pitch:  12, label_fname: 'a', },
+      { key_code: 'KeyF',      relative_pitch:  22, label_fname: 'b', },
+      { key_code: 'KeyG',      relative_pitch:  30, label_fname: 'c', },
+      { key_code: 'KeyH',      relative_pitch:  42, label_fname: 'd', },
+      { key_code: 'KeyJ',      relative_pitch:  54, label_fname: 'e', },
+      { key_code: 'KeyK',      relative_pitch:  64, label_fname: 'f', },
+      { key_code: 'KeyL',      relative_pitch:  72, label_fname: 'g', },
+      { key_code: 'Semicolon', relative_pitch:  84, label_fname: 'a', },
+      { key_code: 'Quote',     relative_pitch:  94, label_fname: 'b', },
  
-      { key_code: 'KeyZ',      relative_pitch: -10, extra_label_1: '𝃮𝃔', },  // XXX
-      { key_code: 'KeyN',      relative_pitch:  50, extra_label_1: '𝃭𝃕', },  // XXX
-      { key_code: 'KeyM',      relative_pitch:  60, extra_label_1: '𝃮𝃕', },  // XXX
-      { key_code: 'Comma',     relative_pitch:  62, extra_label_1: '𝃮𝃔', },  // XXX
+      { key_code: 'KeyZ',      relative_pitch: -10, label_fname: 'f', label_glevel: -2, },
+      { key_code: 'KeyN',      relative_pitch:  50, label_fname: 'e', label_glevel: -4, },
+      { key_code: 'KeyM',      relative_pitch:  60, label_fname: 'f', label_glevel: -4, },
+      { key_code: 'Comma',     relative_pitch:  62, label_fname: 'f', label_glevel: -2, },
   ];
 
   const KEYBOARD_MAP_B = [
-      { key_code: 'KeyE',      relative_pitch:  12, extra_label_1: '𝃩', extra_label_2: '𝃑', },
-      { key_code: 'KeyU',      relative_pitch:  54, extra_label_1: '𝃭', extra_label_2: '𝃑', },
-      { key_code: 'KeyP',      relative_pitch:  84, extra_label_1: '𝃩', extra_label_2: '𝃑', },
+      { key_code: 'KeyE',      relative_pitch:  12, label_fname: 'a', label_glevel: 4, },
+      { key_code: 'KeyU',      relative_pitch:  54, label_fname: 'e', label_glevel: 4, },
+      { key_code: 'KeyP',      relative_pitch:  84, label_fname: 'a', label_glevel: 4, },
 
-      { key_code: 'CapsLock',  relative_pitch: -22, extra_label_1: '𝃭', },
-      { key_code: 'KeyA',      relative_pitch:  -8, extra_label_1: '𝃮', },
-      { key_code: 'KeyS',      relative_pitch:   0, extra_label_1: '𝃯', },
-      { key_code: 'KeyD',      relative_pitch:   8, extra_label_1: '𝃩', },
-      { key_code: 'KeyF',      relative_pitch:  22, extra_label_1: '𝃪', },
-      { key_code: 'KeyG',      relative_pitch:  30, extra_label_1: '𝃫', },
-      { key_code: 'KeyH',      relative_pitch:  42, extra_label_1: '𝃬', },
-      { key_code: 'KeyJ',      relative_pitch:  50, extra_label_1: '𝃭', },
-      { key_code: 'KeyK',      relative_pitch:  64, extra_label_1: '𝃮', },
-      { key_code: 'KeyL',      relative_pitch:  72, extra_label_1: '𝃯', },
-      { key_code: 'Semicolon', relative_pitch:  80, extra_label_1: '𝃩', },
-      { key_code: 'Quote',     relative_pitch:  94, extra_label_1: '𝃪', },
+      { key_code: 'CapsLock',  relative_pitch: -22, label_fname: 'e', },
+      { key_code: 'KeyA',      relative_pitch:  -8, label_fname: 'f', },
+      { key_code: 'KeyS',      relative_pitch:   0, label_fname: 'g', },
+      { key_code: 'KeyD',      relative_pitch:   8, label_fname: 'a', },
+      { key_code: 'KeyF',      relative_pitch:  22, label_fname: 'b', },
+      { key_code: 'KeyG',      relative_pitch:  30, label_fname: 'c', },
+      { key_code: 'KeyH',      relative_pitch:  42, label_fname: 'd', },
+      { key_code: 'KeyJ',      relative_pitch:  50, label_fname: 'e', },
+      { key_code: 'KeyK',      relative_pitch:  64, label_fname: 'f', },
+      { key_code: 'KeyL',      relative_pitch:  72, label_fname: 'g', },
+      { key_code: 'Semicolon', relative_pitch:  80, label_fname: 'a', },
+      { key_code: 'Quote',     relative_pitch:  94, label_fname: 'b', },
   ];
 
   const KEYBOARD_MAP_PLAGIOS_B = [
-      { key_code: 'KeyI',      relative_pitch:  64, extra_label_1: '𝃮', extra_label_2: '𝃑', },
+      { key_code: 'KeyI',      relative_pitch:  64, label_fname: 'f', label_glevel: 4, },
 
-      { key_code: 'CapsLock',  relative_pitch: -18, extra_label_1: '𝃭', },
-      { key_code: 'KeyA',      relative_pitch: -12, extra_label_1: '𝃮', },
-      { key_code: 'KeyS',      relative_pitch:   8, extra_label_1: '𝃯', },
-      { key_code: 'KeyD',      relative_pitch:  12, extra_label_1: '𝃩', },
-      { key_code: 'KeyF',      relative_pitch:  18, extra_label_1: '𝃪', },
-      { key_code: 'KeyG',      relative_pitch:  38, extra_label_1: '𝃫', },
-      { key_code: 'KeyH',      relative_pitch:  42, extra_label_1: '𝃬', },
-      { key_code: 'KeyJ',      relative_pitch:  54, extra_label_1: '𝃭', },
-      { key_code: 'KeyK',      relative_pitch:  60, extra_label_1: '𝃮', },
-      { key_code: 'KeyL',      relative_pitch:  80, extra_label_1: '𝃯', },
-      { key_code: 'Semicolon', relative_pitch:  84, extra_label_1: '𝃩', },
-      { key_code: 'Quote',     relative_pitch:  90, extra_label_1: '𝃪', },
+      { key_code: 'CapsLock',  relative_pitch: -18, label_fname: 'e', },
+      { key_code: 'KeyA',      relative_pitch: -12, label_fname: 'f', },
+      { key_code: 'KeyS',      relative_pitch:   8, label_fname: 'g', },
+      { key_code: 'KeyD',      relative_pitch:  12, label_fname: 'a', },
+      { key_code: 'KeyF',      relative_pitch:  18, label_fname: 'b', },
+      { key_code: 'KeyG',      relative_pitch:  38, label_fname: 'c', },
+      { key_code: 'KeyH',      relative_pitch:  42, label_fname: 'd', },
+      { key_code: 'KeyJ',      relative_pitch:  54, label_fname: 'e', },
+      { key_code: 'KeyK',      relative_pitch:  60, label_fname: 'f', },
+      { key_code: 'KeyL',      relative_pitch:  80, label_fname: 'g', },
+      { key_code: 'Semicolon', relative_pitch:  84, label_fname: 'a', },
+      { key_code: 'Quote',     relative_pitch:  90, label_fname: 'b', },
  
-      { key_code: 'KeyX',      relative_pitch:   0, extra_label_1: '𝃯𝃗', },  // XXX
-      { key_code: 'Period',    relative_pitch:  72, extra_label_1: '𝃯𝃗', },  // XXX
+      { key_code: 'KeyX',      relative_pitch:   0, label_fname: 'g', label_glevel: -8, },
+      { key_code: 'Period',    relative_pitch:  72, label_fname: 'g', label_glevel: -8, },
   ];
 
   const KEYBOARD_MAP_ENARMONIOS = [
-      { key_code: 'KeyI',      relative_pitch:  64, extra_label_1: '𝃮', extra_label_2: '𝃑', },
+      { key_code: 'KeyI',      relative_pitch:  64, label_fname: 'f', label_glevel: 4, },
 
-      { key_code: 'CapsLock',  relative_pitch: -18, extra_label_1: '𝃭', },
-      { key_code: 'KeyA',      relative_pitch: -12, extra_label_1: '𝃮', },
-      { key_code: 'KeyS',      relative_pitch:   0, extra_label_1: '𝃯', },
-      { key_code: 'KeyD',      relative_pitch:  12, extra_label_1: '𝃩', },
-      { key_code: 'KeyF',      relative_pitch:  24, extra_label_1: '𝃪', },
-      { key_code: 'KeyG',      relative_pitch:  30, extra_label_1: '𝃫', },
-      { key_code: 'KeyH',      relative_pitch:  42, extra_label_1: '𝃬', },
-      { key_code: 'KeyJ',      relative_pitch:  54, extra_label_1: '𝃭', },
-      { key_code: 'KeyK',      relative_pitch:  60, extra_label_1: '𝃮', },
-      { key_code: 'KeyL',      relative_pitch:  72, extra_label_1: '𝃯', },
-      { key_code: 'Semicolon', relative_pitch:  84, extra_label_1: '𝃩', },
-      { key_code: 'Quote',     relative_pitch:  96, extra_label_1: '𝃪', },
+      { key_code: 'CapsLock',  relative_pitch: -18, label_fname: 'e', },
+      { key_code: 'KeyA',      relative_pitch: -12, label_fname: 'f', },
+      { key_code: 'KeyS',      relative_pitch:   0, label_fname: 'g', },
+      { key_code: 'KeyD',      relative_pitch:  12, label_fname: 'a', },
+      { key_code: 'KeyF',      relative_pitch:  24, label_fname: 'b', },
+      { key_code: 'KeyG',      relative_pitch:  30, label_fname: 'c', },
+      { key_code: 'KeyH',      relative_pitch:  42, label_fname: 'd', },
+      { key_code: 'KeyJ',      relative_pitch:  54, label_fname: 'e', },
+      { key_code: 'KeyK',      relative_pitch:  60, label_fname: 'f', },
+      { key_code: 'KeyL',      relative_pitch:  72, label_fname: 'g', },
+      { key_code: 'Semicolon', relative_pitch:  84, label_fname: 'a', },
+      { key_code: 'Quote',     relative_pitch:  96, label_fname: 'b', },
   ];
 
   const KEYBOARD_LAYOUT = [
@@ -653,8 +653,29 @@
       extra_label_1 = key_div.querySelector('.keyboard-key-extra-label-1');
       extra_label_2 = key_div.querySelector('.keyboard-key-extra-label-2');
       if (key) {
-        extra_label_1.textContent = key.extra_label_1 || '';
-        extra_label_2.textContent = key.extra_label_2 || '';
+	const extra_label_1_text = new Map([
+	  ['a', '𝃩'],
+	  ['b', '𝃪'],
+	  ['c', '𝃫'],
+	  ['d', '𝃬'],
+	  ['e', '𝃭'],
+	  ['f', '𝃮'],
+	  ['g', '𝃯'],
+	]).get(key.label_fname);
+	const extra_label_1_gradation_text = new Map([
+	  [-2, '𝃔'],
+	  [-4, '𝃕'],
+	  [-6, '𝃖'],
+	  [-8, '𝃗'],
+	]).get(key.label_glevel);
+	const extra_label_2_gradation_text = new Map([
+	  [2, '𝃐'],
+	  [4, '𝃑'],
+	  [6, '𝃒'],
+	  [8, '𝃓'],
+	]).get(key.label_glevel);
+        extra_label_1.textContent = extra_label_1_text + (extra_label_1_gradation_text || '');
+        extra_label_2.textContent = extra_label_2_gradation_text || '';
       } else {
         extra_label_1.textContent = '';
         extra_label_2.textContent = '';
