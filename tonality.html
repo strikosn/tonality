@@ -278,17 +278,17 @@
 
       <label>Νότα βάσης του Νη:</label>
       <div style='display: flex;'>
-	<div class='stepper' id='base-note-stepper' style='width: 250px;'>
-	  <button class='stepper-minus' onclick='SelectBaseNote(-1);' data-shortcut='PageDown'>-</button>
-	  <div></div>
-	  <button class='stepper-plus' onclick='SelectBaseNote(+1);' data-shortcut='PageUp'>+</button>
-	</div>
+        <div class='stepper' id='base-note-stepper' style='width: 250px;'>
+          <button class='stepper-minus' onclick='SelectBaseNote(-1);' data-shortcut='PageDown'>-</button>
+          <div></div>
+          <button class='stepper-plus' onclick='SelectBaseNote(+1);' data-shortcut='PageUp'>+</button>
+        </div>
 
-	<div class='stepper' id='global-pitch-stepper' style='margin-left: 10px; width: 200px;'>
-	  <button class='stepper-minus' onclick='SetGlobalPitchOffset(-1);'>-</button>
-	  <div></div>
-	  <button class='stepper-plus' onclick='SetGlobalPitchOffset(+1);'>+</button>
-	</div>
+        <div class='stepper' id='global-pitch-stepper' style='margin-left: 10px; width: 200px;'>
+          <button class='stepper-minus' onclick='SetGlobalPitchOffset(-1);'>-</button>
+          <div></div>
+          <button class='stepper-plus' onclick='SetGlobalPitchOffset(+1);'>+</button>
+        </div>
       </div>
 
       <label>Επαναφορά:</label>
@@ -616,9 +616,9 @@
       const extra_label_1 = key_div.querySelector('.keyboard-key-extra-label-1');
       const extra_label_2 = key_div.querySelector('.keyboard-key-extra-label-2');
       if (key) {
-	const extra_label_1_text = FNAME_TO_UNICODE_MAP.get(key.label_fname);
-	const extra_label_1_gradation_text = GRADATION_TO_UNICODE_MAP_1.get(key.label_glevel);
-	const extra_label_2_gradation_text = GRADATION_TO_UNICODE_MAP_2.get(key.label_glevel);
+        const extra_label_1_text = FNAME_TO_UNICODE_MAP.get(key.label_fname);
+        const extra_label_1_gradation_text = GRADATION_TO_UNICODE_MAP_1.get(key.label_glevel);
+        const extra_label_2_gradation_text = GRADATION_TO_UNICODE_MAP_2.get(key.label_glevel);
         extra_label_1.textContent = extra_label_1_text + (extra_label_1_gradation_text || '');
         extra_label_2.textContent = extra_label_2_gradation_text || '';
       } else {
@@ -1162,7 +1162,7 @@
           ctx.textBaseline = 'middle';
           ctx.fillText(`${Math.floor(lastPitch)} Hz`, canvas.width / 2, canvas.height - 20);
           ctx.restore();
-	}
+        }
       }
     }
 
@@ -1246,7 +1246,7 @@
         if (history.length > PITCH_GRAPH_HISTORY_LENGTH) {
           history.shift();
         }
-	canvas_invalidated = true;
+        canvas_invalidated = true;
       }
     };
 
@@ -1363,9 +1363,9 @@
 
       for (const [index, key_code] of ['KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL'].entries()) {
         if (event.code == key_code) {
-	  tune_offset = index;
-	  break;
-	}
+          tune_offset = index;
+          break;
+        }
       }
 
       if (tune_offset !== null) {
