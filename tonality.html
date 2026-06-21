@@ -272,6 +272,7 @@
           <div class='dropdown-item' data-id='πλάγιος β'  onclick='SelectKeyboardMap(this);' data-shortcut='F3'>Ήχος Πλάγιος Β'</div>
           <div class='dropdown-item' data-id='εναρμόνιος' onclick='SelectKeyboardMap(this);' data-shortcut='F4'>Εναρμόνιος κλίμακα</div>
           <div class='dropdown-item' data-id='σ-ε-Α'      onclick='SelectKeyboardMap(this);'>Στιχηρά εσπέρια ήχος Α'</div>
+          <div class='dropdown-item' data-id='σ-ε-Β'      onclick='SelectKeyboardMap(this);'>Στιχηρά εσπέρια ήχος Β'</div>
         </div>
       </details>
 
@@ -579,6 +580,9 @@
       summary.textContent = element.textContent;
     } else if (element.dataset.id === 'σ-ε-Α') {
       active_keyboard_map_index = 4;
+      summary.textContent = element.textContent;
+    } else if (element.dataset.id === 'σ-ε-Β') {
+      active_keyboard_map_index = 5;
       summary.textContent = element.textContent;
     }
 
