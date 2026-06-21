@@ -82,6 +82,7 @@
     },
     {
       "steps": [
+        { "relative_pitch":   0 },
         { "relative_pitch":   6 },
         { "relative_pitch":   8, "label_fname": "a" },
         { "relative_pitch":  22, "label_fname": "b" },
