@@ -1006,16 +1006,18 @@
         ctx.lineTo(x_left + width, note_y);
         ctx.stroke();
 
-        const text_coordinate = ctx.getTransform().inverse().transformPoint({ x: x_left + width + 8, y: note_y - 4 });
+        if (steps[note_interval_index].label_fname) {
+          const text_coordinate = ctx.getTransform().inverse().transformPoint({ x: x_left + width + 8, y: note_y - 4 });
 
-        ctx.save();
-        ctx.resetTransform();
-        ctx.font = '34px monospace';
-        ctx.fillStyle = is_highlighted ? STYLE_SCALE_LINE_ACTIVE_COLOR : STYLE_SCALE_LINE_INACTIVE_COLOR;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(FNAME_TO_UNICODE_MAP.get(steps[note_interval_index].label_fname), text_coordinate.x, text_coordinate.y);
-        ctx.restore();
+          ctx.save();
+          ctx.resetTransform();
+          ctx.font = '34px monospace';
+          ctx.fillStyle = is_highlighted ? STYLE_SCALE_LINE_ACTIVE_COLOR : STYLE_SCALE_LINE_INACTIVE_COLOR;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(FNAME_TO_UNICODE_MAP.get(steps[note_interval_index].label_fname), text_coordinate.x, text_coordinate.y);
+          ctx.restore();
+        }
 
         note_interval_index++;
       } else {

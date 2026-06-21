@@ -79,5 +79,25 @@
         { "relative_pitch":  72, "label_fname": "g" },
         { "relative_pitch":  84, "label_fname": "a" }
       ]
+    },
+    {
+      "steps": [
+        { "relative_pitch":   6 },
+        { "relative_pitch":   8, "label_fname": "a" },
+        { "relative_pitch":  22, "label_fname": "b" },
+        { "relative_pitch":  26 },
+        { "relative_pitch":  30, "label_fname": "c" },
+        { "relative_pitch":  42, "label_fname": "d" },
+        { "relative_pitch":  48 },
+        { "relative_pitch":  50, "label_fname": "e" },
+        { "relative_pitch":  52 },
+        { "relative_pitch":  60 },
+        { "relative_pitch":  64, "label_fname": "f" },
+        { "relative_pitch":  70 },
+        { "relative_pitch":  72, "label_fname": "g" },
+        { "relative_pitch":  74 },
+        { "relative_pitch":  80, "label_fname": "a" },
+        { "relative_pitch":  84 }
+      ]
     }
 ]
