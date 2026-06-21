@@ -858,28 +858,84 @@
   const SCALES = [
     {
       id: 'διατονική',
-      notes: [-30, -18, -8, 0, 12, 22, 30, 42, 54, 64, 72, 84, 94],
-      label_fnames: ['d', 'e', 'f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b'],
+      steps: [
+        { relative_pitch: -30, label_fname: 'd' },
+        { relative_pitch: -18, label_fname: 'e' },
+        { relative_pitch:  -8, label_fname: 'f' },
+        { relative_pitch:   0, label_fname: 'g' },
+        { relative_pitch:  12, label_fname: 'a' },
+        { relative_pitch:  22, label_fname: 'b' },
+        { relative_pitch:  30, label_fname: 'c' },
+        { relative_pitch:  42, label_fname: 'd' },
+        { relative_pitch:  54, label_fname: 'e' },
+        { relative_pitch:  64, label_fname: 'f' },
+        { relative_pitch:  72, label_fname: 'g' },
+        { relative_pitch:  84, label_fname: 'a' },
+        { relative_pitch:  94, label_fname: 'b' },
+      ],
     },
     {
       id: 'διατονική-τροχός',
-      notes: [-30, -20, -12, 0, 12, 22, 30, 42, 54, 64, 72, 84, 96],
-      label_fnames: ['d', 'e', 'f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b'],
+      steps: [
+        { relative_pitch: -30, label_fname: 'd' },
+        { relative_pitch: -20, label_fname: 'e' },
+        { relative_pitch: -12, label_fname: 'f' },
+        { relative_pitch:   0, label_fname: 'g' },
+        { relative_pitch:  12, label_fname: 'a' },
+        { relative_pitch:  22, label_fname: 'b' },
+        { relative_pitch:  30, label_fname: 'c' },
+        { relative_pitch:  42, label_fname: 'd' },
+        { relative_pitch:  54, label_fname: 'e' },
+        { relative_pitch:  64, label_fname: 'f' },
+        { relative_pitch:  72, label_fname: 'g' },
+        { relative_pitch:  84, label_fname: 'a' },
+        { relative_pitch:  96, label_fname: 'b' },
+      ],
     },
     {
       id: 'β',
-      notes: [-8, 0, 8, 22, 30, 42, 50, 64, 72, 80],
-      label_fnames: ['f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a'],
+      steps: [
+        { relative_pitch:  -8, label_fname: 'f' },
+        { relative_pitch:   0, label_fname: 'g' },
+        { relative_pitch:   8, label_fname: 'a' },
+        { relative_pitch:  22, label_fname: 'b' },
+        { relative_pitch:  30, label_fname: 'c' },
+        { relative_pitch:  42, label_fname: 'd' },
+        { relative_pitch:  50, label_fname: 'e' },
+        { relative_pitch:  64, label_fname: 'f' },
+        { relative_pitch:  72, label_fname: 'g' },
+        { relative_pitch:  80, label_fname: 'a' },
+      ],
     },
     {
       id: 'πλάγιος β',
-      notes: [-12, 8, 12, 18, 38, 42, 54, 60, 80, 84],
-      label_fnames: ['f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a'],
+      steps: [
+        { relative_pitch: -12, label_fname: 'f' },
+        { relative_pitch:   8, label_fname: 'g' },
+        { relative_pitch:  12, label_fname: 'a' },
+        { relative_pitch:  18, label_fname: 'b' },
+        { relative_pitch:  38, label_fname: 'c' },
+        { relative_pitch:  42, label_fname: 'd' },
+        { relative_pitch:  54, label_fname: 'e' },
+        { relative_pitch:  60, label_fname: 'f' },
+        { relative_pitch:  80, label_fname: 'g' },
+        { relative_pitch:  84, label_fname: 'a' },
+      ],
     },
     {
       id: 'εναρμόνιος',
-      notes: [-12, 0, 12, 24, 30, 42, 54, 60, 72, 84],
-      label_fnames: ['f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a'],
+      steps: [
+        { relative_pitch: -12, label_fname: 'f' },
+        { relative_pitch:   0, label_fname: 'g' },
+        { relative_pitch:  12, label_fname: 'a' },
+        { relative_pitch:  24, label_fname: 'b' },
+        { relative_pitch:  30, label_fname: 'c' },
+        { relative_pitch:  42, label_fname: 'd' },
+        { relative_pitch:  54, label_fname: 'e' },
+        { relative_pitch:  60, label_fname: 'f' },
+        { relative_pitch:  72, label_fname: 'g' },
+        { relative_pitch:  84, label_fname: 'a' },
+      ],
     },
   ];
 
@@ -983,7 +1039,7 @@
     }
   }
 
-  function DrawBands(y_function, notes, width, ctx) {
+  function DrawBands(y_function, steps, width, ctx) {
     let note_interval_index = 0;
     let band_info = [];
 
@@ -993,9 +1049,9 @@
 
     ctx.fillStyle = STYLE_SCALE_BAND_COLOR;
 
-    if (notes) {
-      for (let i = notes[0]; i <= notes[notes.length - 1]; i += 2) {
-        if (i == notes[note_interval_index]) {
+    if (steps) {
+      for (let i = steps[0].relative_pitch; i <= steps[steps.length - 1].relative_pitch; i += 2) {
+        if (i == steps[note_interval_index].relative_pitch) {
           const y_low = base_frequency_y + i / 72.0 * octave_height - band_height / 2
           ctx.fillRect(0, y_low, width, band_height);
           band_info.push([y_low, y_low + band_height]);
@@ -1007,7 +1063,7 @@
     return band_info;
   }
 
-  function DrawScale(y_function, notes, label_fnames, x_left, width, is_highlighted, ctx) {
+  function DrawScale(y_function, steps, x_left, width, is_highlighted, ctx) {
     let note_interval_index = 0;
 
     const band_height = y_function(Math.pow(2, 5.0 / 72.0)) - y_function(Math.pow(2, 1.0 / 72.0)) - 1 /* small visual margin */;
@@ -1015,8 +1071,8 @@
     const line_width = is_highlighted ? STYLE_SCALE_LINE_ACTIVE_LINE_WIDTH : STYLE_SCALE_LINE_INACTIVE_LINE_WIDTH;
     const octave_height = y_function(base_frequency_hz * 2.0) - y_function(base_frequency_hz);
 
-    for (let i = notes[0]; i <= notes[notes.length - 1]; i += 2) {
-      if (i == notes[note_interval_index]) {
+    for (let i = steps[0].relative_pitch; i <= steps[steps.length - 1].relative_pitch; i += 2) {
+      if (i == steps[note_interval_index].relative_pitch) {
         const note_y = base_frequency_y + i / 72.0 * octave_height;
 
         ctx.lineWidth = line_width;
@@ -1034,7 +1090,7 @@
         ctx.fillStyle = is_highlighted ? STYLE_SCALE_LINE_ACTIVE_COLOR : STYLE_SCALE_LINE_INACTIVE_COLOR;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(FNAME_TO_UNICODE_MAP.get(label_fnames[note_interval_index]), text_coordinate.x, text_coordinate.y);
+        ctx.fillText(FNAME_TO_UNICODE_MAP.get(steps[note_interval_index].label_fname), text_coordinate.x, text_coordinate.y);
         ctx.restore();
 
         note_interval_index++;
@@ -1052,7 +1108,7 @@
 
     ctx.lineWidth = line_width;
     ctx.strokeStyle = is_highlighted ? STYLE_SCALE_LINE_ACTIVE_COLOR : STYLE_SCALE_LINE_INACTIVE_COLOR;
-    ctx.strokeRect(x_left, base_frequency_y + notes[0] / 72.0 * octave_height, width, (notes[notes.length - 1] - notes[0]) / 72.0 * octave_height);
+    ctx.strokeRect(x_left, base_frequency_y + steps[0].relative_pitch / 72.0 * octave_height, width, (steps[steps.length - 1].relative_pitch - steps[0].relative_pitch) / 72.0 * octave_height);
   }
 
   function DrawPitchGraph() {
@@ -1081,7 +1137,7 @@
 
     const band_info = DrawBands(
       /*y_function=*/y,
-      /*notes=*/SCALES.find(scale => scale.id == highlighted_scale)?.notes,
+      /*steps=*/SCALES.find(scale => scale.id == highlighted_scale)?.steps,
       /*width=*/history_area_right,
       /*ctx=*/ctx);
 
@@ -1169,8 +1225,7 @@
     for (let i = 0; i < SCALES.length; i++) {
       DrawScale(
         /*y_function=*/y,
-        /*notes=*/SCALES[i].notes,
-        /*label_fnames=*/SCALES[i].label_fnames,
+        /*steps=*/SCALES[i].steps,
         /*x_left=*/LAYOUT_SCALE_LEFT_MARGIN + (LAYOUT_SCALE_WIDTH + LAYOUT_SCALE_MARGIN) * i,
         /*width=*/LAYOUT_SCALE_WIDTH,
         /*is_highlighted=*/SCALES[i].id == highlighted_scale,
