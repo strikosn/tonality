@@ -120,10 +120,10 @@
       { "key_code" : "Digit8",    "relative_pitch" :  48, "label_fname" : "f" },
 
       { "key_code" : "KeyY",      "relative_pitch" :  42, "label_fname" : "a" },
-      { "key_code" : "KeyU",      "relative_pitch" :  50, "label_fname" : "b" },
-      { "key_code" : "KeyI",      "relative_pitch" :  70, "label_fname" : "c" },
-      { "key_code" : "KeyO",      "relative_pitch" :  74, "label_fname" : "d" },
-      { "key_code" : "KeyP",      "relative_pitch" :  84, "label_fname" : "e" },
+      { "key_code" : "KeyU",      "relative_pitch" :  48, "label_fname" : "b" },
+      { "key_code" : "KeyI",      "relative_pitch" :  68, "label_fname" : "c" },
+      { "key_code" : "KeyO",      "relative_pitch" :  72, "label_fname" : "d" },
+      { "key_code" : "KeyP",      "relative_pitch" :  82, "label_fname" : "e" },
 
       { "key_code" : "KeyD",      "relative_pitch" :   8, "label_fname" : "a" },
       { "key_code" : "KeyF",      "relative_pitch" :  22, "label_fname" : "b" },

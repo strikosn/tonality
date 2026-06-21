@@ -94,11 +94,10 @@
         { "relative_pitch":  52 },
         { "relative_pitch":  60 },
         { "relative_pitch":  64, "label_fname": "f" },
-        { "relative_pitch":  70 },
+        { "relative_pitch":  68 },
         { "relative_pitch":  72, "label_fname": "g" },
-        { "relative_pitch":  74 },
         { "relative_pitch":  80, "label_fname": "a" },
-        { "relative_pitch":  84 }
+        { "relative_pitch":  82 }
       ]
     }
 ]
