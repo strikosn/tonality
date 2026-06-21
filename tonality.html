@@ -359,8 +359,6 @@
 
 <script>
 
-  let keyboard_map = [];
-
   const KEYBOARD_LAYOUT = [
     ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
     ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash'],
@@ -432,9 +430,34 @@
     'Tab':          { display: 'Tab', class: 'wide' },
   };
 
+  const FNAME_TO_UNICODE_MAP = new Map([
+    ['a', '𝃩'],
+    ['b', '𝃪'],
+    ['c', '𝃫'],
+    ['d', '𝃬'],
+    ['e', '𝃭'],
+    ['f', '𝃮'],
+    ['g', '𝃯'],
+  ]);
+
+  const GRADATION_TO_UNICODE_MAP_1 = new Map([
+    [-2, '𝃔'],
+    [-4, '𝃕'],
+    [-6, '𝃖'],
+    [-8, '𝃗'],
+  ]);
+
+  const GRADATION_TO_UNICODE_MAP_2 = new Map([
+    [2, '𝃐'],
+    [4, '𝃑'],
+    [6, '𝃒'],
+    [8, '𝃓'],
+  ]);
+
   let active_midi_output = null;
   let active_keyboard_map_index = null;
   let global_pitch_offset = 0;
+  let keyboard_map = [];
   let keyboard_notes_on = new Map();
   let midi_notes_on = new Map();
   let midi_key_offset = 46;
@@ -593,27 +616,9 @@
       const extra_label_1 = key_div.querySelector('.keyboard-key-extra-label-1');
       const extra_label_2 = key_div.querySelector('.keyboard-key-extra-label-2');
       if (key) {
-	const extra_label_1_text = new Map([
-	  ['a', '𝃩'],
-	  ['b', '𝃪'],
-	  ['c', '𝃫'],
-	  ['d', '𝃬'],
-	  ['e', '𝃭'],
-	  ['f', '𝃮'],
-	  ['g', '𝃯'],
-	]).get(key.label_fname);
-	const extra_label_1_gradation_text = new Map([
-	  [-2, '𝃔'],
-	  [-4, '𝃕'],
-	  [-6, '𝃖'],
-	  [-8, '𝃗'],
-	]).get(key.label_glevel);
-	const extra_label_2_gradation_text = new Map([
-	  [2, '𝃐'],
-	  [4, '𝃑'],
-	  [6, '𝃒'],
-	  [8, '𝃓'],
-	]).get(key.label_glevel);
+	const extra_label_1_text = FNAME_TO_UNICODE_MAP.get(key.label_fname);
+	const extra_label_1_gradation_text = GRADATION_TO_UNICODE_MAP_1.get(key.label_glevel);
+	const extra_label_2_gradation_text = GRADATION_TO_UNICODE_MAP_2.get(key.label_glevel);
         extra_label_1.textContent = extra_label_1_text + (extra_label_1_gradation_text || '');
         extra_label_2.textContent = extra_label_2_gradation_text || '';
       } else {
@@ -854,27 +859,27 @@
     {
       id: 'διατονική',
       notes: [-30, -18, -8, 0, 12, 22, 30, 42, 54, 64, 72, 84, 94],
-      note_labels: ['𝃬', '𝃭', '𝃮', '𝃯', '𝃩', '𝃪', '𝃫', '𝃬', '𝃭', '𝃮', '𝃯', '𝃩', '𝃪'],
+      label_fnames: ['d', 'e', 'f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b'],
     },
     {
       id: 'διατονική-τροχός',
       notes: [-30, -20, -12, 0, 12, 22, 30, 42, 54, 64, 72, 84, 96],
-      note_labels: ['𝃬', '𝃭', '𝃮', '𝃯', '𝃩', '𝃪', '𝃫', '𝃬', '𝃭', '𝃮', '𝃯', '𝃩', '𝃪'],
+      label_fnames: ['d', 'e', 'f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b'],
     },
     {
       id: 'β',
       notes: [-8, 0, 8, 22, 30, 42, 50, 64, 72, 80],
-      note_labels: ['𝃮', '𝃯', '𝃩', '𝃪', '𝃫', '𝃬', '𝃭', '𝃮', '𝃯', '𝃩'],
+      label_fnames: ['f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a'],
     },
     {
       id: 'πλάγιος β',
       notes: [-12, 8, 12, 18, 38, 42, 54, 60, 80, 84],
-      note_labels: ['𝃮', '𝃯', '𝃩', '𝃪', '𝃫', '𝃬', '𝃭', '𝃮', '𝃯', '𝃩'],
+      label_fnames: ['f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a'],
     },
     {
       id: 'εναρμόνιος',
       notes: [-12, 0, 12, 24, 30, 42, 54, 60, 72, 84],
-      note_labels: ['𝃮', '𝃯', '𝃩', '𝃪', '𝃫', '𝃬', '𝃭', '𝃮', '𝃯', '𝃩'],
+      label_fnames: ['f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a'],
     },
   ];
 
@@ -1002,7 +1007,7 @@
     return band_info;
   }
 
-  function DrawScale(y_function, notes, note_labels, x_left, width, is_highlighted, ctx) {
+  function DrawScale(y_function, notes, label_fnames, x_left, width, is_highlighted, ctx) {
     let note_interval_index = 0;
 
     const band_height = y_function(Math.pow(2, 5.0 / 72.0)) - y_function(Math.pow(2, 1.0 / 72.0)) - 1 /* small visual margin */;
@@ -1029,7 +1034,7 @@
         ctx.fillStyle = is_highlighted ? STYLE_SCALE_LINE_ACTIVE_COLOR : STYLE_SCALE_LINE_INACTIVE_COLOR;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(note_labels[note_interval_index], text_coordinate.x, text_coordinate.y);
+        ctx.fillText(FNAME_TO_UNICODE_MAP.get(label_fnames[note_interval_index]), text_coordinate.x, text_coordinate.y);
         ctx.restore();
 
         note_interval_index++;
@@ -1165,7 +1170,7 @@
       DrawScale(
         /*y_function=*/y,
         /*notes=*/SCALES[i].notes,
-        /*note_labels=*/SCALES[i].note_labels,
+        /*label_fnames=*/SCALES[i].label_fnames,
         /*x_left=*/LAYOUT_SCALE_LEFT_MARGIN + (LAYOUT_SCALE_WIDTH + LAYOUT_SCALE_MARGIN) * i,
         /*width=*/LAYOUT_SCALE_WIDTH,
         /*is_highlighted=*/SCALES[i].id == highlighted_scale,
