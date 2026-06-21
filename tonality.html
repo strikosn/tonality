@@ -434,7 +434,8 @@
   let active_midi_output = null;
   let active_keyboard_map_index = null;
   let global_pitch_offset = 0;
-  let notes_on = {};
+  let keyboard_notes_on = new Map();
+  let midi_notes_on = new Map();
   let midi_key_offset = 46;
   let keyboard_keys_mapping = {};
 
@@ -445,7 +446,8 @@
   function StopKeyboard() {
     WebMidi.disable();
     active_midi_output = null;
-    notes_on = {};
+    keyboard_notes_on.clear();
+    midi_notes_on.clear();
 
     const list = document.querySelector('#midi-output-dropdown-list');
     list.innerHTML = '';
@@ -658,7 +660,7 @@
   }
 
   function NoteOn(key_code) {
-    if (key_code in notes_on) return;
+    if (keyboard_notes_on.has(key_code)) return;
 
     const active_keyboard_map = keyboard_map[active_keyboard_map_index];
     if (!active_keyboard_map) return;
@@ -683,21 +685,36 @@
 
     if (computed_midi_channel === null) return;
 
-    midi_key = midi_key_offset + computed_relative_midi_key;
-    notes_on[key_code] = {'midi_channel': computed_midi_channel, 'midi_key': midi_key}
+    const midi_key = midi_key_offset + computed_relative_midi_key;
+    const midi_channel_and_key = {'midi_channel': computed_midi_channel, 'midi_key': midi_key};
+    keyboard_notes_on.set(key_code, midi_channel_and_key);
+
     if (active_midi_output) {
-      active_midi_output.channels[computed_midi_channel].sendNoteOn(note=midi_key, attack=1.0);
+      const key = `${computed_midi_channel}:${midi_key}`;
+      let on_count = midi_notes_on.get(key) ?? 0;
+      midi_notes_on.set(key, ++on_count);
+      if (on_count == 1) {
+        active_midi_output.channels[computed_midi_channel].sendNoteOn(note=midi_key, attack=1.0);
+      }
     }
   }
 
   function NoteOff(key_code) {
-    const note_on = notes_on[key_code];
+    const midi_channel_and_key = keyboard_notes_on.get(key_code);
+    if (midi_channel_and_key === undefined) return;
 
-    if (note_on) {
-      if (active_midi_output) {
-        active_midi_output.channels[note_on['midi_channel']].sendNoteOff(note=note_on['midi_key'], release=1.0);
+    const computed_midi_channel = midi_channel_and_key['midi_channel'];
+    const midi_key = midi_channel_and_key['midi_key'];
+
+    keyboard_notes_on.delete(key_code);
+
+    if (active_midi_output) {
+      const key = `${computed_midi_channel}:${midi_key}`;
+      let on_count = midi_notes_on.get(key) ?? 0;
+      midi_notes_on.set(key, --on_count);
+      if (on_count == 0) {
+        active_midi_output.channels[computed_midi_channel].sendNoteOff(note=midi_key, release=1.0);
       }
-      delete notes_on[key_code];
     }
   }
 
