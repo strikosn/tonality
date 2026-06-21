@@ -855,90 +855,7 @@
   const STYLE_SCALE_TICK_COLOR = 'grey';
   const STYLE_SCALE_TICK_LINE_WIDTH = 0.5;
 
-  const SCALES = [
-    {
-      id: 'διατονική',
-      steps: [
-        { relative_pitch: -30, label_fname: 'd' },
-        { relative_pitch: -18, label_fname: 'e' },
-        { relative_pitch:  -8, label_fname: 'f' },
-        { relative_pitch:   0, label_fname: 'g' },
-        { relative_pitch:  12, label_fname: 'a' },
-        { relative_pitch:  22, label_fname: 'b' },
-        { relative_pitch:  30, label_fname: 'c' },
-        { relative_pitch:  42, label_fname: 'd' },
-        { relative_pitch:  54, label_fname: 'e' },
-        { relative_pitch:  64, label_fname: 'f' },
-        { relative_pitch:  72, label_fname: 'g' },
-        { relative_pitch:  84, label_fname: 'a' },
-        { relative_pitch:  94, label_fname: 'b' },
-      ],
-    },
-    {
-      id: 'διατονική-τροχός',
-      steps: [
-        { relative_pitch: -30, label_fname: 'd' },
-        { relative_pitch: -20, label_fname: 'e' },
-        { relative_pitch: -12, label_fname: 'f' },
-        { relative_pitch:   0, label_fname: 'g' },
-        { relative_pitch:  12, label_fname: 'a' },
-        { relative_pitch:  22, label_fname: 'b' },
-        { relative_pitch:  30, label_fname: 'c' },
-        { relative_pitch:  42, label_fname: 'd' },
-        { relative_pitch:  54, label_fname: 'e' },
-        { relative_pitch:  64, label_fname: 'f' },
-        { relative_pitch:  72, label_fname: 'g' },
-        { relative_pitch:  84, label_fname: 'a' },
-        { relative_pitch:  96, label_fname: 'b' },
-      ],
-    },
-    {
-      id: 'β',
-      steps: [
-        { relative_pitch:  -8, label_fname: 'f' },
-        { relative_pitch:   0, label_fname: 'g' },
-        { relative_pitch:   8, label_fname: 'a' },
-        { relative_pitch:  22, label_fname: 'b' },
-        { relative_pitch:  30, label_fname: 'c' },
-        { relative_pitch:  42, label_fname: 'd' },
-        { relative_pitch:  50, label_fname: 'e' },
-        { relative_pitch:  64, label_fname: 'f' },
-        { relative_pitch:  72, label_fname: 'g' },
-        { relative_pitch:  80, label_fname: 'a' },
-      ],
-    },
-    {
-      id: 'πλάγιος β',
-      steps: [
-        { relative_pitch: -12, label_fname: 'f' },
-        { relative_pitch:   8, label_fname: 'g' },
-        { relative_pitch:  12, label_fname: 'a' },
-        { relative_pitch:  18, label_fname: 'b' },
-        { relative_pitch:  38, label_fname: 'c' },
-        { relative_pitch:  42, label_fname: 'd' },
-        { relative_pitch:  54, label_fname: 'e' },
-        { relative_pitch:  60, label_fname: 'f' },
-        { relative_pitch:  80, label_fname: 'g' },
-        { relative_pitch:  84, label_fname: 'a' },
-      ],
-    },
-    {
-      id: 'εναρμόνιος',
-      steps: [
-        { relative_pitch: -12, label_fname: 'f' },
-        { relative_pitch:   0, label_fname: 'g' },
-        { relative_pitch:  12, label_fname: 'a' },
-        { relative_pitch:  24, label_fname: 'b' },
-        { relative_pitch:  30, label_fname: 'c' },
-        { relative_pitch:  42, label_fname: 'd' },
-        { relative_pitch:  54, label_fname: 'e' },
-        { relative_pitch:  60, label_fname: 'f' },
-        { relative_pitch:  72, label_fname: 'g' },
-        { relative_pitch:  84, label_fname: 'a' },
-      ],
-    },
-  ];
-
+  let scale_map = [];
   let active_pitch_detector = null;
   let highlighted_scale = null;
   let base_frequency_hz;
@@ -1004,6 +921,13 @@
     let note_index = midi_number % 12;
     if (note_index < 0) note_index += 12;
     return `${notes[note_index]}${octave}`;
+  }
+
+  function LoadScaleMap() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', './scale_map.json', false);
+    xhr.send();
+    scale_map = JSON.parse(xhr.responseText);
   }
 
   function DrawPiano(x_left, x_right, y_function, ctx) {
@@ -1131,13 +1055,13 @@
       /*y_function=*/y,
       /*ctx=*/ctx);
 
-    const history_area_left = LAYOUT_SCALE_LEFT_MARGIN + SCALES.length * (LAYOUT_SCALE_WIDTH + LAYOUT_SCALE_MARGIN) + LAYOUT_SCALE_RIGHT_MARGIN;
+    const history_area_left = LAYOUT_SCALE_LEFT_MARGIN + scale_map.length * (LAYOUT_SCALE_WIDTH + LAYOUT_SCALE_MARGIN) + LAYOUT_SCALE_RIGHT_MARGIN;
     const history_area_right = canvas.width - LAYOUT_PIANO_WIDTH;
     const history_area_width = history_area_right - history_area_left;
 
     const band_info = DrawBands(
       /*y_function=*/y,
-      /*steps=*/SCALES.find(scale => scale.id == highlighted_scale)?.steps,
+      /*steps=*/scale_map.find(scale => scale.id == highlighted_scale)?.steps,
       /*width=*/history_area_right,
       /*ctx=*/ctx);
 
@@ -1222,13 +1146,13 @@
       }
     }
 
-    for (let i = 0; i < SCALES.length; i++) {
+    for (let i = 0; i < scale_map.length; i++) {
       DrawScale(
         /*y_function=*/y,
-        /*steps=*/SCALES[i].steps,
+        /*steps=*/scale_map[i].steps,
         /*x_left=*/LAYOUT_SCALE_LEFT_MARGIN + (LAYOUT_SCALE_WIDTH + LAYOUT_SCALE_MARGIN) * i,
         /*width=*/LAYOUT_SCALE_WIDTH,
-        /*is_highlighted=*/SCALES[i].id == highlighted_scale,
+        /*is_highlighted=*/scale_map[i].id == highlighted_scale,
         /*ctx=*/ctx);
     }
   }
@@ -1346,7 +1270,7 @@
   }
 
   function TuneByOffset(index_offset) {
-    const active_notes = SCALES.find(scale => scale.id == highlighted_scale)?.notes;
+    const active_notes = scale_map.find(scale => scale.id == highlighted_scale)?.notes;
     if (!active_notes) return;
     const base_index = active_notes.indexOf(0);
     if (!(base_index >= 0)) return;
@@ -1393,6 +1317,7 @@
   });
 
   document.addEventListener('DOMContentLoaded', () => {
+    LoadScaleMap();
     ResetPitchLayout();
     window.exports.ResetPitchLayout = ResetPitchLayout;
     window.exports.SelectHighlightedScale = SelectHighlightedScale;
@@ -1435,7 +1360,7 @@
 
     const rect = canvas.getBoundingClientRect();
     const anchor_point = { x: event.clientX - rect.left, y: canvas.height - event.clientY + rect.top };
-    const history_area_left = LAYOUT_SCALE_LEFT_MARGIN + SCALES.length * (LAYOUT_SCALE_WIDTH + LAYOUT_SCALE_MARGIN) + LAYOUT_SCALE_RIGHT_MARGIN;
+    const history_area_left = LAYOUT_SCALE_LEFT_MARGIN + scale_map.length * (LAYOUT_SCALE_WIDTH + LAYOUT_SCALE_MARGIN) + LAYOUT_SCALE_RIGHT_MARGIN;
 
     if (anchor_point.x < history_area_left) {
       dragging = { anchor_point: anchor_point, anchor_base_frequency: base_frequency_hz };
@@ -1490,7 +1415,7 @@
     const anchor_point = { x: event.clientX - rect.left, y: canvas.height - event.clientY + rect.top };
 
     if (!event.getModifierState('Control')) {
-      const history_area_left = LAYOUT_SCALE_LEFT_MARGIN + SCALES.length * (LAYOUT_SCALE_WIDTH + LAYOUT_SCALE_MARGIN) + LAYOUT_SCALE_RIGHT_MARGIN;
+      const history_area_left = LAYOUT_SCALE_LEFT_MARGIN + scale_map.length * (LAYOUT_SCALE_WIDTH + LAYOUT_SCALE_MARGIN) + LAYOUT_SCALE_RIGHT_MARGIN;
       const direction = Math.sign(event.deltaY);
 
       if (anchor_point.x < history_area_left) {

@@ -1,0 +1,83 @@
+[
+    {
+      "id": "διατονική",
+      "steps": [
+        { "relative_pitch": -30, "label_fname": "d" },
+        { "relative_pitch": -18, "label_fname": "e" },
+        { "relative_pitch":  -8, "label_fname": "f" },
+        { "relative_pitch":   0, "label_fname": "g" },
+        { "relative_pitch":  12, "label_fname": "a" },
+        { "relative_pitch":  22, "label_fname": "b" },
+        { "relative_pitch":  30, "label_fname": "c" },
+        { "relative_pitch":  42, "label_fname": "d" },
+        { "relative_pitch":  54, "label_fname": "e" },
+        { "relative_pitch":  64, "label_fname": "f" },
+        { "relative_pitch":  72, "label_fname": "g" },
+        { "relative_pitch":  84, "label_fname": "a" },
+        { "relative_pitch":  94, "label_fname": "b" }
+      ]
+    },
+    {
+      "id": "διατονική-τροχός",
+      "steps": [
+        { "relative_pitch": -30, "label_fname": "d" },
+        { "relative_pitch": -20, "label_fname": "e" },
+        { "relative_pitch": -12, "label_fname": "f" },
+        { "relative_pitch":   0, "label_fname": "g" },
+        { "relative_pitch":  12, "label_fname": "a" },
+        { "relative_pitch":  22, "label_fname": "b" },
+        { "relative_pitch":  30, "label_fname": "c" },
+        { "relative_pitch":  42, "label_fname": "d" },
+        { "relative_pitch":  54, "label_fname": "e" },
+        { "relative_pitch":  64, "label_fname": "f" },
+        { "relative_pitch":  72, "label_fname": "g" },
+        { "relative_pitch":  84, "label_fname": "a" },
+        { "relative_pitch":  96, "label_fname": "b" }
+      ]
+    },
+    {
+      "id": "β",
+      "steps": [
+        { "relative_pitch":  -8, "label_fname": "f" },
+        { "relative_pitch":   0, "label_fname": "g" },
+        { "relative_pitch":   8, "label_fname": "a" },
+        { "relative_pitch":  22, "label_fname": "b" },
+        { "relative_pitch":  30, "label_fname": "c" },
+        { "relative_pitch":  42, "label_fname": "d" },
+        { "relative_pitch":  50, "label_fname": "e" },
+        { "relative_pitch":  64, "label_fname": "f" },
+        { "relative_pitch":  72, "label_fname": "g" },
+        { "relative_pitch":  80, "label_fname": "a" }
+      ]
+    },
+    {
+      "id": "πλάγιος β",
+      "steps": [
+        { "relative_pitch": -12, "label_fname": "f" },
+        { "relative_pitch":   8, "label_fname": "g" },
+        { "relative_pitch":  12, "label_fname": "a" },
+        { "relative_pitch":  18, "label_fname": "b" },
+        { "relative_pitch":  38, "label_fname": "c" },
+        { "relative_pitch":  42, "label_fname": "d" },
+        { "relative_pitch":  54, "label_fname": "e" },
+        { "relative_pitch":  60, "label_fname": "f" },
+        { "relative_pitch":  80, "label_fname": "g" },
+        { "relative_pitch":  84, "label_fname": "a" }
+      ]
+    },
+    {
+      "id": "εναρμόνιος",
+      "steps": [
+        { "relative_pitch": -12, "label_fname": "f" },
+        { "relative_pitch":   0, "label_fname": "g" },
+        { "relative_pitch":  12, "label_fname": "a" },
+        { "relative_pitch":  24, "label_fname": "b" },
+        { "relative_pitch":  30, "label_fname": "c" },
+        { "relative_pitch":  42, "label_fname": "d" },
+        { "relative_pitch":  54, "label_fname": "e" },
+        { "relative_pitch":  60, "label_fname": "f" },
+        { "relative_pitch":  72, "label_fname": "g" },
+        { "relative_pitch":  84, "label_fname": "a" }
+      ]
+    }
+]
