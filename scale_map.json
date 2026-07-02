@@ -96,8 +96,8 @@
         { "relative_pitch":  64, "label_fname": "f" },
         { "relative_pitch":  68 },
         { "relative_pitch":  72, "label_fname": "g" },
-        { "relative_pitch":  80, "label_fname": "a" },
-        { "relative_pitch":  82 }
+        { "relative_pitch":  82 },
+        { "relative_pitch":  84, "label_fname": "a" }
       ]
     }
 ]
