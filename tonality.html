@@ -267,13 +267,6 @@
       <details id='keyboard-map-dropdown' class='dropdown-details' style='width: 460px;'>
         <summary id='keyboard-map-dropdown-summary'></summary>
         <div id='keyboard-map-dropdown-list' class='dropdown-list'>
-          <div class='dropdown-item' data-id='διατονική'  onclick='SelectKeyboardMap(this);' data-shortcut='F1' id='keyboard-map-default'>Διατονική κλίμακα</div>
-          <div class='dropdown-item' data-id='β'          onclick='SelectKeyboardMap(this);' data-shortcut='F2'>Ήχος Β'</div>
-          <div class='dropdown-item' data-id='πλάγιος β'  onclick='SelectKeyboardMap(this);' data-shortcut='F3'>Ήχος Πλάγιος Β'</div>
-          <div class='dropdown-item' data-id='εναρμόνιος' onclick='SelectKeyboardMap(this);' data-shortcut='F4'>Εναρμόνιος κλίμακα</div>
-          <div class='dropdown-item' data-id='σ-ε-Α'      onclick='SelectKeyboardMap(this);'>Στιχηρά εσπέρια ήχος Α'</div>
-          <div class='dropdown-item' data-id='σ-ε-Β'      onclick='SelectKeyboardMap(this);'>Στιχηρά εσπέρια ήχος Β'</div>
-          <div class='dropdown-item' data-id='σ-ε-Γ'      onclick='SelectKeyboardMap(this);'>Στιχηρά εσπέρια ήχος Γ'</div>
         </div>
       </details>
 
@@ -584,39 +577,44 @@
     xhr.setRequestHeader('Cache-Control', 'no-cache');
     xhr.send();
     keyboard_map = JSON.parse(xhr.responseText);
+
+    const list = document.querySelector('#keyboard-map-dropdown-list');
+
+    list.innerHTML = '';
+
+    for (let index = 0; index < keyboard_map.length; ++index) {
+      const div = document.createElement('div');
+      div.className = 'dropdown-item';
+      div.textContent = keyboard_map[index].name;
+
+      if (index == 0) {
+        div.dataset.shortcut = 'F1';
+      } else if (index == 1) {
+        div.dataset.shortcut = 'F2';
+      } else if (index == 2) {
+        div.dataset.shortcut = 'F3';
+      } else if (index == 3) {
+        div.dataset.shortcut = 'F4';
+      }
+
+      div.addEventListener('click', () => SelectKeyboardMap(index));
+      list.appendChild(div);
+    }
   }
 
-  function SelectKeyboardMap(element) {
+  function SelectKeyboardMap(index) {
     const dropdown = document.querySelector('#keyboard-map-dropdown');
     const summary  = document.querySelector('#keyboard-map-dropdown-summary');
     dropdown.removeAttribute('open');
 
-    if (element.dataset.id === 'διατονική') {
-      active_keyboard_map_index = 0;
-      summary.textContent = element.textContent;
-    } else if (element.dataset.id === 'β') {
-      active_keyboard_map_index = 1;
-      summary.textContent = element.textContent;
-    } else if (element.dataset.id === 'πλάγιος β') {
-      active_keyboard_map_index = 2;
-      summary.textContent = element.textContent;
-    } else if (element.dataset.id === 'εναρμόνιος') {
-      active_keyboard_map_index = 3;
-      summary.textContent = element.textContent;
-    } else if (element.dataset.id === 'σ-ε-Α') {
-      active_keyboard_map_index = 4;
-      summary.textContent = element.textContent;
-    } else if (element.dataset.id === 'σ-ε-Β') {
-      active_keyboard_map_index = 5;
-      summary.textContent = element.textContent;
-    } else if (element.dataset.id === 'σ-ε-Γ') {
-      active_keyboard_map_index = 6;
-      summary.textContent = element.textContent;
-    }
+    active_keyboard_map_index = index;
+
+    const active_keyboard_map = keyboard_map[active_keyboard_map_index];
+    if (!active_keyboard_map) return;
+
+    summary.textContent = active_keyboard_map.name;
 
     Object.entries(keyboard_keys_mapping).forEach(([key_code, key_div]) => {
-      const active_keyboard_map = keyboard_map[active_keyboard_map_index];
-      if (!active_keyboard_map) return;
       const key = active_keyboard_map.key_map.find(key => key.key_code === key_code);
       const extra_label_1 = key_div.querySelector('.keyboard-key-extra-label-1');
       const extra_label_2 = key_div.querySelector('.keyboard-key-extra-label-2');
@@ -783,7 +781,7 @@
   SelectBaseNote(0);
   SetGlobalPitchOffset(0);
   LoadKeyboardMap();
-  SelectKeyboardMap(document.querySelector('#keyboard-map-default'));
+  SelectKeyboardMap(0);
 
   window.addEventListener('keydown', event => {
     if (event.repeat) return; // prevent holding repeat
