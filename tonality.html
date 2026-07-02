@@ -580,6 +580,7 @@
   function LoadKeyboardMap() {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', './keyboard_map.json', false);
+    xhr.setRequestHeader('Cache-Control', 'no-cache');
     xhr.send();
     keyboard_map = JSON.parse(xhr.responseText);
   }
