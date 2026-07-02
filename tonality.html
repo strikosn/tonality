@@ -931,6 +931,7 @@
   function LoadScaleMap() {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', './scale_map.json', false);
+    xhr.setRequestHeader('Cache-Control', 'no-cache');
     xhr.send();
     scale_map = JSON.parse(xhr.responseText);
   }
