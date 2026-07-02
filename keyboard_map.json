@@ -69,6 +69,7 @@
     "name" : "Εναρμόνιος κλίμακα",
     "key_map" : [
       { "key_code" : "KeyI",      "relative_pitch" :  64, "label_fname" : "f", "label_glevel" : 4 },
+
       { "key_code" : "CapsLock",  "relative_pitch" : -18, "label_fname" : "e" },
       { "key_code" : "KeyA",      "relative_pitch" : -12, "label_fname" : "f" },
       { "key_code" : "KeyS",      "relative_pitch" :   0, "label_fname" : "g" },
@@ -138,6 +139,29 @@
       { "key_code" : "KeyM",      "relative_pitch" :  42, "label_fname" : "e" },
       { "key_code" : "Comma",     "relative_pitch" :  52, "label_fname" : "f" },
       { "key_code" : "Period",    "relative_pitch" :  60, "label_fname" : "g" }
+     ]
+  },
+  {
+    "name" : "Στιχηρά εσπέρια ήχος Γ'",
+    "key_map" : [
+      { "key_code" : "KeyE",      "relative_pitch" :  54, "label_fname" : "a" },
+      { "key_code" : "KeyR",      "relative_pitch" :  64, "label_fname" : "b" },
+      { "key_code" : "KeyT",      "relative_pitch" :  72, "label_fname" : "c" },
+      { "key_code" : "KeyY",      "relative_pitch" :  84, "label_fname" : "d" },
+      { "key_code" : "KeyU",      "relative_pitch" :  96, "label_fname" : "e" },
+      { "key_code" : "KeyI",      "relative_pitch" :  64, "label_fname" : "f", "label_glevel" : 4 },
+
+      { "key_code" : "CapsLock",  "relative_pitch" : -18, "label_fname" : "e" },
+      { "key_code" : "KeyA",      "relative_pitch" : -12, "label_fname" : "f" },
+      { "key_code" : "KeyS",      "relative_pitch" :   0, "label_fname" : "g" },
+      { "key_code" : "KeyD",      "relative_pitch" :  12, "label_fname" : "a" },
+      { "key_code" : "KeyF",      "relative_pitch" :  24, "label_fname" : "b" },
+      { "key_code" : "KeyG",      "relative_pitch" :  30, "label_fname" : "c" },
+      { "key_code" : "KeyH",      "relative_pitch" :  42, "label_fname" : "d" },
+      { "key_code" : "KeyJ",      "relative_pitch" :  54, "label_fname" : "e" },
+      { "key_code" : "KeyK",      "relative_pitch" :  60, "label_fname" : "f" },
+      { "key_code" : "KeyL",      "relative_pitch" :  72, "label_fname" : "g" },
+      { "key_code" : "Semicolon", "relative_pitch" :  84, "label_fname" : "a" }
      ]
   }
 ]
