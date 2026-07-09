@@ -2,10 +2,14 @@
   {
     "name" : "Διατονική κλίμακα",
     "key_map" : [
+      { "key_code" : "Digit3",    "relative_pitch" :  18, "label_fname" : "a", "label_glevel" : 6 },
+
       { "key_code" : "KeyQ",      "relative_pitch" :  -6, "label_fname" : "f", "label_glevel" : 2 },
       { "key_code" : "KeyE",      "relative_pitch" :  16, "label_fname" : "a", "label_glevel" : 4 },
       { "key_code" : "KeyR",      "relative_pitch" :  24, "label_fname" : "b", "label_glevel" : 2 },
+      { "key_code" : "KeyT",      "relative_pitch" :  38, "label_fname" : "c", "label_glevel" : 8 },
       { "key_code" : "KeyI",      "relative_pitch" :  66, "label_fname" : "f", "label_glevel" : 2 },
+
       { "key_code" : "CapsLock",  "relative_pitch" : -18, "label_fname" : "e" },
       { "key_code" : "KeyA",      "relative_pitch" :  -8, "label_fname" : "f" },
       { "key_code" : "KeyS",      "relative_pitch" :   0, "label_fname" : "g" },
@@ -18,6 +22,7 @@
       { "key_code" : "KeyL",      "relative_pitch" :  72, "label_fname" : "g" },
       { "key_code" : "Semicolon", "relative_pitch" :  84, "label_fname" : "a" },
       { "key_code" : "Quote",     "relative_pitch" :  94, "label_fname" : "b" },
+
       { "key_code" : "KeyZ",      "relative_pitch" : -10, "label_fname" : "f", "label_glevel" : -2 },
       { "key_code" : "KeyN",      "relative_pitch" :  50, "label_fname" : "e", "label_glevel" : -4 },
       { "key_code" : "KeyM",      "relative_pitch" :  60, "label_fname" : "f", "label_glevel" : -4 },
