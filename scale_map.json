@@ -47,7 +47,8 @@
         { "relative_pitch":  50, "label_fname": "e" },
         { "relative_pitch":  64, "label_fname": "f" },
         { "relative_pitch":  72, "label_fname": "g" },
-        { "relative_pitch":  80, "label_fname": "a" }
+        { "relative_pitch":  80, "label_fname": "a" },
+        { "relative_pitch":  94, "label_fname": "b" }
       ]
     },
     {
@@ -62,7 +63,8 @@
         { "relative_pitch":  54, "label_fname": "e" },
         { "relative_pitch":  60, "label_fname": "f" },
         { "relative_pitch":  80, "label_fname": "g" },
-        { "relative_pitch":  84, "label_fname": "a" }
+        { "relative_pitch":  84, "label_fname": "a" },
+        { "relative_pitch":  90, "label_fname": "b" }
       ]
     },
     {
@@ -77,7 +79,8 @@
         { "relative_pitch":  54, "label_fname": "e" },
         { "relative_pitch":  60, "label_fname": "f" },
         { "relative_pitch":  72, "label_fname": "g" },
-        { "relative_pitch":  84, "label_fname": "a" }
+        { "relative_pitch":  84, "label_fname": "a" },
+        { "relative_pitch":  96, "label_fname": "b" }
       ]
     },
     {
