@@ -27,7 +27,7 @@
       { "key_code" : "KeyN",      "relative_pitch" :  50, "label_fname" : "e", "label_glevel" : -4 },
       { "key_code" : "KeyM",      "relative_pitch" :  60, "label_fname" : "f", "label_glevel" : -4 },
       { "key_code" : "Comma",     "relative_pitch" :  62, "label_fname" : "f", "label_glevel" : -2 }
-     ]
+    ]
   },
   {
     "name" : "Ήχος Β'",
@@ -113,7 +113,7 @@
       { "key_code" : "KeyV",      "relative_pitch" :   0, "label_fname" : "d", "label_glevel" : 0 },
       { "key_code" : "KeyB",      "relative_pitch" :  12, "label_fname" : "e", "label_glevel" : 0 },
       { "key_code" : "KeyN",      "relative_pitch" :  18, "label_fname" : "f", "label_glevel" : 0 }
-     ]
+    ]
   },
   {
     "name" : "Στιχηρά εσπέρια ήχος Β'",
@@ -144,7 +144,7 @@
       { "key_code" : "KeyM",      "relative_pitch" :  42, "label_fname" : "e" },
       { "key_code" : "Comma",     "relative_pitch" :  52, "label_fname" : "f" },
       { "key_code" : "Period",    "relative_pitch" :  60, "label_fname" : "g" }
-     ]
+    ]
   },
   {
     "name" : "Στιχηρά εσπέρια ήχος Γ'",
@@ -167,7 +167,7 @@
       { "key_code" : "KeyK",      "relative_pitch" :  60, "label_fname" : "f" },
       { "key_code" : "KeyL",      "relative_pitch" :  72, "label_fname" : "g" },
       { "key_code" : "Semicolon", "relative_pitch" :  84, "label_fname" : "a" }
-     ]
+    ]
   },
   {
     "name" : "Στιχηρά εσπέρια ήχος Πλάγιος Α'",
@@ -200,6 +200,52 @@
       { "key_code" : "KeyB",        "relative_pitch" :  24, "label_fname" : "e" },
 
       { "key_code" : "KeyM",        "relative_pitch" :  34, "label_fname" : "c", "label_glevel" : 4 }
-     ]
+    ]
+  },
+  {
+    "name" : "Αίνοι ήχος B'",
+    "key_map" : [
+      { "key_code" : "Digit3",       "relative_pitch" :  22, "label_fname" : "f" },
+      { "key_code" : "Digit4",       "relative_pitch" :  30, "label_fname" : "g" },
+      { "key_code" : "Digit5",       "relative_pitch" :  42, "label_fname" : "a" },
+      { "key_code" : "Digit6",       "relative_pitch" :  52, "label_fname" : "b" },
+      { "key_code" : "Digit7",       "relative_pitch" :  60, "label_fname" : "c" },
+      { "key_code" : "Digit8",       "relative_pitch" :  72, "label_fname" : "d" },
+      { "key_code" : "Digit9",       "relative_pitch" :  84, "label_fname" : "e" },
+
+      { "key_code" : "Equal",        "relative_pitch" :  54, "label_fname" : "e" },
+
+      { "key_code" : "KeyQ",         "relative_pitch" :   0, "label_fname" : "a" },
+      { "key_code" : "KeyW",         "relative_pitch" :   6, "label_fname" : "b" },
+      { "key_code" : "KeyE",         "relative_pitch" :  26, "label_fname" : "c" },
+      { "key_code" : "KeyR",         "relative_pitch" :  30, "label_fname" : "d" },
+      { "key_code" : "KeyT",         "relative_pitch" :  42, "label_fname" : "e" },
+      { "key_code" : "KeyY",         "relative_pitch" :  48, "label_fname" : "f" },
+
+      { "key_code" : "KeyU",         "relative_pitch" :  30, "label_fname" : "g", "label_glevel" : -8 },
+      { "key_code" : "KeyI",         "relative_pitch" :  42, "label_fname" : "a" },
+      { "key_code" : "KeyO",         "relative_pitch" :  48, "label_fname" : "b" },
+      { "key_code" : "KeyP",         "relative_pitch" :  68, "label_fname" : "c" },
+      { "key_code" : "BracketLeft",  "relative_pitch" :  72, "label_fname" : "d" },
+      { "key_code" : "BracketRight", "relative_pitch" :  84, "label_fname" : "e" },
+      { "key_code" : "Backslash",    "relative_pitch" :  90, "label_fname" : "f" },
+
+      { "key_code" : "KeyD",         "relative_pitch" :  12, "label_fname" : "a", "label_glevel" : 4 },
+      { "key_code" : "KeyF",         "relative_pitch" :  22, "label_fname" : "b" },
+      { "key_code" : "KeyG",         "relative_pitch" :  30, "label_fname" : "c" },
+      { "key_code" : "KeyH",         "relative_pitch" :  42, "label_fname" : "d" },
+      { "key_code" : "KeyJ",         "relative_pitch" :  50, "label_fname" : "e" },
+      { "key_code" : "KeyK",         "relative_pitch" :  64, "label_fname" : "f" },
+      { "key_code" : "KeyL",         "relative_pitch" :  72, "label_fname" : "g" },
+      { "key_code" : "Semicolon",    "relative_pitch" :  84, "label_fname" : "a", "label_glevel" : 4 },
+
+      { "key_code" : "KeyC",         "relative_pitch" :   0, "label_fname" : "a" },
+      { "key_code" : "KeyV",         "relative_pitch" :  10, "label_fname" : "b" },
+      { "key_code" : "KeyB",         "relative_pitch" :  18, "label_fname" : "c" },
+      { "key_code" : "KeyN",         "relative_pitch" :  30, "label_fname" : "d" },
+      { "key_code" : "KeyM",         "relative_pitch" :  42, "label_fname" : "e" },
+      { "key_code" : "Comma",        "relative_pitch" :  48, "label_fname" : "f", "label_glevel" : -2  },
+      { "key_code" : "Period",       "relative_pitch" :  60, "label_fname" : "g" }
+    ]
   }
 ]
