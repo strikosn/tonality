@@ -338,6 +338,7 @@
         <summary id='reset-pitch-dropdown-summary'>(επιλογή)</summary>
         <div id='reset-pitch-dropdown-list' class='dropdown-list'>
           <div class='dropdown-item' onclick='window.exports.ResetPitchLayout();'>Layout</div>
+          <div class='dropdown-item' onclick='window.exports.LoadScaleMap();'>Ορισμός κλιμάκων</div>
         </div>
       </details>
 
@@ -1324,6 +1325,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     LoadScaleMap();
     ResetPitchLayout();
+    window.exports.LoadScaleMap = LoadScaleMap;
     window.exports.ResetPitchLayout = ResetPitchLayout;
     window.exports.SelectHighlightedScale = SelectHighlightedScale;
     window.exports.SelectPitchDetector = SelectPitchDetector;
