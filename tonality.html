@@ -316,7 +316,6 @@
         <summary id='highlighted-scale-dropdown-summary'></summary>
         <div id='highlighted-scale-dropdown-list' class='dropdown-list'>
           <div class='dropdown-item' data-id='διατονική'        onclick='window.exports.SelectHighlightedScale(this);' id='highlighted-scale-default'>Διατονική</div>
-          <div class='dropdown-item' data-id='διατονική-τροχός' onclick='window.exports.SelectHighlightedScale(this);'>Διατονική (τροχός)</div>
           <div class='dropdown-item' data-id='β'                onclick='window.exports.SelectHighlightedScale(this);'>Β</div>
           <div class='dropdown-item' data-id='πλάγιος β'        onclick='window.exports.SelectHighlightedScale(this);'>Πλάγιος Β</div>
           <div class='dropdown-item' data-id='εναρμόνιος'       onclick='window.exports.SelectHighlightedScale(this);'>Εναρμόνιος</div>
@@ -931,7 +930,7 @@
     xhr.open('GET', './scale_map.json', false);
     xhr.setRequestHeader('Cache-Control', 'no-cache');
     xhr.send();
-    scale_map = JSON.parse(xhr.responseText);
+    scale_map = JSON.parse(xhr.responseText).filter(scale => !scale.archived);
   }
 
   function DrawPiano(x_left, x_right, y_function, ctx) {
