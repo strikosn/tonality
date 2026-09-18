@@ -213,8 +213,6 @@
       { "key_code" : "Digit8",       "relative_pitch" :  72, "label_fname" : "d" },
       { "key_code" : "Digit9",       "relative_pitch" :  84, "label_fname" : "e" },
 
-      { "key_code" : "Equal",        "relative_pitch" :  54, "label_fname" : "e" },
-
       { "key_code" : "KeyQ",         "relative_pitch" :   0, "label_fname" : "a" },
       { "key_code" : "KeyW",         "relative_pitch" :   6, "label_fname" : "b" },
       { "key_code" : "KeyE",         "relative_pitch" :  26, "label_fname" : "c" },
