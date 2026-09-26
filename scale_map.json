@@ -86,7 +86,7 @@
     },
     {
       "_comment": "στιχηρά εσπέρια ήχος Β'",
-      "archived": false,
+      "archived": true,
       "steps": [
         { "relative_pitch":   0 },
         { "relative_pitch":   6 },
@@ -108,6 +108,7 @@
     },
     {
       "_comment": "αίνοι ήχος Β'",
+      "archived": true,
       "steps": [
         { "relative_pitch":   0, "label_fname": "g" },
         { "relative_pitch":   6, "label_fname": "a" },
