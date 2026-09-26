@@ -294,6 +294,7 @@
           <div class='dropdown-item' onclick='ResetMidiAllSoundOff();'>MIDI all sound off (all channels)</div>
           <div class='dropdown-item' onclick='ResetMidiChannelPitchBend();'>MIDI channel pitch bend</div>
           <div class='dropdown-item' onclick='ResetMidiProgram();'>MIDI program</div>
+          <div class='dropdown-item' onclick='window.exports.LoadKeyboardMap();'>Ορισμός πληκτρολογίων</div>
         </div>
       </details>
     </div>
@@ -1325,6 +1326,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     LoadScaleMap();
     ResetPitchLayout();
+    window.exports.LoadKeyboardMap = LoadKeyboardMap;
     window.exports.LoadScaleMap = LoadScaleMap;
     window.exports.ResetPitchLayout = ResetPitchLayout;
     window.exports.SelectHighlightedScale = SelectHighlightedScale;
