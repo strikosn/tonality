@@ -272,17 +272,19 @@
 
       <label>Νότα βάσης του Νη:</label>
       <div style='display: flex;'>
-        <div class='stepper' id='base-note-stepper' style='width: 250px;'>
+        <div class='stepper' id='base-note-stepper' style='width: 200px;'>
           <button class='stepper-minus' onclick='SelectBaseNote(-1);' data-shortcut='PageDown'>-</button>
           <div></div>
           <button class='stepper-plus' onclick='SelectBaseNote(+1);' data-shortcut='PageUp'>+</button>
         </div>
 
-        <div class='stepper' id='global-pitch-stepper' style='margin-left: 10px; width: 200px;'>
+        <div class='stepper' id='global-pitch-stepper' style='margin-left: 10px; width: 190px;'>
           <button class='stepper-minus' onclick='SetGlobalPitchOffset(-1);'>-</button>
           <div></div>
           <button class='stepper-plus' onclick='SetGlobalPitchOffset(+1);'>+</button>
         </div>
+
+        <button onclick='TunePitchGraphToKeyboard();' style='margin-left: 10px; width: 50px;'>⇒</button>
       </div>
 
       <label>Επαναφορά:</label>
@@ -294,7 +296,7 @@
           <div class='dropdown-item' onclick='ResetMidiAllSoundOff();'>MIDI all sound off (all channels)</div>
           <div class='dropdown-item' onclick='ResetMidiChannelPitchBend();'>MIDI channel pitch bend</div>
           <div class='dropdown-item' onclick='ResetMidiProgram();'>MIDI program</div>
-          <div class='dropdown-item' onclick='window.exports.LoadKeyboardMap();'>Ορισμός πληκτρολογίων</div>
+          <div class='dropdown-item' onclick='LoadKeyboardMap();'>Ορισμός πληκτρολογίων</div>
         </div>
       </details>
     </div>
@@ -570,6 +572,10 @@
     valueEl.textContent = `${global_pitch_offset / 4.0} μόρια`;
 
     ResetMidiChannelPitchBend();
+  }
+
+  function TunePitchGraphToKeyboard() {
+    window.exports.TuneToBaseFrequency(window.exports.midiNoteToFrequency(midi_key_offset) * Math.pow(2, global_pitch_offset / 4.0 / 72.0));
   }
 
   function LoadKeyboardMap() {
@@ -1277,11 +1283,11 @@
   }
 
   function TuneByOffset(index_offset) {
-    const active_notes = scale_map.find(scale => scale.id == highlighted_scale)?.notes;
-    if (!active_notes) return;
-    const base_index = active_notes.indexOf(0);
+    const steps = scale_map.find(scale => scale?.id == highlighted_scale)?.steps;
+    if (!steps) return;
+    const base_index = steps.findIndex(step => step.relative_pitch == 0);
     if (!(base_index >= 0)) return;
-    const tune_offset = active_notes[base_index + index_offset];
+    const tune_offset = steps[base_index + index_offset].relative_pitch;
     if (tune_offset === undefined) return;
     const frequency_offset = Math.pow(2, tune_offset / 72.0);
 
@@ -1289,9 +1295,13 @@
     const last_frequency_hz = filteredHistory[filteredHistory.length - 1];
 
     if (last_frequency_hz) {
-      base_frequency_hz = last_frequency_hz / frequency_offset;
-      canvas_invalidated = true;
+      TuneToBaseFrequency(last_frequency_hz / frequency_offset);
     }
+  }
+
+  function TuneToBaseFrequency(frequency_hz) {
+    base_frequency_hz = frequency_hz;
+    canvas_invalidated = true;
   }
 
   function ResizeCanvas() {
@@ -1326,11 +1336,12 @@
   document.addEventListener('DOMContentLoaded', () => {
     LoadScaleMap();
     ResetPitchLayout();
-    window.exports.LoadKeyboardMap = LoadKeyboardMap;
     window.exports.LoadScaleMap = LoadScaleMap;
     window.exports.ResetPitchLayout = ResetPitchLayout;
     window.exports.SelectHighlightedScale = SelectHighlightedScale;
     window.exports.SelectPitchDetector = SelectPitchDetector;
+    window.exports.TuneToBaseFrequency = TuneToBaseFrequency;
+    window.exports.midiNoteToFrequency = midiNoteToFrequency;
     SelectHighlightedScale(document.querySelector('#highlighted-scale-default'));
     SelectPitchDetector(document.querySelector('#pitch-detector-default'));
     (new ResizeObserver(ResizeCanvas)).observe(canvas);
