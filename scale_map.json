@@ -131,6 +131,7 @@
     },
     {
       "_comment": "αίνοι ήχος Πλάγιος Α'",
+      "archived": true,
       "steps": [
         { "relative_pitch":   0, "label_fname": "g" },
         { "relative_pitch":  12, "label_fname": "a" },
